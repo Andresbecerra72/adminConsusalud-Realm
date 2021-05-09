@@ -1,0 +1,87 @@
+<div class="card-columns">
+    <div class="card" *ngFor="let item of items">
+
+
+        <!-- *****CARD-GROUP para las Empresas***** -->
+
+        <img [src]="item.img | imagen : 'empresa'" class="card-img-top pointer" [alt]="item.razon" *ngIf="nombre == 'Empresa'" [routerLink]="['/empresas', item._id, 'buscarempresas']">
+        <p class="pic-titulo" *ngIf="nombre == 'Empresa'">
+            <small>{{item.razon}}</small>
+        </p>
+
+
+        <!-- *****CARD-GROUP para los Especialistas***** -->
+
+        <div class="row m-2" *ngIf="nombre == 'Especialista'">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-4">
+                <img width="100" [src]="item.usuario_asignado.img | imagen" [alt]="item.nombre" class="img-fluid mb-1" *ngIf="item.usuario_asignado">
+                <img width="100" [src]="item.img | imagen: 'especialista'" [alt]="item.nombre" class="img-fluid mb-1" *ngIf="!item.usuario_asignado">
+                <div class="d-flex" *ngIf="item.calificacion == 'Excelente'">
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                </div>
+                <div class="d-flex" *ngIf="item.calificacion == 'Bueno'">
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                    <i class="fa fa-star text-warning fa-1x"></i>
+                </div>
+                <div class="d-flex" *ngIf="item.calificacion == 'Aceptable'">
+                    <i class="fa fa-star text-success fa-1x"></i>
+                    <i class="fa fa-star text-success fa-1x"></i>
+                    <i class="fa fa-star text-success fa-1x"></i>
+                </div>
+                <div class="d-flex" *ngIf="item.calificacion == 'Regular'">
+                    <i class="fa fa-frown text-dark fa-1x mr-1"></i>
+                    <i class="fa fa-frown text-dark fa-1x"></i>
+                </div>
+                <div class="d-flex" *ngIf="item.calificacion == 'No Recomendado'">
+                    <i class="fa fa-frown text-danger fa-1x"></i>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12 col-xl-8">
+                <h5 class="card-title">{{item.nombre}}</h5>
+                <h6 class="card-subtitle" *ngIf="item.licencia">{{item.licencia}}/{{item.vigencia}}</h6>
+                <h6 class="card-subtitle">{{item.correo}}</h6>
+                <h6 class="card-subtitle">{{item.telefono}}</h6>
+                <h6 class="card-subtitle">{{item.ciudad}}</h6>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light text-white" *ngFor="let data of crearArray(item.profesiones, item.especialidad); let i = index;" [ngStyle]="{'background-color': colorArray[i] }">{{data}}</li>
+                </ul>
+
+                <!-- ***Profesiones** -->
+                <!-- <ul class="list-group">
+                    <li class="list-group-item list-group-item-light text-white" *ngFor="let data of item.profesiones; let i = index;" [ngStyle]="{'background-color': item.profesiones[i].color.primary }">{{data.nombre}}</li>
+                </ul> -->
+            </div>
+        </div>
+
+
+        <div class="card-body" *ngIf="nombre == 'Especialista'">
+            <!-- <p class="card-text text-justify">{{item.anotaciones}}</p> -->
+            <div class="row" *ngIf="!flag">
+                <div class="col-12">
+                    <button class="btn btn-outline-info btn-sm btn-block" [routerLink]="['/perfil', item._id, 'profesionales']">
+                    <i class="fa fa-edit fa-1x"></i> Actualizar Perfil
+                  </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="flag && (ROLE == 'ADMIN_ROLE' || ROLE == 'USER_ROLE')">
+                <!-- <div class="col-2">
+                    <button class="btn btn-outline-light btn-sm" [routerLink]="['/perfil', item._id, 'profesionales']">
+                    <i class="fa fa-edit fa-1x"></i>
+                  </button>
+                </div> -->
+                <div class="col-12">
+                    <button type="button" class="btn btn-outline-warning btn-sm btn-block" (click)="editarRegistro(item)">
+                    Programar
+                  </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

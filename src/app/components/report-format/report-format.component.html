@@ -1,0 +1,589 @@
+<div class="container w-custom">
+    <div class="row p-0 m-0 w-custom">
+        <div class="col-10 p-0 m-0">
+            <div class="card p-0 m-0 w-custom">
+                <div id="report_format" class="card-body m-0 p-0 w-custom font-12">
+                    <!-- Header Bolivar -->
+                    <div class="row p-0 m-0">
+                        <div class="col-1 p-0 m-0 mw-custom"></div>
+
+                        <div class="col-10 p-0 m-0 text-center">
+                            <img class="img-fluid" src="./assets/images/acta/headerBolivar.png" alt="">
+                        </div>
+                        <div class="col-1 p-0 m-0 mw-custom"></div>
+                    </div>
+
+                    <div class="row p-0 m-0">
+                        <div class="col-1 p-0 m-0 text-right mw-custom">
+
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <!-- Left Side -->
+                            <img class="img-fluid mt-5" src="./assets/images/acta/leftSideBottom.png" alt="">
+
+                        </div>
+
+                        <div class="col p-0 m-0">
+                            <!-- Middel Side -->
+                            <!-- Table 1  -->
+                            <span class="dot-1"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th class="w-custom-198">
+                                            <span class="ml-3">Fecha</span>
+                                        </th>
+                                        <th class="w-custom-198">
+                                            <span class="ml-3">Tipo de Actividad</span>
+                                        </th>
+                                        <th class="w-custom-198">
+                                            <span class="ml-3">SIPAB No. Cronograma</span>
+                                        </th>
+                                        <th class="w-custom-198">
+                                            <span class="ml-3">Secuencia</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            <div class="row">
+                                                <div class="col text-center">
+                                                    <strong class="text-light" *ngIf="!item">DD</strong>
+                                                    <strong *ngIf="item">{{item.fecha | date: 'dd'}}</strong>
+                                                </div>
+                                                <div class="col border-left text-center">
+                                                    <strong class="text-light" *ngIf="!item">MM</strong>
+                                                    <strong *ngIf="item">{{item.fecha | date: 'MM'}}</strong>
+                                                </div>
+                                                <div class="col border-left mx-auto">
+                                                    <strong class="text-light" *ngIf="!item">AAAA</strong>
+                                                    <strong *ngIf="item">{{item.fecha | date: 'yyyy'}}</strong>
+                                                </div>
+                                            </div>
+
+                                        </th>
+                                        <td class="text-center border-left">
+
+                                            <label for="A" class="m-0">A</label>
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="!item" value="A">
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="item" [ngModel]="item.tipo_servicio" value="A">
+                                            <label for="AT" class="m-0">AT</label>
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="!item" value="AT">
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="item" [ngModel]="item.tipo_servicio" value="T">
+                                            <label for="C" class="m-0">C</label>
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="!item" value="C">
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="item" [ngModel]="item.tipo_servicio" value="C">
+                                            <label for="SE" class="m-0">SE</label>
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="!item" value="SE">
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="item" [ngModel]="item.tipo_servicio" value="E">
+                                            <label for="MT" class="m-0">MT</label>
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="!item" value="MT">
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="item" [ngModel]="item.tipo_servicio" value="MT">
+                                            <label for="M" class="m-0">M</label>
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="!item" value="M">
+                                            <input type="radio" class="m-0 mr-1 h-11" name="tipo" *ngIf="item" [ngModel]="item.tipo_servicio" value="M">
+
+                                        </td>
+                                        <td class="text-center border-left" *ngIf="!item">--</td>
+                                        <td class="text-center border-left" *ngIf="item">{{item.cronograma}}</td>
+                                        <td class="text-center border-left" *ngIf="!item">--</td>
+                                        <td class="text-center border-left" *ngIf="item">{{item.secuencia}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 2  -->
+                            <span class="dot-2"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th class="w-custom-392">
+                                            <span class="ml-3">Empresa</span>
+                                        </th>
+                                        <th>
+                                            <span class="ml-3">Dirección</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="text-center font-10" *ngIf="!item">--</td>
+                                        <td class="text-center font-10" *ngIf="item">{{item.razon}}</td>
+                                        <td class="text-center border-left font-10" *ngIf="!item">--</td>
+                                        <td class="text-center border-left text-uppercase font-10" *ngIf="item">{{item.direccion}}</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 3  -->
+                            <span class="dot-3"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th class="w-custom-260">
+                                            <span class="ml-3">NIT</span>
+                                        </th>
+                                        <th class="w-custom-260">
+                                            <span class="ml-3">Póliza</span>
+                                        </th>
+                                        <th class="w-custom-260">
+                                            <span class="ml-3">Correo Electrónico</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="text-center" *ngIf="!item">--</td>
+                                        <td class="text-center" *ngIf="item">{{item.nit}}</td>
+                                        <td class="text-center border-left" *ngIf="!item">--</td>
+                                        <td class="text-center border-left" *ngIf="item">{{item.num_pol}}</td>
+                                        <td class="text-center border-left" *ngIf="!item">--</td>
+                                        <td class="text-center border-left" *ngIf="item">{{item.correo}}</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 4  -->
+                            <span class="dot-4"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th class="w-custom-260">
+                                            <span class="ml-3">Ciudad / Departamento</span>
+                                        </th>
+                                        <th>
+                                            <span class="ml-3">Teléfonos</span>
+                                        </th>
+                                        <th class="w-custom-130">
+                                            <span class="ml-3">PLAN</span>
+                                        </th>
+                                        <th class="w-custom-99">
+                                            <span class="ml-3">Hora Inicio</span>
+                                        </th>
+                                        <th class="w-custom-99">
+                                            <span class="ml-3">Hora Salida</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="text-center">
+                                            <input type="text" class="border-0 w-75 text-center text-uppercase font-10">
+                                        </td>
+                                        <td class="text-center border-left">
+                                            <input type="text" class="border-0 w-75 text-center font-10">
+                                        </td>
+                                        <td class="text-center border-left font-10">
+                                            PECAT
+                                        </td>
+                                        <td class="text-center border-left">
+                                            <input type="text" class="border-0 w-75 text-center font-10" placeholder=" : ">
+                                        </td>
+                                        <td class="text-center border-left">
+                                            <input type="text" class="border-0 w-75 text-center font-10" placeholder=" : ">
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 5  -->
+                            <span class="dot-5"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th>
+                                            <span class="ml-3">Asesor Gestión del Riesgo</span>
+                                        </th>
+                                        <th><span class="ml-3">Nombre Proveedor</span>
+                                        </th>
+                                        <th><span class="ml-3">Código Proveedor</span>
+                                        </th>
+                                        <th><span class="ml-3">Nombre Profesional Proveedor</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center font-10" *ngIf="!item">--</td>
+                                        <td class="text-center font-10" *ngIf="item">{{item.nombre_asesor}}</td>
+                                        <td class="text-center border-left font-10">
+                                            CONSUSALUD
+                                        </td>
+                                        <td class="text-center border-left font-10">
+                                            2696
+                                        </td>
+                                        <td class="text-center border-left font-10" *ngIf="!item">--</td>
+                                        <td class="text-center border-left font-10 text-uppercase" *ngIf="item">{{item.nombre}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- ** Linea Green ** -->
+                            <div class="row text-center bg-bar-green text-white mx-0">
+                                <div class="col">
+                                    <strong>Participantes ARL</strong>
+                                </div>
+                                <div class="col">
+                                    <strong>
+                              Participantes Empresa
+                            </strong>
+                                </div>
+                            </div>
+                            <!-- Table 6 -->
+                            <span class="dot-6"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th>
+                                            <span class="ml-3">Nombres</span>
+                                        </th>
+                                        <th class="w-custom-130">
+                                            <span class="ml-3">Cargo</span>
+                                        </th>
+                                        <th>
+                                            <span class="ml-3">Nombres</span>
+                                        </th>
+                                        <th class="w-custom-130">
+                                            <span class="ml-3">Cargo</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10" *ngIf="!item">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase font-10" [ngModel]="item.nombre" *ngIf="item">
+                                        </td>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10" *ngIf="!item">
+                                            <input type="text" class="border-0 w-100 text-center" [ngModel]="item.especialidad" [ngStyle]="{'font-size':item.especialidad === 'FISIOTERAPEUTA ESP SST' ? '9px' : '10px' }" *ngIf="item">
+                                        </td>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border p-1">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 7 -->
+                            <span class="dot-7"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th class="w-custom-220">
+                                            <span class="ml-3">Actividad a realizar</span>
+                                        </th>
+                                        <th>
+                                            <span class="ml-3">Temas desarrollados en la actividad</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border">
+                                            <textarea class="border-0 text-center font-10" rows="3" cols="60" wrap="hard" autocapitalize="characters" *ngIf="!item"></textarea>
+                                            <textarea class="border-0 text-center font-10" rows="3" cols="60" wrap="hard" autocapitalize="characters" *ngIf="item">{{item.descripcion}}</textarea>
+                                        </td>
+                                        <td class="text-center border p-3 font-10">
+                                            ACTIVIDADES DE APOYO AL SVE
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 8 -->
+                            <span class="dot-8"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th>
+                                            <span class="ml-3">Decisiones y/o compromisos adquiridos</span>
+                                        </th>
+                                        <th>
+                                            <span class="ml-3">Responsable(s)</span>
+                                        </th>
+                                        <th class="w-custom-99">
+                                            <span class="ml-3">Fecha</span>
+                                        </th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-left text-center">
+                                            <!-- <input type="text" class="border-0 w-100 text-center text-uppercase font-10" *ngIf="!item">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase font-10" [ngModel]="item.actividad" *ngIf="item"> -->
+                                            <textarea class="border-0 font-10 text-uppercase" rows="4" cols="100" wrap="hard" autocapitalize="characters" *ngIf="!item"></textarea>
+                                            <textarea class="border-0 font-10 text-uppercase" rows="4" cols="100" wrap="hard" autocapitalize="characters" *ngIf="item"> {{item.actividad}}
+                                            </textarea>
+                                        </td>
+                                        <td class="border-left p-3">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border-left p-3">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-left p-3">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase font-10">
+                                        </td>
+                                        <td class="border-left p-3">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border-left p-3">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-left">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase font-10">
+                                        </td>
+                                        <td class="border-left">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                        <td class="border-left">
+                                            <input type="text" class="border-0 w-100 text-center font-10">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Table 9 -->
+                            <span class="dot-9"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th>
+                                            <span class="ml-3">Observaciones y sugerencias</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-left p-3">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase font-10">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- Table 10 -->
+                            <span class="dot-10"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th class="w-custom-165">
+                                            <span class="ml-3">¿Próxima reunión?</span>
+                                        </th>
+                                        <th>
+                                            <span class="ml-3">Tema</span>
+                                        </th>
+                                        <th class="w-custom-140">
+                                            <span class="ml-3">Fecha</span>
+                                        </th>
+                                        <th class="w-custom-99">
+                                            <span class="ml-3">Hora</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-left text-center">
+                                            <label for="SI" class="m-0 mr-1">SI</label>
+                                            <input type="radio" class="m-0 mr-3 h-11" id="SI" name="reunion" value="SI">
+                                            <label for="NO" class="m-0 mr-1">NO</label>
+                                            <input type="radio" class="m-0 mr-3 h-11" id="NO" name="reunion" value="NO">
+                                        </td>
+                                        <td class="border-left">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase">
+                                        </td>
+                                        <td class="border-left">
+                                            <div class="row p-0">
+                                                <div class="col text-center p-0">
+                                                    <span class="text-light">DD</span>
+                                                </div>
+                                                <div class="col border-left text-center p-0">
+                                                    <span class="text-light">MM</span>
+                                                </div>
+                                                <div class="col border-left p-0">
+                                                    <span class="text-light"> AAAA</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="border-left">
+                                            <input type="text" class="border-0 w-100 text-center text-uppercase">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- Table 11 -->
+                            <span class="dot-11"></span>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <thead class="bg-bar-gray">
+                                    <tr>
+                                        <th>
+                                            <span class="ml-3">Califique de 1 a 5 siendo 1 la calificación más baja y 5 la más alta los siguientes atributos.</span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="border">
+                                    <tr>
+                                        <td class="border p-1">
+                                            <div class="d-flex">
+                                                <strong class="mr-3">Amigable:</strong>
+                                                <label for="1" class="m-0 mr-1"><strong>1</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="1" name="calificacion1" value="1">
+                                                <label for="2" class="m-0 mr-1"><strong>2</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="2" name="calificacion1" value="2">
+                                                <label for="3" class="m-0 mr-1"><strong>3</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="3" name="calificacion1" value="3">
+                                                <label for="4" class="m-0 mr-1"><strong>4</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="4" name="calificacion1" value="4">
+                                                <label for="5" class="m-0 mr-1"><strong>5</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="5" name="calificacion1" value="5">
+                                                <span class="font-10">
+                                            El servicio recibido o asesoría prestada generaron experiencias de amabilidad, comunicación abierta y estable.
+                                          </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-1">
+                                            <div class="d-flex">
+                                                <strong class="mr-3 mt-1">Confiable:</strong>
+                                                <label for="1" class="m-0 mr-1 mt-1"><strong>1</strong></label>
+                                                <input type="radio" class="m-0 mr-2 mt-2" id="1" name="calificacion2" value="1">
+                                                <label for="2" class="m-0 mr-1 mt-1"><strong>2</strong></label>
+                                                <input type="radio" class="m-0 mr-2 mt-2" id="2" name="calificacion2" value="2">
+                                                <label for="3" class="m-0 mr-1 mt-1"><strong>3</strong></label>
+                                                <input type="radio" class="m-0 mr-2 mt-2" id="3" name="calificacion2" value="3">
+                                                <label for="4" class="m-0 mr-1 mt-1"><strong>4</strong></label>
+                                                <input type="radio" class="m-0 mr-2 mt-2" id="4" name="calificacion2" value="4">
+                                                <label for="5" class="m-0 mr-1 mt-1"><strong>5</strong></label>
+                                                <input type="radio" class="m-0 mr-2 mt-2" id="5" name="calificacion2" value="5">
+                                                <span class="font-10">
+                                                El servicio recibido tuvo coherencia, respuesta efectiva y veraz además de cumplir con los acuerdos de servicio y/o
+                                                asesoría en el proceso.
+                                              </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-1">
+                                            <div class="d-flex">
+                                                <strong class="mr-4">Sencillo:</strong>
+                                                <label for="1" class="m-0 mr-1"><strong>1</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="1" name="calificacion3" value="1">
+                                                <label for="2" class="m-0 mr-1"><strong>2</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="2" name="calificacion3" value="2">
+                                                <label for="3" class="m-0 mr-1"><strong>3</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="3" name="calificacion3" value="3">
+                                                <label for="4" class="m-0 mr-1"><strong>4</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="4" name="calificacion3" value="4">
+                                                <label for="5" class="m-0 mr-1"><strong>5</strong></label>
+                                                <input type="radio" class="m-0 mr-2" id="5" name="calificacion3" value="5">
+                                                <span class="font-10">
+                                            El lenguaje fue sencillo, innovador con procesos mas ágiles, usando el conocimiento propio del servicio o asesoría.
+                                          </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border p-1 text-right">
+                                            Su respuesta contribuye al mejoramiento continuo de nuestros servicios. Gracias.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-sm table-borderless m-0 border-custom">
+                                <tbody class="border w-100">
+                                    <tr>
+                                        <td class="border text-custom text-center">
+                                            <strong>
+                                        SU FIRMA NOS ASEGURA
+                                        QUE TODO LO CONSIGNADO
+                                        EN ESTE FORMATO ES VERAZ
+                                      </strong>
+                                        </td>
+                                        <td class="border text-center">
+                                            <hr class="mt-5 mx-3"> FIRMA EMPRESA
+                                        </td>
+                                        <td class="border text-center">
+                                            <hr class="mt-5 mx-3"> FIRMA ARL
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <!-- Footer Bolivar -->
+                            <div class="row">
+                                <div class="col text-center">
+                                    <img class="img-fluid" src="./assets/images/acta/footerBolivar.png" alt="">
+                                </div>
+                            </div>
+
+                            <!-- ****** -->
+
+                        </div>
+                        <div class="col-1 p-0 m-0 mw-custom">
+                            <!-- Right Side -->
+                            <img class="img-fluid" src="./assets/images/acta/rightSideAll.png" alt="">
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+</div>

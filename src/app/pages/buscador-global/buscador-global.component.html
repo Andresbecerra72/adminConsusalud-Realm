@@ -1,0 +1,135 @@
+<div class="row animate fadeIn fast">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <h3>Especialistas</h3>
+
+                <!-- ***Alerta -->
+                <div class="alert alert-info" *ngIf="especialistas.length === 0">
+                    <h6 class="mb-0" *ngIf="!flagEspecialista">Cargando Especialistas... <span class="fa fa-spinner fa-spin"></span></h6>
+                    <p class="mb-0" *ngIf="flagEspecialista">No hay Especialistas con ese término</p>
+                </div>
+
+
+
+                <!-- ***Tabla de datos de Especialista -->
+                <div class="table-responsive" *ngIf="especialistas.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="animated fadeIn fast" *ngFor="let especialista of especialistas">
+                                <td>
+                                    <img class="w50" [src]="especialista.img | imagen: 'especialista'" [alt]="especialista.nombre">
+                                </td>
+                                <td>
+                                    <a [routerLink]="[ '/perfil', especialista._id, ruta ]">
+                                    {{especialista.nombre}}
+                                  </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <h3>Empresas</h3>
+
+                <!-- ***Alerta -->
+                <div class="alert alert-info" *ngIf="empresas.length === 0">
+                    <h6 class="mb-0" *ngIf="!flagEmpresa">Cargando Empresas... <span class="fa fa-spinner fa-spin"></span></h6>
+                    <p class="mb-0" *ngIf="flagEmpresa">No hay Empresas con ese término</p>
+                </div>
+
+
+
+                <!-- ***Tabla de datos de Empresas -->
+                <div class="table-responsive" *ngIf="empresas.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Logo</th>
+                                <th>Empresas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="animated fadeIn fast" *ngFor="let empresa of empresas">
+                                <td>
+                                    <img class="w50" [src]="empresa.img | imagen: 'empresa'" [alt]="empresa.razon">
+                                </td>
+                                <td>
+                                    <a [routerLink]="['/empresas', empresa._id, ruta]">
+                                  {{empresa.razon}}
+                                </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-2">
+        <div class="card">
+            <div class="card-body">
+                <h3>Ordenes</h3>
+
+                <!-- ***Alerta -->
+                <div class="alert alert-info" *ngIf="ordenes.length === 0">
+                    <h6 class="mb-0" *ngIf="!flagOrdenes">Cargando Ordenes... <span class="fa fa-spinner fa-spin"></span></h6>
+                    <p class="mb-0" *ngIf="flagOrdenes">No hay Ordenes con ese término</p>
+                </div>
+
+
+
+                <!-- ***Tabla de datos de Ordenes -->
+                <div class="table-responsive" *ngIf="ordenes.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cronograma</th>
+                                <th>Secuencia</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="animated fadeIn fast" *ngFor="let orden of ordenes">
+                                <td>
+                                    {{orden.cronograma}}
+                                </td>
+                                <td>
+                                    {{orden.secuencia}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-success btn-sm border-0 m-1" [routerLink]="['/orden', orden._id, ruta]">
+                                    <i class="fas fa-eye mr-1"></i>Ver Orden
+                                   </button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

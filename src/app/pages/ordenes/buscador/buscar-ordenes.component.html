@@ -1,0 +1,187 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <div class="row">
+                    <div class="col">
+                        <input #input type="text" class="form-control" placeholder="Buscar Orden" (focus)="clearInput()">
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-primary btn-sm btn-block" (click)="buscarOrden(input.value)">
+                          <i class="fa fa-search mr-3"></i> Buscar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ** Alerta de No hay Registros -->
+<div class="row mt-5  animated fadeIn" *ngIf="ordenes.length == 0">
+    <div class="col text-center">
+
+        <h6 class="mt-5" *ngIf="!flag && message == ''">Cargando Ordenes... <span class="fa fa-spinner fa-spin"></span></h6>
+
+        <div class="alert alert-warning text-center" role="alert" *ngIf="message != ''">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- *** Tabla de datos  -->
+
+<div class="row animated fadeIn mt-3" *ngIf="flag && ordenes.length > 0">
+    <div class="col-12">
+        <div class="card-body bg-white">
+            <h4 class="card-title">Listado de Ordenes (<small>{{totalRegistros}}</small>)</h4>
+
+            <table class="table table-striped table-responsive-sm table-responsive-md m-b-0">
+                <thead>
+                    <tr>
+                        <th>
+                            Empresa
+                        </th>
+                        <th>
+                            Cronograma
+                        </th>
+                        <th>
+                            Secuencia
+                        </th>
+                        <th>
+                            Tipo
+                        </th>
+                        <th>
+                            Acción
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let orden of ordenes; let i = index">
+
+                    <tr class="animated fadeIn">
+
+                        <td class="text-nowrap pointer" (click)="verDetalles(i)">
+                            <span class="pe-7s-angle-right"></span> {{orden.razon}}
+                        </td>
+                        <td>
+                            {{orden.cronograma}}
+                        </td>
+                        <td>
+                            {{orden.secuencia}}
+                        </td>
+                        <td>
+                            {{orden.tipo_servicio}}
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-success btn-sm border-0 m-1" [routerLink]="['/orden', orden._id, 'buscarordenes']">
+                              <i class="fas fa-eye mr-1"></i>Ver Orden
+                             </button>
+                        </td>
+
+                    </tr>
+                    <tr id="{{i}}" class="details bg-light hide" (click)="ocultarDetalles(i)">
+                        <td class="details-cell animated fadeIn" colspan="5">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="details-inner">
+                                        <div class="details-row">
+                                            <div class="details-name">Base:</div>
+                                            <div class="details-value">{{orden.fuente}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">NIT:</div>
+                                            <div class="details-value">{{orden.nit}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Fecha Programada:</div>
+                                            <div class="details-value">{{orden.fecha_programada | date : 'd/MM/yyyy'}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Activida/Descripción:</div>
+                                            <div class="details-value"><small>{{orden.descripcion}}</small></div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="details-inner">
+                                        <div class="details-row">
+                                            <div class="details-name">Act Programadas:</div>
+                                            <div class="details-value">{{orden.act_programadas}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Act Ejecutadas:</div>
+                                            <div class="details-value">{{orden.act_ejecutadas}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Act Reprogramadas:</div>
+                                            <div class="details-value">{{orden.act_reprogramadas}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Act Canceladas:</div>
+                                            <div class="details-value">{{orden.act_canceladas}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="details-inner">
+                                        <div class="details-row">
+                                            <div class="details-name">Hrs Programadas:</div>
+                                            <div class="details-value">{{orden.horas_programadas}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Hrs Ejecutadas:</div>
+                                            <div class="details-value">{{orden.horas_ejecutadas}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Tiempo Informe:</div>
+                                            <div class="details-value">{{orden.tiempo_informe}}</div>
+                                        </div>
+                                        <div class="details-row">
+                                            <div class="details-name">Tiempo Admin:</div>
+                                            <div class="details-value">{{orden.tiempo_administrativo}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-2">
+                            <div class="details-row">
+                                <div class="details-name">Ciudad:</div>
+                                <div class="details-value"><small>{{orden.ciudad}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Dirección:</div>
+                                <div class="details-value"><small>{{orden.ubicacion_actividad}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{orden.observaciones}}</small></div>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+            <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(-10)">
+              <i class="pe-7s-angle-left"></i>
+            Anterior
+          </button>
+            <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(10)">
+              Siguiente
+              <i class="pe-7s-angle-right"></i>
+
+          </button>
+
+        </div>
+
+    </div>
+</div>
+
+<br>
+<br>

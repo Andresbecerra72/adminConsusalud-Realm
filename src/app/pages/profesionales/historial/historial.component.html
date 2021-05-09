@@ -1,0 +1,129 @@
+<!-- ** Bloqueos ** -->
+
+<div class="row mt-3" *ngIf="programacionCard && bloqueosArray.length > 0">
+    <div class="col-12 col-lg-6">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Bloqueos:</h6>
+                <hr>
+                <div class="list-group mt-2" *ngFor="let item of bloqueosArray; let i = index">
+                    <a class="list-group-item">
+                   {{i+1}}. <span class="text-primary">{{item.fecha | date : 'd/MM/yyyy'}}</span> {{item.estado}} - Desde: {{item.hora_inicio}} Hasta: {{item.hora_termino}}
+                  </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** Programacion ** -->
+
+<div class="row mt-3" *ngIf="programacionCard">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Programaciones:</h6>
+                <hr>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-4">
+                        <div class="list-group" role="tablist" *ngFor="let item of eventosArray; let i = index">
+                            <a id="{{i}}" class="list-group-item list-group-item-action pointer" role="tab" (click)="viewDetails(item, i)">
+                            {{i+1}}. <span class="text-primary">{{item.fecha | date : 'd/MM/yyyy'}}</span>  Orden: {{item.cronograma}} - {{item.secuencia}}  HRS Asignadas: {{item.horas_asignadas}}
+                          </a>
+                        </div>
+                    </div>
+                    <!-- *** Alerta cuando no Existe la Orden Valida*** CODIGO NO USADO ** -->
+                    <!-- <div class="col-12 col-lg-8 list-group-item-info rounded p-3 mt-2" *ngIf="ERROR">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>ERROR</strong> {{ERROR}}
+                        </div>
+
+                    </div> -->
+                    <div class="col-12 col-lg-8 list-group-item-info rounded p-3 mt-2" *ngIf="orden">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" role="tabpanel">
+                                Fecha: {{orden.fecha_programada | date : 'd/MM/yyyy'}} - <strong class="text-nowrap">{{orden.razon}}</strong>
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-4">
+                                        Cronograma: {{orden.cronograma}}
+
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        Secuencia: {{orden.secuencia}}
+
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        Act Program: {{orden.act_programadas}}
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        Tipo: {{orden.tipo_servicio}}
+                                    </div>
+                                    <div class="col-12 col-lg-2">
+                                        Unidad: {{orden.unidad}}
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        Descripción: {{orden.descripcion}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="m-0">Observaciones:</label>
+                                        <p class="m-0">{{orden.observaciones}}</p>
+                                    </div>
+                                </div>
+
+                                <hr class="m-1">
+
+                                <div class="row">
+                                    <div class="col-12 col-lg-4">
+                                        Sede: {{evento.sede_lugar}}
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        Dirección: {{evento.direccion}}
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        Horario: {{evento.hora_inicio}} / {{evento.hora_termino}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-lg-6">
+                                        Contacto: {{evento.contacto}}
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        Correo: {{evento.correo_contacto}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-lg-6">
+                                        Actividad: {{evento.actividad}}
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        Tipo Informe: {{evento.tipo_informe}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="m-0">Observaciones del Servicio:</label>
+                                        <p class="m-0">{{evento.obs_servicio}}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

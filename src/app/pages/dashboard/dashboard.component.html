@@ -1,0 +1,107 @@
+<div class="container">
+
+    <div class="row animated fadeIn mt-5" *ngIf="soporteArray.length > 0">
+        <div class="col-12">
+            <div class="card bg-transparent">
+                <div class="card-body bg-transparent">
+
+                    <h6>Novedades en los Soportes:</h6>
+                    <hr>
+
+                    <div class="row mt-3">
+                        <div class="col-12 col-lg-5">
+                            <div class="list-group" role="tablist" *ngFor="let item of soporteArray; let i = index">
+                                <a id="{{i}}" class="list-group-item list-group-item-action pointer" role="tab" (click)="viewDetails(item, i)">
+                                    <!-- {{i+1}}. <span class="text-primary">{{item.fecha | date : 'd/MM/yyyy'}}</span>  Orden: {{item.cronograma}} - Secuencia: {{item.secuencia}} -->
+                                    {{i+1}}. Orden: {{item.cronograma}} - Secuencia: {{item.secuencia}}
+                                    <span class="badge bg-primary rounded-pill float-right"> <i class="fas fa-envelope"></i> {{item.anotaciones.length}}</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-7 animated fadeIn list-group-item-info rounded p-3 mt-2" *ngIf="soporte">
+                            <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade show active" role="tabpanel">
+                                    <strong class="text-nowrap">{{soporte.empresa_nombre}}</strong>
+                                    <hr>
+
+                                    <h6> <span class="fas fa-comments fa-1x mr-2"></span> Mensajes:</h6>
+
+                                    <div class="list-group bg-transparent " *ngFor="let item of crearArray(soporte.anotaciones) ">
+                                        <a class="list-group-item bg-transparent border-0" *ngIf="item.activo == '1'">
+
+                                            <p class="m-0">
+                                                {{item.usuario}}
+                                            </p>
+                                            <p class="m-0">
+                                                {{item.fecha | date : 'd/MM/yyyy'}} {{item.fecha | date : 'h:mm a'}}
+                                            </p>
+                                            <p>{{item.reporte}}</p>
+
+                                        </a>
+
+                                    </div>
+
+                                    <button class="btn btn-success btn-sm m-1 mt-2" [routerLink]="['/orden', soporte.nombre, 'EspecialistaEnd']">
+                                      Ver Orden
+                                       </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="jumbotron animated fadeIn mt-5">
+        <h1 class="display-4">Bienvenidos</h1>
+        <p class="lead">Este programa administrativo le permitirá gestionar su proceso.</p>
+        <hr class="my-4">
+        <div class="d-flex">
+            <p class="m-0">Recuerde actualizar sus datos de Usuario<a class="btn btn-link" routerLink="/profile">Continuar</a></p>
+        </div>
+    </div>
+
+
+    <div class="row animated fadeIn">
+
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-12 div-pic-1" [ngStyle]="{ 'background-image': 'url(assets/images/jumbotrom.png)'  }">
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-2">
+
+            <div class="row">
+                <div class="col-sm-12 div-pic-2" [ngStyle]=" {'background-image': 'url(assets/images/jumbotrom1.png)' }">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 div-pic-2" [ngStyle]="{ 'background-image': 'url(assets/images/jumbotrom2.png)' }">
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+
+
+</div>

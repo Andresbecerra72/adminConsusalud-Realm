@@ -1,0 +1,52 @@
+<div class="container">
+
+    <br>
+    <h6>Gestión para unificar Ordenes:</h6>
+    <p><em> -Use esta función para unir la gestión de las Ordenes Manuales con la Orden Original, tenga presente que la orden manual quedara eliminada.</em></p>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body bg-white">
+
+                    <h6 *ngIf="!flag">Cargando Ordenes... <span class="fa fa-spinner fa-spin"></span></h6>
+
+                    <form ngNativeValidate class="m-2" [formGroup]="forma" (ngSubmit)="unirOrdenes()" *ngIf="flag">
+
+                        <div class="row">
+                            <div class="col">
+
+                                <div class="form-group">
+                                    <label for="">Orden Original</label>
+                                    <select class="custom-select" formControlName="selectOrdenOriginal" [class.is-invalid]="ordenOriginalNoValido">
+                                        <option value="" disabled>Seleccionar Orden Original</option>
+                                    <option [ngValue]="selectOrdenOriginal" *ngFor="let selectOrdenOriginal of listaSelectOrdenOriginal">{{selectOrdenOriginal.razon}} - Cronograma: {{selectOrdenOriginal.cronograma}}  - Secuencia: {{selectOrdenOriginal.secuencia}}</option>
+                                  </select>
+                                    <small class="text-danger" *ngIf="ordenOriginalNoValido">Seleccione la Orden</small>
+                                </div>
+
+                                <div class="form-group mt-3">
+                                    <label for="">Orden Manual</label>
+                                    <select class="custom-select" formControlName="selectOrdenManual" [class.is-invalid]="ordenManualNoValido">
+                                      <option value="" disabled>Seleccionar Orden Manual</option>
+                                  <option [ngValue]="selectOrdenManual" *ngFor="let selectOrdenManual of listaselectOrdenManual">{{selectOrdenManual.razon}} - Cronograma: {{selectOrdenManual.cronograma}}  - secuencia: {{selectOrdenManual.secuencia}}</option>
+                                </select>
+                                    <small class="text-danger" *ngIf="ordenManualNoValido">Seleccione la Orden</small>
+                                </div>
+
+                                <button class="btn btn-warning btn-sm text-white" type="submit">Unir Ordenes</button>
+
+                            </div>
+
+
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

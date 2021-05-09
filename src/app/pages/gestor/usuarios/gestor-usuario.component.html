@@ -1,0 +1,146 @@
+<div class="container" *ngIf="usuarioEdit">
+    <button class="btn btn-light btn-sm float-right close-btn" [routerLink]="['/' + regresar]">
+    <span class="fas fa-chevron-left text-dark"></span> Regresar
+   </button>
+
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body bg-white">
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-2">
+                            <p> <strong>Nombre:</strong> {{usuarioEdit.nombre}} {{usuarioEdit.apellido}}</p>
+                            <p> <strong>Correo:</strong> {{usuarioEdit.correo}}</p>
+                            <p> <strong>Telefono:</strong> {{usuarioEdit.telefono}}</p>
+                            <p> <strong>Ciudad:</strong> {{usuarioEdit.ciudad}}</p>
+                            <p> <strong>Role:</strong> {{usuarioEdit.role}}</p>
+                            <p *ngIf="usuarioEdit.especialista"> <strong>Especialista:</strong> {{usuarioEdit.especialista.nombre}}</p>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                            <img width="100" [src]="usuarioEdit.img | imagen: 'usuario'" [alt]="usuarioEdit.nombre" class="img-fluid rounded-circle">
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body bg-white">
+
+                    <form ngNativeValidate class="m-2" [formGroup]="forma" (ngSubmit)="actualizarUsuario()">
+
+
+                        <div class="row">
+
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck1" formControlName="flag_admin">
+                                    <label class="form-check-label" for="gridCheck1">
+                                    Admin
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck2" formControlName="flag_usuarios">
+                                    <label class="form-check-label" for="gridCheck2">
+                                    Usuarios
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck3" formControlName="flag_especialistas">
+                                    <label class="form-check-label" for="gridCheck3">
+                                    Especialistas
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck44" formControlName="flag_ordenes">
+                                    <label class="form-check-label" for="gridCheck4">
+                                      Ordenes
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck5" formControlName="flag_eventos">
+                                    <label class="form-check-label" for="gridCheck5">
+                                     Eventos
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck6" formControlName="flag_soportes">
+                                    <label class="form-check-label" for="gridCheck6">
+                                    Soportes
+                                  </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck7" formControlName="flag_archivos">
+                                    <label class="form-check-label" for="gridCheck7">
+                                     Archivos
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck8" formControlName="flag_tarifas">
+                                    <label class="form-check-label" for="gridCheck8">
+                                      Tarifas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck9" formControlName="flag_empresas">
+                                    <label class="form-check-label" for="gridCheck9">
+                                     Empresas
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck10" formControlName="flag_graficas">
+                                    <label class="form-check-label" for="gridCheck10">
+                                     Graficas
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck11" formControlName="flag_datos">
+                                    <label class="form-check-label" for="gridCheck11">
+                                      Datos
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="gridCheck12" formControlName="flag_agenda">
+                                    <label class="form-check-label" for="gridCheck12">
+                                     Agenda
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                        <button class="btn btn-warning btn-sm text-white mt-5" type="submit">Editar Permisos</button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>

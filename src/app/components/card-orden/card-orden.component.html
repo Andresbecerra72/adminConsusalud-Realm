@@ -1,0 +1,356 @@
+<div class="card w-100" *ngIf="orden">
+    <div class="card-body bg-white">
+
+        <div class="row">
+            <div class="col-12 col-lg-3 col-xl-3">
+                <h4 class="card-subtitle">Gestiòn Orden de Servicio</h4>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 col-xl-3" *ngIf="orden.estado == 'Pendiente Programar'">
+                <strong>Act. Programadas: </strong> {{orden.act_programadas}}
+
+            </div>
+            <div class="col-12 col-md-12 col-lg-6">
+                <div class="row mb-2">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-4" [ngClass]="{'col-12': ROLE !== 'ADMIN_ROLE' }">
+                        <strong>Estado: </strong> {{orden.estado}}
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-8 col-xl-8 text-center" *ngIf="ROLE == 'ADMIN_ROLE'">
+
+                        <div class="d-md-flex d-lg-flex d-xl-flex p-1">
+
+                            <select class="custom-select mr-2 mb-md-0 mb-2" name="estado" [(ngModel)]="estado" (click)="disableBtn=false">
+                              <option value="" disabled>Cambiar Estado</option>
+                              <option [value]="item" *ngFor="let item of listaEstados">{{item}}</option>
+                            </select>
+                            <button type="button" class="btn btn-info btn-sm" (click)="cambiarEstadoGeneral(estado)" [disabled]="disableBtn">
+                              Actualizar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- && (orden.tipo_servicio == 'T' || orden.tipo_servicio == 'E') -->
+
+        <div class="row">
+            <div class="col-12" [ngClass]="{'col-lg-10 col-xl-10': orden.estado == 'Pendiente Programar' || orden.estado == 'Pendiente Informe' || orden.estado == 'En Ejecución'}">
+
+                <div class="alert bg-purple" role="alert">
+
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 col-xl-8">
+
+                            <div class="d-xl-flex">
+                                <p class="mr-5">
+                                    Fecha: {{orden.fecha_programada | date : 'd/MM/yyyy'}}
+                                </p>
+                                <p>
+                                    Asesor: {{orden.nombre_asesor}}
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="d-xl-flex">
+                                <p class="mr-5">
+                                    Nombre Empresa: <span class="text-nowrap">{{orden.razon}}</span>
+                                </p>
+                                <p class="mr-5" *ngIf="orden.empresa && ROLE !== 'ESPEC_ROLE'">
+                                    Contacto: <span class="text-nowrap">{{orden.empresa.contacto}}</span>
+                                </p>
+                                <p class="mr-5" *ngIf="orden.empresa && ROLE !== 'ESPEC_ROLE'">
+                                    Telefono: <span class="text-nowrap">{{orden.empresa.telefono}}</span>
+                                </p>
+                                <p *ngIf="orden.empresa && ROLE !== 'ESPEC_ROLE'">
+                                    Correo: <span class="text-nowrap">{{orden.empresa.correo}}</span>
+                                </p>
+
+                            </div>
+
+
+                            <div class="d-xl-flex">
+                                <p class="mr-3">
+                                    Cronograma: {{orden.cronograma}}
+                                </p>
+                                <p class="mr-3">
+                                    Secuencia: {{orden.secuencia}}
+                                </p>
+                                <p class="mr-3">
+                                    TIPO: {{orden.tipo_servicio}}
+                                </p>
+                                <p class="mr-3">
+                                    U/M: {{orden.unidad}}
+                                </p>
+                            </div>
+
+                            <div class="d-xl-flex">
+                                <p class="mr-3" *ngIf="orden.fuente == 'ARL Bolivar'">
+                                    NIT: {{orden.nit}}
+                                </p>
+                                <p class="mr-3" *ngIf="orden.fuente == 'ARL Sura'">
+                                    Contrato: {{orden.nit}}
+                                </p>
+                                <p class="mr-3">
+                                    Poliza: {{orden.num_pol}}
+                                </p>
+                                <p *ngIf="ROLE !== 'ESPEC_ROLE' && orden.horas_ejecutadas">
+                                    Total Ejecutadas: <strong>{{orden.horas_ejecutadas}}</strong>
+                                </p>
+                            </div>
+
+
+                            <div class="d-xl-flex" *ngIf="ROLE !== 'ESPEC_ROLE'">
+                                <p class="mr-3">
+                                    Programadas: {{orden.act_programadas}}
+                                </p>
+                                <p class="mr-3">
+                                    Ejecutadas: {{orden.act_ejecutadas}}
+                                </p>
+                                <p class="mr-3" [ngClass]="{'text-danger': flagCanceledaProgramada || orden.act_canceladas !== '0'}" *ngIf="orden.fuente == 'ARL Bolivar'">
+                                    Canceladas: {{orden.act_canceladas}}
+                                </p>
+                                <p class="mr-3" [ngClass]="{'text-danger': orden.act_canceladas !== '0'}" *ngIf="orden.fuente == 'ARL Sura'">
+                                    <span *ngIf="orden.act_canceladas !== '0'"> Alerta Canceladas: {{orden.act_canceladas}}</span>
+                                    <span *ngIf="orden.act_canceladas == '0'"> Canceladas: {{orden.act_canceladas}}</span>
+                                </p>
+                                <p class="mr-3" *ngIf="orden.fuente == 'ARL Bolivar'">
+                                    Reprogramadas: {{orden.act_reprogramadas}}
+                                </p>
+                                <p class="mr-3" [ngClass]="{'text-danger': orden.act_reprogramadas !== '0'}" *ngIf="orden.fuente == 'ARL Sura'">
+                                    <span *ngIf="orden.act_reprogramadas !== '0'"> Alerta Reprogramadas: {{orden.act_reprogramadas}}</span>
+                                    <span *ngIf="orden.act_reprogramadas == '0'"> Reprogramadas: {{orden.act_reprogramadas}}</span>
+                                </p>
+
+                            </div>
+
+                            <!-- *** Alerta Cancelada - Programada -->
+                            <p class="text-danger" *ngIf="ROLE !== 'ESPEC_ROLE' && flagCanceledaProgramada">
+                                <strong>!Alerta¡</strong> Esta Orden cambio su estado en La última carga de Datos
+                            </p>
+
+                            <div class="d-xl-inline-flex bg-dark rounded p-1 text-white" *ngIf="ROLE !== 'ESPEC_ROLE' && (orden.tipo_servicio == 'CT' || orden.tipo_servicio == 'T' || orden.tipo_servicio == 'E')">
+                                <p class="m-0 mr-3">
+                                    Total HRS Actividades: {{orden.horas_actividad}}
+                                </p>
+                                <p class="m-0 mr-3">
+                                    Total HRS Informe: {{orden.tiempo_informe}}
+                                </p>
+                                <p class="m-0 mr-3">
+                                    Total HRS Administrativo: {{orden.tiempo_administrativo}}
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="col-12 col-md-12 col-lg-12 col-xl-4 mt-1" *ngIf="ROLE !== 'ESPEC_ROLE' && orden.radicado">
+
+                            <div class="d-flex">
+                                <div class="d-xl-flex flex-column mr-3">
+                                    <p class="mr-3">
+                                        Radicado: <strong>{{orden.radicado.numero}}</strong>
+                                    </p>
+                                    <p class="mr-3">
+                                        {{orden.radicado.fecha | date : 'd/MM/yyyy'}} / {{orden.radicado.usuario}}
+                                    </p>
+
+
+                                </div>
+                                <div class="d-xl-flex flex-column" *ngIf="orden.facturacion">
+                                    <p class="mr-3">
+                                        Facturacion: <strong>{{orden.facturacion.numero}}</strong>
+                                    </p>
+                                    <p class="mr-3">
+                                        {{orden.facturacion.fecha | date : 'd/MM/yyyy'}} / {{orden.facturacion.usuario}}
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-md-12 col-lg-12 col-xl-4 mt-1 text-center" *ngIf="orden.estado == 'Informe Revisado' && ROLE == 'USER_ROLE'">
+
+                            <div class="row">
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-6 align-self-center">
+                                    <strong>Tiempo Administrativo: {{orden.tiempo_administrativo}}</strong>
+
+                                </div>
+                                <div class="col-12 col-md-12 col-lg-12 col-xl-6">
+                                    <div class="card-body text-dark bg-light w-100">
+                                        <form ngNativeValidate class="w-xl-100 animated fadeIn" [formGroup]="forma" (ngSubmit)="ajustarTiempos()">
+
+                                            <label class="m-0">Tiempo Administrativo</label>
+                                            <input type="number" class="form-control" value="0" min="0" max="100" step="1" formControlName="tiempo_administrativo">
+                                            <button type="submit" class="btn btn-info btn-sm btn-xl-block mt-1 text-wrap">
+                                            <i class="fa fa-clock mr-2"></i>Ajustar Tiempos
+                                          </button>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <hr class="m-2">
+                    <p *ngIf="orden.fuente == 'ARL Bolivar'">
+                        Descripciòn: {{orden.descripcion}}
+                    </p>
+                    <p *ngIf="orden.fuente == 'ARL Sura'">
+                        Tarea: {{orden.descripcion}}
+                    </p>
+                    <p *ngIf="orden.fuente == 'ARL Sura'">
+                        Municipio: {{orden.ciudad}}
+                    </p>
+                    <p class="text-justify" *ngIf="ROLE !== 'ESPEC_ROLE'">
+                        Observaciones: {{orden.observaciones}}
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- *** Cambio de ESTADO ORDEN *** -->
+
+
+            <div class="col-12 col-lg-2 text-center" *ngIf="ROLE == 'USER_ROLE' && orden.estado == 'Pendiente Programar'">
+
+                <select class="custom-select mb-3" name="estado" [(ngModel)]="estado" (click)="disableBtn=false">
+                  <option value="" disabled>Cambiar Estado</option>
+                 <option [value]="item" *ngFor="let item of listaEstados1">{{item}}</option>
+                </select>
+
+                <button type="button" class="btn btn-info btn-sm mt-3" (click)="cambiarEstado(estado)" [disabled]="disableBtn">
+                Actualizar
+                 </button>
+
+            </div>
+
+
+            <div class="col-12 col-lg-2 text-center " *ngIf="ROLE=='USER_ROLE' && orden.estado=='En Ejecución' && (orden.tipo_servicio=='CT' || orden.tipo_servicio=='T' || orden.tipo_servicio=='E' )">
+
+                <select class="custom-select mb-3 " name="estado" [(ngModel)]="estado" (click)="disableBtn=false ">
+                  <option value="" disabled>Cambiar Estado</option>
+                 <option [value]="item " *ngFor="let item of listaEstados2 ">{{item}}</option>
+                </select>
+
+                <button type="button " class="btn btn-info btn-sm mt-3 " (click)="cambiarEstado(estado) " [disabled]="disableBtn ">
+                Actualizar
+                 </button>
+
+            </div>
+            <div class="col-12 col-lg-2 text-center " *ngIf="ROLE=='TECN_ROLE' && orden.estado=='Pendiente Informe' && (orden.tipo_servicio=='CT' || orden.tipo_servicio=='T' || orden.tipo_servicio=='E' )">
+
+                <select class="custom-select mb-3 " name="estado" [(ngModel)]="estado">
+                  <option value="" disabled>Cambiar Estado</option>
+                 <option [value]="item " *ngFor="let item of listaEstados3 ">{{item}}</option>
+                </select>
+
+                <button type="button " class="btn btn-info btn-sm mt-3 " (click)="cambiarEstado(estado) " [disabled]="disableBtn ">
+                Actualizar
+                 </button>
+
+            </div>
+            <div class="col-12 col-lg-2 text-center" *ngIf="ROLE == 'USER_ROLE' && orden.estado == 'En Ejecución' && (orden.tipo_servicio == 'C' || orden.tipo_servicio == 'A')">
+
+                <select class="custom-select mb-3 " name="estado" [(ngModel)]="estado" (click)="disableBtn=false ">
+                <option value="" disabled>Cambiar Estado</option>
+               <option [value]="item " *ngFor="let item of listaEstados4 ">{{item}}</option>
+              </select>
+
+                <button type="button " class="btn btn-info btn-sm mt-3 " (click)="cambiarEstado(estado) " [disabled]="disableBtn ">
+              Actualizar
+               </button>
+
+            </div>
+
+        </div>
+
+        <!-- ***Observaciones de Programacion*** -->
+
+        <div class="row " *ngIf="flagObs && ROLE !=='ESPEC_ROLE' ">
+            <div class="col-12 ">
+                <div class="card">
+                    <div class="card-body bg-white ">
+                        <h6>Observaciones Programación:</h6>
+                        <hr>
+                        <div class="list-group " *ngFor="let item of crearArray(orden.obs_internas) ">
+                            <a class="list-group-item border-0 ">
+                                <div class="d-lg-flex w-100 justify-content-between ">
+                                    <h6 class="mb-1 ">
+                                        <p>{{item.fecha | date : 'd/MM/yyyy'}}</p>
+                                    </h6>
+                                    <small>{{item.usuario}}</small>
+                                </div>
+                                <p class="bg-light p-1 mb-1 ">{{item.reporte}}</p>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group mt-3 mb-5 " *ngIf="orden.estado=='Pendiente Programar' && ROLE==='USER_ROLE' ">
+            <textarea #inputObs class=" form-control " rows="3 " placeholder="Observaciones Programación... "></textarea>
+            <button class="btn btn-dark btn-sm mt-3 float-right " (click)="enviarText(inputObs.value, 'Observaciones') ">
+              <span class="fas fa-pen-alt fa-1x mr-2 "></span>Guardar Obs Programación
+               </button>
+        </div>
+
+        <br>
+        <!-- ***Anotaciones*** -->
+
+        <div class="row " *ngIf="ROLE !=='ESPEC_ROLE' && flagAnot ">
+            <div class="col-12 ">
+                <div class="card bg-transparent ">
+                    <div class="card-body bg-transparent ">
+                        <h6>Observaciones Internas:</h6>
+                        <hr>
+                        <div class="list-group bg-transparent " *ngFor="let item of crearArray(orden.anotaciones) ">
+                            <a class="list-group-item bg-transparent border-0 ">
+                                <h6 class="mb-1 ">
+                                    <p>{{item.fecha | date : 'd/MM/yyyy'}}, <small>{{item.usuario}}</small></p>
+                                </h6>
+                                <p class="bg-transparent p-1 mb-1 ">{{item.reporte}}</p>
+                            </a>
+
+                        </div>
+
+                    </div>
+                    <footer class="m-2" *ngIf="ROLE !=='TECN_ROLE'">
+                        <div class="form-group w-100 text-center mt-3 ">
+                            <textarea #inputAnots class="form-control " rows="2 " placeholder="Observaciones... "></textarea>
+                            <button class="btn btn-outline-dark border-0 btn-sm mt-2 " (click)="enviarText(inputAnots.value, 'Anotaciones') ">
+                          <span class="fas fa-pen-alt fa-1x mr-2 "></span>Guardar Observaciones
+                         </button>
+                        </div>
+                    </footer>
+                    <footer class="m-2" *ngIf="ROLE =='TECN_ROLE' && orden.estado == 'Pendiente Informe'">
+                        <div class="form-group w-100 text-center mt-3 ">
+                            <textarea #inputAnots class="form-control " rows="2 " placeholder="Ingrese Observaciones / Ubicación en Server"></textarea>
+                            <button class="btn btn-dark border-0 btn-sm mt-2 " (click)="enviarText(inputAnots.value, 'Anotaciones') ">
+                        <span class="fas fa-save fa-1x mr-2 "></span>Guardar Ubicación en Server
+                       </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</div>

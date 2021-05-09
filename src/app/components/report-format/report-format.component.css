@@ -1,0 +1,252 @@
+/* CODIGO CSS PARA EL ACTA DE BOLIVAR */
+
+
+/* PUNTOS GRISES */
+
+.dot-1 {
+    position: absolute;
+    top: -4px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-2 {
+    position: absolute;
+    top: 32px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-3 {
+    position: absolute;
+    top: 66px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-4 {
+    position: absolute;
+    top: 102px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-5 {
+    position: absolute;
+    top: 138px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-6 {
+    position: absolute;
+    top: 188px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-7 {
+    position: absolute;
+    top: 261px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-8 {
+    position: absolute;
+    top: 331px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-9 {
+    position: absolute;
+    top: 482px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-10 {
+    position: absolute;
+    top: 550px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.dot-11 {
+    position: absolute;
+    top: 586px;
+    left: -10px;
+    height: 25px;
+    width: 25px;
+    border: 1px solid #d1d4d6;
+    background-color: #d1d4d6;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.bar {
+    position: absolute;
+    left: 30px;
+    background-color: #d1d4d6;
+    height: 25px;
+    width: 95%;
+    z-index: 1;
+}
+
+
+/* COLORS  */
+
+.bg-bar-gray {
+    background-color: #d1d4d6;
+}
+
+.bg-bar-green {
+    background-color: #008f4f;
+}
+
+
+/* TABLE */
+
+.table-sm th,
+.table-sm td {
+    padding: 0px;
+}
+
+.border-custom {
+    border-left: 3px solid #d1d4d6 !important;
+    border-right: 2px solid #d1d4d6 !important;
+}
+
+
+/* INPUTS */
+
+.h-11 {
+    height: 11px !important;
+}
+
+
+/* WIDTH */
+
+.mw-custom {
+    max-width: 3.33333% !important;
+}
+
+.w-custom {
+    width: 845px !important;
+}
+
+
+/* WIDTH Middle total 784px*/
+
+.w-custom-392 {
+    width: 392px !important;
+}
+
+.w-custom-260 {
+    width: 260px !important;
+}
+
+.w-custom-220 {
+    width: 220px !important;
+}
+
+.w-custom-198 {
+    width: 198px !important;
+}
+
+.w-custom-165 {
+    width: 165px !important;
+}
+
+.w-custom-130 {
+    width: 130px !important;
+}
+
+.w-custom-140 {
+    width: 140px !important;
+}
+
+.w-custom-99 {
+    width: 99px !important;
+}
+
+
+/* ** TEXT ** */
+
+.text-custom {
+    width: 255px;
+    color: white;
+    background-color: #d1d4d6;
+    padding: 20px !important;
+}
+
+.font-16 {
+    font-size: 16px !important;
+}
+
+.font-14 {
+    font-size: 14px !important;
+}
+
+.font-12 {
+    font-size: 12px !important;
+}
+
+.font-10 {
+    font-size: 10px !important;
+}
+
+.font-9 {
+    font-size: 9px !important;
+}

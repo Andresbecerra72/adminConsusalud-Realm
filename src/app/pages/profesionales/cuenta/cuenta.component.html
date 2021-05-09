@@ -1,0 +1,184 @@
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h6 class="ml-2" *ngIf="listaSelectEspecialista.length == 0">Cargando Informaciòn... por favor espere <span class="fa fa-spinner fa-spin"></span></h6>
+
+                <form ngNativeValidate [formGroup]="forma" (ngSubmit)="infoEspecialista()" *ngIf="listaSelectEspecialista.length > 0">
+
+                    <div class="row">
+                        <div class="col">
+
+                            <select class="custom-select" formControlName="selectEspecialista" [class.is-invalid]="especialistaNoValido">
+                              <option value="" disabled>Seleccionar Especialista</option>
+                              <option [ngValue]="selectEspecialista" *ngFor="let selectEspecialista of listaSelectEspecialista">{{selectEspecialista.nombre}}</option>
+                              </select>
+                            <small class="text-danger" *ngIf="especialistaNoValido">Seleccione el Especialista</small>
+
+
+                        </div>
+                        <div class="col">
+
+                            <select class="custom-select" formControlName="selectMonth" [class.is-invalid]="monthNoValido">
+                          <option value="" disabled>Seleccionar Mes</option>
+                          <option [ngValue]="selectMonth" *ngFor="let selectMonth of listaSelectMonth">{{selectMonth.mes}}</option>
+                          </select>
+                            <small class="text-danger" *ngIf="monthNoValido">Seleccione el Mes</small>
+
+
+
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-warning  btn-sm text-white" type="submit">
+                            <i class="fas fa-calculator"></i>   Ver Cuenta
+                          </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- *** Mensaje de no hay registros *** -->
+<div class="alert alert-warning text-center mt-5" role="alert" *ngIf="flagTable && cuentaArray.length == 0">
+    <strong>No registra datos</strong>
+    <br>
+    <i class="fa fa-warning fa-2x"></i>
+</div>
+
+
+<!-- *** Tabla con los datos de la cuenta *** -->
+<table class="table table-sm mt-3" *ngIf="flagTable && cuentaArray.length > 0">
+    <thead>
+        <tr>
+            <!-- <th>NOMBRE</th> -->
+            <th class="w300">EMPRESA</th>
+            <th class="text-nowrap text-center">FECHA</th>
+            <th class="text-nowrap text-center">Cant Asistentes</th>
+            <th class="text-nowrap text-center">Transporte</th>
+            <th class="text-nowrap text-center">Insumos</th>
+            <th class="text-nowrap text-center">Observaciones</th>
+            <th class="text-nowrap text-center">Actividad</th>
+            <th class="text-nowrap text-center">HRS Eject</th>
+            <!-- <th>EJECUTADA</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of cuentaArray">
+            <!-- <th>{{item.nombre}}</th> -->
+            <td class="w300">{{item.razon}}</td>
+            <td class="text-center">{{item.fecha | date : 'd/MM/yyyy'}}</td>
+            <td class="text-center">{{item.asistentes}}</td>
+            <td class="text-center">{{item.valor_transporte | currency}}</td>
+            <td class="text-center">{{item.valor_insumos | currency}}</td>
+            <td class="text-center">
+                <span *ngIf="item.observacion !==''">{{item.observacion}}</span>
+                <span *ngIf="item.observacion ==''">NA</span>
+            </td>
+            <td class="text-center">{{item.actividad}}</td>
+            <td class="text-center">{{item.horas_ejecutadas}}</td>
+            <!-- <td class="text-nowrap text-center">
+                <span class="badge badge-success" *ngIf="item.activo == '0'">SI</span>
+                <span class="badge badge-secondary" *ngIf="item.activo == '1'">NO</span>
+            </td> -->
+        </tr>
+
+    </tbody>
+
+</table>
+
+<div class="card-footer bg-secondary text-white mt-1" *ngIf="flagTable && cuentaArray.length > 0">
+    <h6 class="ml-3">Total Horas: {{horas_total_ejecutadas}} </h6>
+</div>
+
+
+<!-- *** Informacion de Anotaciones y Validacion *** -->
+<div class="row animated fadeIn mt-5" *ngIf="flagTable && cuenta && cuentaArray.length > 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+
+                <div class="row">
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-6 mb-3">
+
+                        <div class="row mt-1" *ngIf="cuenta">
+
+                            <div class="col" *ngIf="cuenta.anotaciones">
+                                <div class="card bg-transparent">
+                                    <div class="card-body bg-transparent">
+                                        <strong>Observaciones:</strong>
+                                        <hr>
+                                        <div class="list-group bg-transparent" *ngFor="let item of crearArray(cuenta.anotaciones)">
+                                            <a class="list-group-item bg-transparent border-0">
+
+                                                <h6 class="mb-1">
+                                                    <p>{{item.fecha | date : 'd/MM/yyyy'}}, <small>{{item.usuario}}</small></p>
+                                                </h6>
+
+
+                                                <p class="bg-transparent p-1 mb-1">{{item.novedad}}</p>
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group mt-2">
+                            <textarea #textarea class="form-control" rows="2" placeholder="Observaciones..."></textarea>
+                        </div>
+                        <button class="btn btn-dark border-0 btn-sm" (click)="guardarAnotaciones(textarea.value)">
+                          <span class="fas fa-pen-alt fa-1x mr-2"></span>Guardar Observaciones
+                        </button>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-6 text-center">
+
+                        <div class="row">
+
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                                <div class="form-group form-check">
+                                    <input type="radio" class="form-check-input" name="validar" [value]=true [(ngModel)]="validar">
+                                    <label class="form-check-label">SI</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mt-2">
+                                <div class="form-group form-check">
+                                    <input type="radio" class="form-check-input" name="validar" [value]=false [(ngModel)]="validar">
+                                    <label class="form-check-label">NO</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-2">
+
+                                <button type="button" class="btn btn-info btn-sm" (click)="validarCuenta(validar)">VALIDAR</button>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>

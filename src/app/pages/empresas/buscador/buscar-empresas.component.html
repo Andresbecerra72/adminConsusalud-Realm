@@ -1,0 +1,66 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <input #input type="text" class="form-control" placeholder="Buscar Empresa" (keyup)="buscarEmpresa(input.value)">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** Alerta de No hay Registros -->
+<div class="row mt-5  animated fadeIn" *ngIf="!flag">
+    <div class="col">
+
+        <div class="alert alert-info text-center" role="alert" *ngIf="message == 'Cargando Base de Datos'">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span class="mt-2">Espere por favor</span>
+        </div>
+
+        <div class="alert alert-warning text-center" role="alert" *ngIf="message !== 'Cargando Base de Datos'">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="row animated fadeIn mt-3" *ngIf="flag && empresas.length > 0">
+    <div class="col-12">
+        <div class="card-body bg-white">
+            <h4 class="card-title">Listado de Empresas (<small>{{totalRegistros}}</small>)</h4>
+
+            <div class="container mt-3">
+
+                <app-cards-group [items]="empresas" [nombre]="'Empresa'"></app-cards-group>
+
+            </div>
+
+
+            <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(-10)">
+              <i class="pe-7s-angle-left"></i>
+            Anterior
+          </button>
+            <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(10)">
+              Siguiente
+              <i class="pe-7s-angle-right"></i>
+
+          </button>
+
+
+
+
+        </div>
+
+    </div>
+</div>
+
+<br>
+<br>

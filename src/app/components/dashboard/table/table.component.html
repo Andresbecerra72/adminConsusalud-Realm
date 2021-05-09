@@ -1,0 +1,191 @@
+<table class="table table-responsive-sm table-responsive-md table-responsive-lg m-b-0">
+    <thead>
+        <tr>
+            <th *ngIf="nombre == 'Empresa'">Logo</th>
+            <th>Nombre</th>
+            <th *ngIf="nombre == 'Empresa'">NIT</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Ciudad</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+
+    <tbody *ngFor="let item of items; let i = index">
+
+        <tr class="animated fadeIn">
+
+            <td class="w70" *ngIf="nombre == 'Empresa'">
+                <img width="50" class="pointer" [src]="item.img | imagen: 'empresa'" alt="item.razon" (click)="mostrarModalImg(item._id)">
+            </td>
+
+            <td class="pointer" *ngIf="nombre == 'Contratante'" (click)="verDetalles(i)">
+                <span class="pe-7s-angle-right"></span> {{item.nombre}}
+            </td>
+            <td class="pointer" *ngIf="nombre == 'Empresa'" (click)="verDetalles(i)">
+                <span class="pe-7s-angle-right"></span> {{item.razon}}
+            </td>
+            <td *ngIf="nombre == 'Empresa'">
+                {{item.nit}}
+            </td>
+            <td>
+                {{item.correo}}
+            </td>
+            <td>
+                {{item.telefono}}
+            </td>
+            <td>
+                {{item.ciudad}}
+            </td>
+            <td>
+                <div class="d-flex">
+                    <button class="btn btn-info btn-sm m-1" (click)="editarRegistro(item, nombre)">
+                  <i class="fa fa-edit"></i>
+                </button>
+                    <button class="btn btn-danger btn-sm m-1" (click)="eliminarRegistro(item, nombre)">
+                  <i class="fa fa-trash"></i>
+                </button>
+                </div>
+            </td>
+
+        </tr>
+
+        <!-- (click)="ocultarDetalles(i)" -->
+
+        <tr id="{{i}}" class="details bg-light hide">
+            <td class="details-cell animated fadeIn" colspan="7">
+
+                <button class="btn btn-light btn-sm float-right close-btn" (click)="ocultarDetalles(i)">
+                <span class="fas fa-close text-dark"></span>
+              </button>
+
+                <div class="row">
+                    <div class="col-12 col-lg-4">
+                        <div class="details-inner">
+                            <div class="details-row">
+                                <div class="details-name">Fecha:</div>
+                                <div class="details-value">{{item.created_at | date : 'd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="details-row" *ngIf="item.usuario">
+                                <div class="details-name">Usuario:</div>
+                                <div class="details-value">{{item.usuario.nombre}}</div>
+                            </div>
+                            <div class="details-row" *ngIf="nombre == 'Contratante'">
+                                <div class="details-name">Contrato:</div>
+                                <div class="details-value">{{item.contrato}}</div>
+                            </div>
+                            <div class="details-row" *ngIf="nombre == 'Empresa' && item.contratante">
+                                <div class="details-name">ARL:</div>
+                                <div class="details-value">{{item.contratante.nombre}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-8 text-center" *ngIf="nombre == 'Contratante'">
+                        <div id="table-{{i}}" class="hide">
+                            <div class="m-1" *ngIf="item.asesores"><strong>Asesores:  ({{item.asesores.length}})</strong></div>
+                            <!-- <ul class="list-group list-group-flush">
+                              <li class="list-group-item bg-transparent" *ngFor="let data of item.sedes">{{data.nombre}} - correo: {{data.correo}}</li>
+                          </ul> -->
+
+                            <table class="table table-sm table-borderless table-responsive-sm table-responsive-md">
+                                <!-- <thead>
+                                  <tr>
+                                      <th scope="col">Nombre</th>
+                                      <th scope="col">Correo</th>
+                                      <th scope="col">Accion</th>
+
+                                  </tr>
+                              </thead> -->
+                                <tbody>
+                                    <tr *ngFor="let data of item.asesores">
+
+                                        <td>{{data.nombre}}</td>
+                                        <td>{{data.correo}}</td>
+                                        <td>{{data.telefono}}</td>
+                                        <td>
+                                            <button class="btn btn-sm m-1" (click)="editarRegistro(data, 'Asesor')">
+                                          <i class="fa fa-edit"></i>
+                                        </button>
+                                            <button class="btn btn-sm m-1" (click)="eliminarRegistro(data, 'Asesor')">
+                                          <i class="fa fa-trash"></i>
+                                        </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 col-lg-8 text-center" *ngIf="nombre == 'Empresa'">
+                        <div id="table-{{i}}" class="hide">
+                            <div class="m-1"><strong>Sedes</strong></div>
+                            <!-- <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent" *ngFor="let data of item.sedes">{{data.nombre}} - correo: {{data.correo}}</li>
+                            </ul> -->
+
+                            <table class="table table-sm table-borderless table-responsive-sm table-responsive-md">
+                                <!-- <thead>
+                                    <tr>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Correo</th>
+                                        <th scope="col">Accion</th>
+
+                                    </tr>
+                                </thead> -->
+                                <tbody>
+                                    <tr *ngFor="let data of item.sedes">
+
+                                        <td>{{data.nombre}}</td>
+                                        <td>{{data.correo}}</td>
+                                        <td>
+                                            <button class="btn btn-sm m-1" (click)="editarRegistro(data, 'Sede')">
+                                            <i class="fa fa-edit"></i>
+                                          </button>
+                                            <button class="btn btn-sm m-1" (click)="eliminarRegistro(data, 'Sede')">
+                                            <i class="fa fa-trash"></i>
+                                          </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="details-row" *ngIf="nombre == 'Contratante'">
+                    <div class="m-1" *ngIf="item.empresas"><strong>Empresas:  ({{item.empresas.length}})</strong></div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent" *ngFor="let data of item.empresas">{{data.razon}} - NIT: {{data.nit}}</li>
+                    </ul>
+                </div>
+                <div class="details-row" *ngIf="nombre == 'Empresa'">
+                    <div class="m-1" *ngIf="item.ordenes"><strong>Ordenes: ({{item.ordenes.length}})</strong></div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent" *ngFor="let data of item.ordenes">
+                            Cronograma: {{data.cronograma}} - Secuencia: {{data.secuencia}} - Act Programadas: {{data.act_programadas}} - Act Ejecutadas: {{data.act_ejecutadas}} - Act Canceladas: {{data.act_canceladas}} - Act Reprogramadas: {{data.act_reprogramadas}}
+                        </li>
+                    </ul>
+                </div>
+
+
+
+
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>

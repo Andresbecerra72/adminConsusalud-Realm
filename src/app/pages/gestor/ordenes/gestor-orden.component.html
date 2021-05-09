@@ -1,0 +1,39 @@
+<div class="container-fluid">
+
+    <button class="btn btn-light btn-sm float-right close-btn" [routerLink]="['/' + regresar]">
+    <span class="fas fa-chevron-left text-dark"></span> Regresar
+   </button>
+
+
+    <br>
+    <br>
+    <br>
+    <div class="alert alert-info mt-3" *ngIf="!orden">
+        <h6 class="mb-0">Cargando Orden... <span class="fa fa-spinner fa-spin"></span></h6>
+    </div>
+
+    <!-- ***Form Orden *** -->
+    <app-form-orden [tipo]="'GESTOR'" [orden]="orden" (DataForma)="editarOrden($event)" *ngIf="orden"></app-form-orden>
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="container mt-5">
+        <h6>DATOS DE LA ORDEN:</h6>
+        <p class="mt-3"><strong>Tiempo Administrativo :</strong> Tiempo ajustado por Administración (orden.tiempo_administrativo)</p>
+        <p class="mt-3"><strong>Tiempo Informe :</strong> Reporte de tiempo en inofrme (orden.tiempo_informe/soporte.tiempo_informe)</p>
+        <p class="mt-3"><strong>Horas Ejecutadas:</strong> Profesional reporta Horas Ejecutadas + Tiempo Informe + Tiempo Admin (soporte.horas_usadas + soporte.tiempo_informe + orden.tiempo_administrativo)</p>
+        <p class="mt-3"><strong>Horas Programadas:</strong> Total horas programadas por Agenda</p>
+        <p class="mt-3"><strong>Horas Actividad:</strong> Profesional reporta Horas Ejecutadas (soporte.horas_usadas)</p>
+        <p class="mt-3"><strong>Valor Total:</strong> Hrs Ejecutadas x Tarifa (reCalcularValor = orden.horas_ejecutadas x tarifa.costo)</p>
+        <p class="mt-3"><strong>Valida:</strong> Bandera de Pre-factura</p>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+</div>

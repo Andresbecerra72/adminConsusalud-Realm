@@ -1,0 +1,132 @@
+<div class="row">
+    <div class="col-12 col-md-6 col-lg-6 mb-3">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h4>Cargar Datos de ARL</h4>
+                <p>
+                    Seleccione el archivo de Excel de la ARL.
+                </p>
+                <select class="custom-select mb-3" name="fuenteArl" [(ngModel)]="fuenteArl" (click)="inputArl=false">
+                  <option [value]="item" *ngFor="let item of listaArls">{{item}}</option>
+                </select>
+                <div class="alert alert-danger" [ngClass]="alert" role="alert">
+                    {{message}}
+                </div>
+                <div class="alert alert-primary" [ngClass]="info" role="alert">
+                    {{message}}
+                    <button type="button" class="btn btn-danger btn-sm ml-5" (click)="cargarData()">Subir Registros</button>
+                </div>
+
+                <input #inputFileArl type="file" [disabled]="inputArl" (change)="onFileChange($event, fuenteArl)" (click)="alert='hide' && info='hide' && alertBase='hide' && infoBase='hide'" />
+
+
+
+                <!--     <div id="output"></div>
+                <br>
+                <div *ngIf="willDownload">
+                    <a id="download"> Download JSON File </a>
+                </div>
+            -->
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12  col-md-6  col-lg-6 mb-3">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h4>Cargar Tarifas</h4>
+                <p>
+                    Seleccione la Base
+                </p>
+                <select class="custom-select mb-3" name="base" [(ngModel)]="base" (click)="inputBase=false">
+                  <option [value]="item" *ngFor="let item of listaBase">{{item}}</option>
+                </select>
+
+                <div class="alert alert-danger" [ngClass]="alertBase" role="alert">
+                    {{message}}
+                </div>
+                <div class="alert alert-primary" [ngClass]="infoBase" role="alert">
+                    {{message}}
+                    <button type="button" class="btn btn-danger btn-sm ml-5" (click)="cargarTarifa()">Subir Registros</button>
+                </div>
+
+                <input #inputFileBase type="file" [disabled]="inputBase" (change)="onFileChange($event, base)" (click)="alert='hide' && info='hide' && alertBase='hide' && infoBase='hide'" />
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- *** Creando la Orden Manualmente Ordenes ARLS -->
+
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <div class="row">
+                    <div class="col-12 col-lg-4 col-xl-4">
+                        <h4>Ingreso Ordenes de ARL</h4>
+                        <hr>
+                        <p *ngIf="!formArlHide">
+                            Crear orden Manual
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-8 col-xl-8" *ngIf="!formArlHide">
+                        <button class="btn btn-info mb-1" type="button" (click)="formArlHide=!formArlHide">
+                      <span class="fa fa-file mr-2"></span>Nueva Orden</button>
+                    </div>
+                    <div class="col-12 col-lg-8 col-xl-8" *ngIf="formArlHide">
+                        <button class="btn btn-light btn-sm float-right close-btn" (click)="formArlHide=!formArlHide">
+                    <span class="fas fa-close text-dark"></span>
+                  </button>
+                    </div>
+                </div>
+                <!-- *** Formuario para registrar datos -->
+
+                <app-form-orden [tipo]="'ARL'" (DataForma)="registrarOrdenManual($event)" *ngIf="formArlHide"></app-form-orden>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *** Creando la Orden Manualmente PARTICULARES -->
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <div class="row">
+                    <div class="col-12 col-lg-4 col-xl-4">
+                        <h4>Particulares</h4>
+                        <hr>
+                        <p *ngIf="!formParticularesHide">
+                            Crear orden Manual
+                        </p>
+                    </div>
+                    <div class="col-12 col-lg-8 col-xl-8" *ngIf="!formParticularesHide">
+                        <button class="btn btn-success mb-1" type="button" (click)="formParticularesHide=!formParticularesHide">
+                      <span class="fa fa-file mr-2"></span>Crear Orden</button>
+                    </div>
+                    <div class="col-12 col-lg-8 col-xl-8" *ngIf="formParticularesHide">
+                        <button class="btn btn-light btn-sm float-right close-btn" (click)="formParticularesHide=!formParticularesHide">
+                    <span class="fas fa-close text-dark"></span>
+                  </button>
+                    </div>
+                </div>
+                <!-- *** Formuario para registrar datos -->
+
+                <app-form-orden [tipo]="'Particulares'" (DataForma)="registrarOrdenManual($event)" *ngIf="formParticularesHide"></app-form-orden>
+
+
+            </div>
+        </div>
+    </div>
+</div>

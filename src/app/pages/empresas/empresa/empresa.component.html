@@ -1,0 +1,215 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card" *ngIf="empresa">
+            <div class="card-body bg-white">
+                <button class="btn btn-light btn-sm float-right close-btn" [routerLink]="['/' + regresar]">
+                <span class="fas fa-close text-dark"></span>
+               </button>
+                <div class="row">
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-2 text-center">
+                        <h4>{{empresa.razon}}</h4>
+                        <h6>NIT: {{empresa.nit}}</h6>
+                        <h6>{{empresa.correo}}</h6>
+                        <p>Contacto: {{empresa.contacto}}</p>
+                        <p>Telefono: {{empresa.telefono}}</p>
+                        <p *ngIf="empresa.contratante">ARL: {{empresa.contratante.nombre}}</p>
+                        <p>{{empresa.ciudad}}</p>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-2 text-center">
+                        <img width="150" [src]="empresa.img | imagen: 'empresa'" [alt]="empresa.razon" class="img-fluid rounded mb-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *** Sedes *** -->
+
+<div class="row mt-3" *ngIf="sedesArray.length > 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Sedes:</h6>
+                <hr>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-2">
+                        <div class="list-group" role="tablist" *ngFor="let item of sedesArray; let i = index">
+                            <a id="sede-{{i}}" class="list-group-item list-group-item-action pointer" role="tab" (click)="viewDetailsSedes(item, i)">
+                            {{i+1}}. <span class="text-danger">{{item.nombre}}</span>  Ciudad: {{item.ciudad}}
+                          </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 list-group-item-danger rounded p-3" *ngIf="sede">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-12">
+                                        Dirección: {{sede.direccion}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        Correo: <strong>{{sede.correo}}</strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        Contacto: {{sede.contacto}}
+
+                                    </div>
+                                    <div class="col-4">
+                                        Telefono: {{sede.telefono}}
+
+                                    </div>
+                                    <div class="col-4">
+                                        Ciudad: {{sede.ciudad}}
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- **** Ordenes **** -->
+
+<div class="row mt-3" *ngIf="ordenesArray.length > 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Ordenes:</h6>
+                <hr>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-2">
+                        <div class="list-group" role="tablist" *ngFor="let item of ordenesArray; let i = index">
+                            <a id="orden-{{i}}" class="list-group-item list-group-item-action pointer" role="tab" (click)="viewDetailsOrdenes(item, i)">
+                            {{i+1}}. Fecha Programada: <span class="text-purple">{{item.fecha_programada | date : 'd/MM/yyyy'}}</span>  Orden: {{item.cronograma}} - {{item.secuencia}}
+                          </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 bg-purple rounded p-3" *ngIf="orden">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" role="tabpanel">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        Asesor: {{orden.nombre_asesor}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        Cronograma: {{orden.cronograma}}
+                                    </div>
+                                    <div class="col-3">
+                                        Secuencia: {{orden.secuencia}}
+                                    </div>
+                                    <div class="col-2">
+                                        Tipo: {{orden.tipo_servicio}}
+                                    </div>
+                                    <div class="col-3">
+                                        Unidad: {{orden.unidad}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        Act Programadas: {{orden.act_programadas}}
+                                    </div>
+                                    <div class="col-3">
+                                        Act Ejecutadas: {{orden.act_ejecutadas}}
+                                    </div>
+                                    <div class="col-3">
+                                        Act Canceladas: {{orden.act_canceladas}}
+                                    </div>
+                                    <div class="col-3">
+                                        Act Reprogramadas: {{orden.act_reprogramadas}}
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        Descripción: {{orden.descripcion}}
+                                    </div>
+                                </div>
+                                <hr class="m-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="m-0">Observaciones:</label>
+                                        <p class="m-0">{{orden.observaciones}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *** Formuario para registrar Nuevo Informe -->
+
+<!-- <div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <div class="row">
+                    <div class="col-4">
+                        <h4>Informes</h4>
+                        <hr>
+                        <p *ngIf="!formHide">
+                            Gestionar Informes
+                        </p>
+                    </div>
+                    <div class="col-8" *ngIf="!formHide">
+                        <button class="btn btn-success mb-1" type="button" (click)="formHide=!formHide">
+                  <span class="fa fa-file mr-2"></span>Nuevo Informe</button>
+                    </div>
+                    <div class="col-8" *ngIf="formHide">
+                        <button class="btn btn-light btn-sm float-right close-btn" (click)="formHide=!formHide">
+                <span class="fas fa-close text-dark"></span>
+              </button>
+                    </div>
+                </div>
+
+                <div class="container" *ngIf="formHide && ordenesArray.length > 0">
+                    <form ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma" (ngSubmit)="crearSoporte()">
+
+                        <div class="form-row">
+                            <div class="col-3">
+                                <select class="custom-select" formControlName="selectOrden">
+                                  <option value="" disabled>Seleccionar Orden</option>
+                                  <option [ngValue]="selectOrden" *ngFor="let selectOrden of ordenesArray">{{selectOrden.cronograma}} - {{selectOrden.secuencia}}</option>
+                                </select>
+                                    <small class="text-danger" *ngIf="selectOrdenesNoValido">Seleccione una Orden</small>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success float-right w-25" type="submit">
+                          <span class="fa fa-file mr-2"></span>Crear Informe
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

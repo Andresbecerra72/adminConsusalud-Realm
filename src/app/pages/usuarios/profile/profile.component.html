@@ -1,0 +1,99 @@
+<div class="row animated fadeIn">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Perfil de Usuario</h4>
+                <h6 class="card-subtitle">{{usuario.correo}}</h6>
+
+                <form ngNativeValidate class="form p-t-20" #f="ngForm" (ngSubmit)="guardar(f.value)">
+
+                    <div class="form-group">
+                        <label for="exampleInputuname">Nombre</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-user-circle"></i></div>
+                            <input type="text" name="nombre" class="form-control" id="exampleInputuname" placeholder="Nombre" [ngModel]="usuario.nombre" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputDocumento">Documento</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-address-card"></i></div>
+                            <input type="text" name="documento" class="form-control" id="exampleInputDocumento" placeholder="Documento" [ngModel]="usuario.documento">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputTelefono">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-phone"></i></div>
+                            <input type="text" name="telefono" class="form-control" id="exampleInputTelefono" placeholder="Teléfono" [ngModel]="usuario.telefono">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputCiudad">Ciudad</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-map"></i></div>
+                            <input type="text" name="ciudad" class="form-control" id="exampleInputCiudad" placeholder="Ciudad" [ngModel]="usuario.ciudad" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputDireccion">Dirección</label>
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-home"></i></div>
+                            <input type="text" name="direccion" class="form-control" id="exampleInputDireccion" placeholder="Dirección" [ngModel]="usuario.direccion">
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">
+                      <i class="fa fa-save"></i>
+                    Actualizar
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- **codigo para la imagen de ususario -->
+
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4 class="card-title">Imagen de Perfil</h4>
+                <h6 class="card-subtitle">{{usuario.correo}}</h6>
+
+                <img [src]="usuario.img | imagen" class="w160" *ngIf="!imagenTemp">
+                <img [src]="imagenTemp" class="w160" *ngIf="imagenTemp">
+
+
+                <div class="custom-file mt-3">
+                    <input type="file" (change)="seleccionImagen($event.target.files[0])">
+                </div>
+
+
+
+
+
+                <button type="submit" class="btn btn-success btn-block m-r-10 mt-3" [disabled]="!imagenSubir" (click)="actualizarImagen()">
+                  <i class="fa fa-save"></i>
+                Actualizar Imagen
+                </button>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>

@@ -1,0 +1,459 @@
+<div id="sidebar" class="app-sidebar sidebar-shadow">
+    <div class="app-header__logo">
+        <div class="logo-src"></div>
+        <div class="header__pane ml-auto">
+            <div>
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                  <span class="hamburger-box">
+                      <span class="hamburger-inner"></span>
+                  </span>
+              </button>
+            </div>
+        </div>
+    </div>
+    <div class="app-header__mobile-menu">
+        <div>
+            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+              <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+              </span>
+          </button>
+        </div>
+    </div>
+    <div class="app-header__menu">
+        <span>
+          <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+              <span class="btn-icon-wrapper">
+                  <i class="fa fa-ellipsis-v fa-w-6"></i>
+              </span>
+        </button>
+        </span>
+    </div>
+    <div class="scrollbar-sidebar">
+        <div class="app-sidebar__inner">
+            <ul class="vertical-nav-menu mt-3">
+                <!-- ***menu dinamico -->
+                <li class="app-sidebar__heading">Inicio</li>
+                <li *ngFor="let menu of sidebarService.menu">
+                    <a class="pointer" *ngIf="menu.role == usuario.role">
+                        <i [class]="menu.icono"></i> {{menu.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of menu.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Menu Administracion *** -->
+                <li class="app-sidebar__heading">Administración</li>
+                <li *ngFor="let orden of sidebarService.ordenes; let i = index">
+                    <a class="pointer" *ngIf="orden.role == usuario.role">
+                        <i [class]="orden.icono"></i> {{orden.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of orden.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                               {{submenu.titulo}}
+                          </a>
+
+                        </li>
+                    </ul>
+                </li>
+
+
+                <!-- *** Menu Técnica *** -->
+                <li class="app-sidebar__heading" *ngIf="usuario.role !== 'USER_ROLE'">Técnica</li>
+                <li *ngFor="let informe of sidebarService.informes">
+                    <a class="pointer" *ngIf="informe.role == usuario.role">
+                        <i [class]="informe.icono"></i> {{informe.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of informe.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                             {{submenu.titulo}}
+                        </a>
+
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- <li>
+                    <a routerLink="/informes" routerLinkActive="mm-active">
+                        <i class="metismenu-icon pe-7s-note2"></i>Gestión Informes
+                    </a>
+                </li> -->
+
+                <!-- *** Menu Programacion *** -->
+                <li class="app-sidebar__heading">Programación</li>
+                <li>
+                    <a routerLink="/agenda" routerLinkActive="mm-active" *ngIf="usuario.role !== 'ESPEC_ROLE' && usuario.role !== 'TECN_ROLE' && usuario.role !== 'VISIT_ROLE'">
+                        <i class="metismenu-icon pe-7s-compass"></i>Agenda
+                    </a>
+                    <a routerLink="/miagenda" routerLinkActive="mm-active" *ngIf="usuario.role == 'ESPEC_ROLE'">
+                        <i class="metismenu-icon pe-7s-compass"></i> Mi Agenda
+                    </a>
+                    <a routerLink="/agendatecnica" routerLinkActive="mm-active" *ngIf="usuario.role == 'TECN_ROLE'">
+                        <i class="metismenu-icon pe-7s-compass"></i> Ver Agenda
+                    </a>
+                </li>
+
+                <!-- *** Menu especialista *** -->
+                <li class="app-sidebar__heading" *ngIf="usuario.role !== 'TECN_ROLE'">Especialistas</li>
+                <li *ngFor="let profesional of sidebarService.profesionales">
+                    <a class="pointer" *ngIf="profesional.role == usuario.role">
+                        <i [class]="profesional.icono"></i> {{profesional.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of profesional.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                       {{submenu.titulo}}
+                  </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <!-- <a routerLink="/profesionales" routerLinkActive="mm-active" *ngIf="usuario.role !== 'ESPEC_ROLE' && usuario.role !== 'TECN_ROLE' && usuario.role !== 'VISIT_ROLE'">
+                        <i class="metismenu-icon pe-7s-id"></i>Buscador
+                    </a> -->
+
+                    <a routerLink="/historial" routerLinkActive="mm-active" *ngIf="usuario.role == 'ESPEC_ROLE'">
+                        <i class="metismenu-icon pe-7s-notebook"></i>Historial
+                    </a>
+                </li>
+
+
+                <!-- *** Menu PERMISOS *** -->
+                <li class="app-sidebar__heading" *ngIf="usuario.flag">Permisos</li>
+
+                <!-- *** Flag Administrador ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_admin == usuario.flag_admin">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                               {{submenu.titulo}}
+                          </a>
+
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- *** Flag Usuarios ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_usuarios == usuario.flag_usuarios">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Flag Especilistas ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_especialistas == usuario.flag_especialistas">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Flag Ordenes ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_ordenes == usuario.flag_ordenes">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Flag Empresas ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_empresas== usuario.flag_empresas">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Flag Graficas ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_graficas == usuario.flag_graficas">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Flag Datos ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_datos == usuario.flag_datos">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+                <!-- *** Flag Agenda ***  -->
+                <li *ngFor="let item of sidebarService.permisos; let i = index">
+                    <a class="pointer" *ngIf="item.flag_agenda == usuario.flag_agenda">
+                        <i [class]="item.icono"></i> {{item.titulo}}
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li *ngFor="let submenu of item.submenu">
+                            <a [routerLink]="submenu.url" routerLinkActive="mm-active">
+                                 {{submenu.titulo}}
+                            </a>
+
+                        </li>
+                    </ul>
+                </li>
+
+
+
+
+
+                <!-- *** LOG OUT *** -->
+                <li class="app-sidebar__heading">
+                    <a class="mt-3 text-primary pointer" (click)="usuarioService.logOut()">
+                        Logout   <i class="fas fa-sign-out-alt"></i>
+                    </a>
+
+
+                </li>
+
+
+
+                <!-- ***END menu Dinamico -->
+                <!--
+                <li class="app-sidebar__heading">Dashboards</li>
+                <li>
+                    <a href="index.html" class="mm-active">
+                        <i class="metismenu-icon pe-7s-rocket"></i> Dashboard Example 1
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">UI Components</li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-diamond"></i> Elements
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="elements-buttons-standard.html">
+                                <i class="metismenu-icon"></i> Buttons
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-dropdowns.html">
+                                <i class="metismenu-icon">
+                              </i>Dropdowns
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-icons.html">
+                                <i class="metismenu-icon">
+                              </i>Icons
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-badges-labels.html">
+                                <i class="metismenu-icon">
+                              </i>Badges
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-cards.html">
+                                <i class="metismenu-icon">
+                              </i>Cards
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-list-group.html">
+                                <i class="metismenu-icon">
+                              </i>List Groups
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-navigation.html">
+                                <i class="metismenu-icon">
+                              </i>Navigation Menus
+                            </a>
+                        </li>
+                        <li>
+                            <a href="elements-utilities.html">
+                                <i class="metismenu-icon">
+                              </i>Utilities
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="metismenu-icon pe-7s-car"></i> Components
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="components-tabs.html">
+                                <i class="metismenu-icon">
+                              </i>Tabs
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-accordions.html">
+                                <i class="metismenu-icon">
+                              </i>Accordions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-notifications.html">
+                                <i class="metismenu-icon">
+                              </i>Notifications
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-modals.html">
+                                <i class="metismenu-icon">
+                              </i>Modals
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-progress-bar.html">
+                                <i class="metismenu-icon">
+                              </i>Progress Bar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-tooltips-popovers.html">
+                                <i class="metismenu-icon">
+                              </i>Tooltips &amp; Popovers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-carousel.html">
+                                <i class="metismenu-icon">
+                              </i>Carousel
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-calendar.html">
+                                <i class="metismenu-icon">
+                              </i>Calendar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-pagination.html">
+                                <i class="metismenu-icon">
+                              </i>Pagination
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-scrollable-elements.html">
+                                <i class="metismenu-icon">
+                              </i>Scrollable
+                            </a>
+                        </li>
+                        <li>
+                            <a href="components-maps.html">
+                                <i class="metismenu-icon">
+                              </i>Maps
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="tables-regular.html">
+                        <i class="metismenu-icon pe-7s-display2"></i> Tables
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">Widgets</li>
+                <li>
+                    <a href="dashboard-boxes.html">
+                        <i class="metismenu-icon pe-7s-display2"></i> Dashboard Boxes
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">Forms</li>
+                <li>
+                    <a href="forms-controls.html">
+                        <i class="metismenu-icon pe-7s-mouse">
+                      </i>Forms Controls
+                    </a>
+                </li>
+                <li>
+                    <a href="forms-layouts.html">
+                        <i class="metismenu-icon pe-7s-eyedropper">
+                      </i>Forms Layouts
+                    </a>
+                </li>
+                <li>
+                    <a href="forms-validation.html">
+                        <i class="metismenu-icon pe-7s-pendrive">
+                      </i>Forms Validation
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">Charts</li>
+                <li>
+                    <a href="charts-chartjs.html">
+                        <i class="metismenu-icon pe-7s-graph2">
+                      </i>ChartJS
+                    </a>
+                </li>
+                <li class="app-sidebar__heading">PRO Version</li>
+                <li>
+                    <a href="https://dashboardpack.com/theme-details/architectui-dashboard-html-pro/" target="_blank">
+                        <i class="metismenu-icon pe-7s-graph2">
+                      </i> Upgrade to PRO
+                    </a>
+                </li>
+                -->
+            </ul>
+        </div>
+    </div>
+</div>

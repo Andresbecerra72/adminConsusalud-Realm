@@ -1,0 +1,46 @@
+/*******************
+/*Top bar
+*******************/
+
+.app-header {
+    background: #fff;
+}
+
+.app-theme-white.fixed-header .app-header__logo {
+    background: rgb(245, 245, 245)
+}
+
+
+/*******************
+/*SideBar
+*******************/
+
+.app-sidebar {
+    background: #fff;
+}
+
+.vertical-nav-menu li a {
+    color: #2a3e52;
+}
+
+.vertical-nav-menu li a:hover {
+    color: #2a3e52;
+}
+
+.vertical-nav-menu i.metismenu-icon {
+    opacity: 1;
+    color: blue;
+}
+
+.vertical-nav-menu i.metismenu-state-icon {
+    color: blue;
+}
+
+
+/* a:not([href]):not([tabindex]) {
+    color: blue;
+    text-decoration: none;
+} */
+
+
+/***********/

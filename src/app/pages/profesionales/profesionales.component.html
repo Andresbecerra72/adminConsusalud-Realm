@@ -1,0 +1,231 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <div class="row">
+
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-2">
+                        <input #input type="text" class="form-control" placeholder="Buscar Especialista" (keyup)="buscarEspecialista(input.value)" (focus)="cambiarFlags()">
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-2">
+
+                        <select class="custom-select" name="ciudad" [(ngModel)]="ciudad" (click)="cambiarFlags()">
+                        <option [value]="item" *ngFor="let item of listaCiudad">{{item}}</option>
+                      </select>
+
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 mb-2">
+
+                        <select class="custom-select" name="profesion" [(ngModel)]="profesion" (click)="cambiarFlags()">
+                          <option [value]="item" *ngFor="let item of listaSelectProfesion">{{item}}</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-2 col-xl-2 mb-2">
+
+                        <input #fecha type="date" class="form-control" (click)="cambiarFlagsOnDates()">
+
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+
+                        <button type="button" (click)="buscarEspecialista(input.value, ciudad, profesion, fecha.value)" class="btn btn-secondary btn-sm btn-block">Buscar</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** Alerta de No hay Registros -->
+<div class="row mt-5  animated fadeIn" *ngIf="flag">
+    <div class="col">
+
+        <div class="alert alert-info text-center" role="alert" *ngIf="message == 'Cargando Base de Datos'">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span class="mt-2">Espere por favor</span>
+        </div>
+
+        <div class="alert alert-warning text-center" role="alert" *ngIf="message !== 'Cargando Base de Datos'">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+</div>
+
+<!-- ** Cards Group de los Especialistas -->
+<div class="row mt-5 animated fadeIn" *ngIf="!flag">
+
+    <app-cards-group [items]="especialistas" [flag]="flagBtn" [nombre]="'Especialista'" (DataItem)="dataFromCard($event)"></app-cards-group>
+
+</div>
+
+
+<!-- ** codigo para el MODAL -->
+
+<div class="modal-costum animated fadeIn" [ngClass]="hide" *ngIf="especialista">
+
+    <div class="modal" style="display: block;" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-orden modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Programación - {{especialista.nombre}} </h5>
+                    <button type="button" class="close" aria-label="Close" (click)="cerraModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row bg-light text-center m-1" *ngIf="orden">
+                        <div class="col-12">
+                            {{orden.razon}}
+                        </div>
+                    </div>
+                    <div class="row bg-light m-1" *ngIf="orden">
+                        <div class="col-3">
+                            {{orden.cronograma}}
+                        </div>
+                        <div class="col-2">
+                            {{orden.secuencia}}
+                        </div>
+                        <div class="col-3">
+                            Tipo: {{orden.tipo_servicio}}
+                        </div>
+                        <div class="col-2">
+                            ACT: {{orden.act_programadas}}
+                        </div>
+                        <div class="col-2" [ngClass]="{'bg-danger': horasDisponibles > 0 ? '' : 'red'}">
+                            <span [ngStyle]="{'color': horasDisponibles > 0 ? '' : 'white' }">DISP: </span><span [ngStyle]="{'color': horasDisponibles > 0 ? 'blue' : 'white' }">{{horasDisponibles}}</span>
+                        </div>
+                    </div>
+                    <div class="row bg-light m-1" *ngIf="orden">
+                        <div class="col-12 text-center">
+                            {{orden.descripcion}}
+                        </div>
+
+                    </div>
+
+
+                    <hr class="m-3">
+
+                    <!-- ** Formulario para programar  -->
+
+                    <form #f ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma">
+
+                        <div class="form-row">
+
+                            <div class="col-12 col-md-4 col-lg-5 mb-2">
+                                <div class="form-group">
+                                    <label>Fecha/Hora Inicio</label>
+                                    <input type="datetime-local" class="form-control" formControlName="start" [class.is-invalid]="startDateNoValido" />
+                                    <small class="text-danger" *ngIf="startDateNoValido">Ingrese Fecha/Hora Inicio</small>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-5 mb-2">
+                                <div class="form-group">
+                                    <label>Fecha/Hora Termino</label>
+                                    <input type="datetime-local" class="form-control" formControlName="end" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-2 mb-2">
+                                <label>Horas Programar</label>
+                                <input type="number" class="form-control" value="0" min="0" max="8" step="1" formControlName="hours" [class.is-invalid]="hoursNoValido" />
+                                <small class="text-danger" *ngIf="hoursNoValido">Ingrese Horas</small>
+                            </div>
+                        </div>
+
+                        <hr class="m-1">
+
+                        <div class="form-row bg-light">
+                            <div class="col-md-6 mb-2 mt-1">
+                                <select class="custom-select" formControlName="selectSede" (click)="seleccionSede()">
+                            <option [ngValue]="selectSede" *ngFor="let selectSede of listaselectSede">{{selectSede.nombre}}</option>
+                            </select>
+                            </div>
+                            <div class="col-md-6 mb-2 mt-1">
+                                <input type="text" class="form-control" placeholder="Sede" formControlName="sede" [class.is-invalid]="sedeNoValido" />
+                                <small class="text-danger" *ngIf="sedeNoValido">Ingrese la Sede</small>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row bg-light">
+                            <div class="col-md-12 mb-2">
+                                <input type="text" class="form-control" placeholder="Dirección" formControlName="adress" [class.is-invalid]="adressNoValido" />
+                                <small class="text-danger" *ngIf="adressNoValido">Ingrese la Dirección</small>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-row bg-light">
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-md-12 mb-2">
+                                        <input type="text" class="form-control" placeholder="Contacto" formControlName="contacto">
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="ejemplo@ejemplo.com" formControlName="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <input type="text" class="form-control" placeholder="Actividad" formControlName="actividad">
+                                    </div>
+                                    <div class="col-md-12 mb-2">
+                                        <input type="text" class="form-control" placeholder="Tipo Informe" formControlName="informe">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-md-12 mb-2">
+                                        <label><strong>Observaciones del Servicio</strong></label>
+                                        <textarea class="form-control" rows="5" formControlName="obsInternas"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- <button class="btn btn-primary" type="submit">Registrar</button> -->
+
+                    </form>
+
+                    <!-- codigo para ver la informacion de Formulario -->
+                    <!-- <pre>
+                Estado del formulario: {{forma.valid}}
+                Status: {{forma.status}}
+              </pre>
+              <pre>
+                {{forma.value | json}}
+              </pre> -->
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="cerraModal()">Cerrar</button>
+                    <button type="button" class="btn btn-warning" (click)="programar()">Programar</button>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

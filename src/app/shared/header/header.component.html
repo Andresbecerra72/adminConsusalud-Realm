@@ -1,0 +1,113 @@
+<div id="header" class="app-header header-shadow">
+    <div class="app-header__logo">
+        <div class="logo-src"></div>
+        <div class="header__pane ml-auto">
+            <div>
+                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                  <span class="hamburger-box">
+                      <span class="hamburger-inner"></span>
+                  </span>
+              </button>
+            </div>
+        </div>
+    </div>
+    <div class="app-header__mobile-menu">
+        <div>
+            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+              <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+              </span>
+          </button>
+        </div>
+    </div>
+    <div class="app-header__menu">
+        <span>
+          <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+              <span class="btn-icon-wrapper">
+                  <i class="fa fa-ellipsis-v fa-w-6"></i>
+              </span>
+        </button>
+        </span>
+    </div>
+    <div class="topbar app-header__content">
+        <div class="app-header-left">
+
+            <!-- ***Buscador Global*** -->
+
+            <div class="search-wrapper">
+                <div class="input-holder" *ngIf="usuario.role !== 'ESPEC_ROLE'">
+                    <input #txtTermino type="text" class="search-input" placeholder="Busqueda Global" (focus)=clearInput()>
+                    <button class="search-icon" (click)="busquedaGlobal( txtTermino.value )"><span></span></button>
+                </div>
+                <button class="close" (focus)=clearInput()></button>
+            </div>
+            <ul class="header-menu nav">
+                <li class="nav-item">
+                    <a routerLink="/usuarios" routerLinkActive="mm-active" class="nav-link" *ngIf="usuario.role == 'ADMIN_ROLE'">
+                        <i class="nav-link-icon fa  fa-users"> </i> Usuarios
+                    </a>
+                </li>
+                <li class="btn-group nav-item" *ngIf="usuario.role !== 'ESPEC_ROLE' && usuario.role !== 'VISIT_ROLE'">
+                    <a routerLink="/datos" class="nav-link">
+                        <i class="nav-link-icon pe-7s-graph2"></i> Datos
+                    </a>
+                </li>
+                <li class="dropdown nav-item">
+                    <a routerLink="/accountSettings" routerLinkActive="mm-active" class="nav-link">
+                        <i class="nav-link-icon fa fa-cog"></i> Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="app-header-right">
+            <div class="header-btn-lg pr-0">
+                <div class="widget-content p-0">
+                    <div class="widget-content-wrapper">
+
+                        <div class="widget-content-left">
+                            <div class="btn-group">
+                                <a class="p-0 btn" (click)="showMenu=!showMenu">
+                                    <img width="42" class="rounded-circle" [src]="usuarioService.usuario.img | imagen" [alt]="usuario.nombre">
+                                    <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right show animated fadeIn" *ngIf="showMenu" (click)="showMenu=!showMenu">
+                                    <div class="d-flex p-10 m-3">
+                                        <img class="rounded" width="70" height="70" [src]="usuarioService.usuario.img | imagen" [alt]="usuario.nombre">
+                                        <div class="ml-2">
+                                            <h6> {{usuario.nombre}}</h6>
+                                            <p class="text-muted font-weight-light"> {{usuario.correo}}</p>
+                                            <div class="d-flex justify-content-end">
+                                                <a routerLink="/profile" class="btn btn-outline-danger btn-sm">Mi Perfil</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <!-- <button type="button" class="dropdown-item">User Account</button>
+                                    <button type="button" class="dropdown-item">Settings</button>
+                                    <h6 class="dropdown-header">Header</h6>
+                                    <button type="button" class="dropdown-item">Actions</button>
+                                    <div class="dropdown-divider"></div> -->
+                                    <button type="button" class="dropdown-item text-primary" (click)="usuarioService.logOut()">Cerra Sesion</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-content-left  ml-3 header-user-info">
+                            <div class="widget-heading">
+                                {{usuario.nombre}}
+                            </div>
+                            <div class="widget-subheading">
+                                {{usuario.correo}}
+                            </div>
+                        </div>
+                        <div class="widget-content-right header-user-info ml-3">
+                            <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
+                              <i class="fa text-white fa-link pr-1 pl-1"></i>
+                          </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

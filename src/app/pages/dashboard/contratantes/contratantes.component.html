@@ -1,0 +1,181 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-transparent">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <h5>Registrar ARL</h5>
+                    </div>
+                    <div class="col-8" *ngIf="!form1Hide">
+                        <button class="btn btn-primary mb-1" type="button" (click)="form1Hide=!form1Hide">Registrar ARL</button>
+                    </div>
+                    <div class="col-8" *ngIf="form1Hide">
+                        <button class="btn btn-light btn-sm float-right close-btn" (click)="form1Hide=!form1Hide">
+                        <span class="fas fa-close text-dark"></span>
+                      </button>
+                    </div>
+                </div>
+                <hr>
+                <!-- *** Formuario para registrar datos -->
+
+                <app-form [nombre]="'ARL'" (DataForma)="registrarArl($event)" *ngIf="form1Hide"></app-form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card bg-transparent">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-4">
+                        <h6>Registrar Asesor</h6>
+                    </div>
+                    <div class="col-8" *ngIf="!form2Hide">
+                        <button class="btn btn-outline-success mb-1" type="button" (click)="form2Hide=!form2Hide">Registrar Asesores</button>
+                    </div>
+                    <div class="col-8" *ngIf="form2Hide">
+                        <button class="btn btn-light btn-sm float-right close-btn" (click)="form2Hide=!form2Hide">
+                <span class="fas fa-close text-dark"></span>
+              </button>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- *** Formuario para registrar datos -->
+
+                <app-form [nombre]="'Asesor'" (DataForma)="registrarAsesor($event)" *ngIf="form2Hide"></app-form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ** Alerta de Cargando Data -->
+<div class="row mt-5  animated fadeIn" *ngIf="cargando">
+    <div class="col">
+
+        <div class="alert alert-info text-center" role="alert">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span class="mt-2">Espere por favor</span>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ** Alerta de No hay Registros -->
+<div class="row mt-5  animated fadeIn" *ngIf="flag">
+    <div class="col">
+
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<!-- *** Tabla de datos -->
+
+<div class="row animated fadeIn mt-3" *ngIf="!cargando && totalRegistros > 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h4 class="card-subtitle">Listado de ARL's (<small>{{totalRegistros}}</small>)</h4>
+
+                <app-table [nombre]="'Contratante'" [items]="contratantes" (Index)="setDataFromTable($event)"></app-table>
+
+
+                <br>
+                <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(-5)">
+                  <i class="pe-7s-angle-left"></i>
+                  Anterior
+                </button>
+                <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(5)">
+                    Siguiente
+                    <i class="pe-7s-angle-right"></i>
+                </button>
+
+                <br>
+                <br>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** codigo para el MODAL -->
+
+<div class="modal-costum animated fadeIn" [ngClass]="hide" *ngIf="contratante">
+
+    <div class="modal" style="display: block;" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-orden modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar ARL {{contratante.nombre}}</h5>
+                    <button type="button" class="close" aria-label="Close" (click)="cerraModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <!-- *** Formuario para registrar datos -->
+
+                    <app-form #f [nombre]="nombre" [contratante]="contratante" (DataForma)="actualizarArl($event)"></app-form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="cerraModal()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="actualizarArl(f.forma)">Actualizar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *** Codigo para el modal cuando selecciona Edit ASESOR -->
+<div class="modal-costum animated fadeIn" [ngClass]="hide" *ngIf="asesor">
+
+    <div class="modal" style="display: block;" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-orden modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-success">Actualizar Asesor {{asesor.nombre}}</h5>
+                    <button type="button" class="close" aria-label="Close" (click)="cerraModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <!-- *** Formuario para registrar datos -->
+
+                    <app-form #f [nombre]="nombre" [asesor]="asesor" (DataForma)="actualizarAsesor($event)"></app-form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="cerraModal()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="actualizarAsesor(f.forma)">Actualizar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

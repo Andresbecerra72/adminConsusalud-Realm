@@ -1,0 +1,210 @@
+<div class="row">
+    <div class="col-12 col-md-6 mt-1">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-3 mt-2 mb-2">
+                        <h6 class="float-xl-right m-0 mt-1">Nueva Profesión:</h6>
+                    </div>
+                    <div class="col-12 col-md-6  col-lg-6 col-xl-3 mt-2 mb-2">
+                        <input #input type="text" class="form-control" [(ngModel)]="termino">
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-1 mt-2 mb-2">
+                        <h6 class="float-xl-right m-0 mt-1">Color:</h6>
+                    </div>
+                    <div class="col-12 col-md-6  col-lg-6 col-xl-3 mt-2 mb-2">
+                        <input #color type="color" class="form-control p-0" list="profilecolorslist" [(ngModel)]="profesionColor">
+                        <datalist id="profilecolorslist">
+
+                      <option value="#00ffff">
+
+                      <option value="#ff00ff">
+
+                      <option value="#ffff00">
+
+                      <option value="#ffaa00">
+
+                      <option value="#0af08c">
+
+                    </datalist>
+                    </div>
+                    <div class="col-12 col-md-12  col-lg-12 col-xl-2 mt-2 mb-2">
+                        <button class="btn btn-outline-dark mb-1 float-md-right" type="button" (click)="registrarProfesion(input.value, color.value)">Guardar</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 mt-1">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-6 col-xl-3 mt-2 mb-2">
+                        <h6 class="float-xl-right m-0 mt-1">Nueva Ciudad:</h6>
+                    </div>
+                    <div class="col-12 col-md-6  col-lg-6 col-xl-3 mt-2 mb-2">
+                        <input #inputCiudad type="text" class="form-control" [(ngModel)]="terminoCiudad">
+                    </div>
+
+                    <div class="col-12 col-md-12  col-lg-12 col-xl-2 mt-2 mb-2">
+                        <button class="btn btn-outline-dark mb-1 float-md-right" type="button" (click)="registrarCiudad(inputCiudad.value)">Guardar</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- **** Tablas ****** -->
+
+<div class="row mt-3">
+
+    <div class="col-12 col-md-6 mt-1" *ngIf="flagProfesion">
+
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>No hay Resgistros</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+
+    <div class="col-12 col-md-6 mt-1" *ngIf="!flagProfesion">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <table class="table table-responsive-sm table-secondary">
+                    <thead class="thead-scroll">
+                        <tr class="text-center">
+                            <th class="w-50" scope="col">Nombre Profesion</th>
+                            <th class="w-50" scope="col">Color</th>
+                            <th class="w-50" scope="col">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody-scroll">
+                        <tr *ngFor="let item of profesiones">
+
+                            <td class="w-50">{{item.nombre}}</td>
+                            <td class="w-50">
+                                <input #newColor type="color" class="form-control p-0" list="profilecolorslist" [value]="item.color.primary">
+                            </td>
+                            <td class="w-50 text-center">
+                                <div class="d-flex">
+                                    <button class="btn btn-sm m-1" (click)="editarProfesion(item, newColor.value)">
+                                  <i class="fa fa-save"></i>
+                                </button>
+                                    <button class="btn btn-sm m-1" (click)="eliminarProfesion(item)">
+                                  <i class="fa fa-trash"></i>
+                                </button>
+
+                                </div>
+
+
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 mt-1" *ngIf="flagCiudad">
+
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>No hay Resgistros</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+    <div class="col-12 col-md-6 mt-1" *ngIf="!flagCiudad">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <table class="table table-responsive-sm table-striped table-dark text-center">
+                    <thead class="thead-scroll">
+                        <tr>
+                            <th class="th-scroll">Nombre Ciudad</th>
+                            <th class="th-scroll">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tbody-scroll">
+
+                        <tr *ngFor="let item of ciudades">
+
+                            <td class="td-scroll">{{item.nombre}}</td>
+                            <td class="td-scroll text-center">
+                                <button class="btn btn-sm m-1" (click)="eliminarCiudad(item)">
+                                <i class="fa fa-trash fa-1x"></i>
+                              </button>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5" *ngIf="ROLE == 'ADMIN_ROLE'">
+    <div class="col-12">
+        <div class="card bg-transparent">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 mb-1">
+                        <button class="btn btn-outline-light btn-sm" (click)="eliminarCollection('Contratante')">
+                          ARL - <i class="fa fa-trash"></i>
+                      </button>
+                    </div>
+
+                    <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 mb-1">
+                        <button class="btn btn-outline-light btn-sm" (click)="eliminarCollection('Empresa')">
+                          Empresas - <i class="fa fa-trash"></i>
+                      </button>
+                    </div>
+
+                    <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 mb-1">
+                        <button class="btn btn-outline-light btn-sm" (click)="eliminarCollection('Orden')">
+                          Ordenes - <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 mb-1">
+                        <button class="btn btn-outline-light btn-sm" (click)="eliminarCollection('Tarifa')">
+                          Tarifas - <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 mb-1">
+                        <button class="btn btn-outline-light btn-sm" (click)="eliminarCollection('Especialista')">
+                          Especialistas - <i class="fa fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-2 col-lg-2 col-xl-2 mb-1">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>

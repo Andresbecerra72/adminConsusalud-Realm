@@ -1,0 +1,244 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card" *ngIf="especialista">
+            <div class="card-body bg-white">
+                <button class="btn btn-light btn-sm float-right close-btn" [routerLink]="['/' + regresar]">
+                <span class="fas fa-close text-dark"></span>
+               </button>
+                <div class="row">
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-2 text-center">
+                        <h4>{{especialista.nombre}}</h4>
+                        <h6>{{especialista.especialidad}}</h6>
+                        <p *ngIf="especialista.licencia">{{especialista.licencia}}/{{especialista.vigencia}}</p>
+                        <p>{{especialista.correo}}</p>
+                        <p>Celular: {{especialista.telefono}}</p>
+                        <p>{{especialista.direccion}}</p>
+                        <p>{{especialista.ciudad}}</p>
+
+
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mb-2 text-center">
+                        <img width="150" [src]="especialista.img | imagen: 'especialista'" [alt]="especialista.nombre" class="img-fluid rounded mb-1">
+                        <div class="d-flex justify-content-center" *ngIf="stars == 'Excelente'">
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                        </div>
+                        <div class="d-flex justify-content-center" *ngIf="stars == 'Bueno'">
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                            <i class="fa fa-star text-warning fa-2x"></i>
+                        </div>
+                        <div class="d-flex justify-content-center" *ngIf="stars == 'Aceptable'">
+                            <i class="fa fa-star text-success fa-2x"></i>
+                            <i class="fa fa-star text-success fa-2x"></i>
+                            <i class="fa fa-star text-success fa-2x"></i>
+                        </div>
+                        <div class="d-flex justify-content-center" *ngIf="stars == 'Regular'">
+                            <i class="fa fa-frown text-dark fa-2x mr-1"></i>
+                            <i class="fa fa-frown text-dark fa-2x"></i>
+                        </div>
+                        <div class="d-flex justify-content-center" *ngIf="stars == 'No Recomendado'">
+                            <i class="fa fa-frown text-danger fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- ** Formulario  -->
+
+                <form ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma" (ngSubmit)="enviarData()">
+
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <select class="custom-select" formControlName="selectCalificacion">
+                            <option [ngValue]="selectCalificacion" *ngFor="let selectCalificacion of listaCalificacion">{{selectCalificacion}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label><strong>Observaciones</strong></label>
+                        <textarea class="form-control" rows="3" formControlName="anotaciones"></textarea>
+                        <button class="btn btn-primary btn-sm w-25 mt-3 float-right" type="submit">Actualizar</button>
+                    </div>
+                </form>
+
+
+                <!-- codigo para ver la informacion de Formulario -->
+                <!-- <pre>
+                Estado del formulario: {{forma.valid}}
+                Status: {{forma.status}}
+              </pre>
+                <pre>
+                {{forma.value | json}}
+              </pre> -->
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3" *ngIf="anotacionesCard && especialista.anotaciones">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Observaciones:</h6>
+                <hr>
+
+
+                <div class="list-group" *ngFor="let item of crearArray(especialista.anotaciones); let i = index">
+                    <a lass="list-group-item list-group-item-action active">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">
+                                <p>{{item.fecha | date : 'd/MM/yyyy'}}</p>
+                            </h6>
+                            <small>{{item.usuario}}</small>
+                        </div>
+                        <p class="bg-light p-1 mb-1">{{item.reporte}}</p>
+                    </a>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** Bloqueos ** -->
+
+<div class="row mt-3" *ngIf="programacionCard && bloqueosArray.length > 0">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Bloqueos:</h6>
+                <hr>
+                <div class="list-group mt-2" *ngFor="let item of bloqueosArray; let i = index">
+                    <a class="list-group-item">
+                     {{i+1}}. <span class="text-primary">{{item.fecha | date : 'd/MM/yyyy'}}</span> {{item.estado}} - Desde: {{item.hora_inicio}} Hasta: {{item.hora_termino}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** Programacion ** -->
+
+<div class="row mt-3" *ngIf="programacionCard">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h6>Programación:</h6>
+                <hr>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 mb-2">
+                        <div class="list-group" role="tablist" *ngFor="let item of eventosArray; let i = index">
+                            <a id="{{i}}" class="list-group-item list-group-item-action pointer" role="tab" (click)="viewDetails(item, i)">
+                              {{i+1}}. <span class="text-primary">{{item.fecha | date : 'd/MM/yyyy'}} - {{item.hora_inicio}}/{{item.hora_termino}}</span>  Orden: {{item.cronograma}} - {{item.secuencia}}
+                            </a>
+                        </div>
+                    </div>
+                    <!-- *** Alerta cuando no Existe la Orden Valida*** CODIGO NO USADO ** -->
+                    <!-- <div class="col-8 list-group-item-info rounded p-3" *ngIf="ERROR">
+                        <div class="alert alert-warning" role="alert">
+                            <strong>ERROR</strong> {{ERROR}}
+                        </div>
+
+                    </div> -->
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 list-group-item-info rounded p-3" *ngIf="orden">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" role="tabpanel">
+                                Fecha: {{orden.fecha_programada | date : 'd/MM/yyyy'}} - <strong>{{orden.razon}}</strong>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        Cronograma: {{orden.cronograma}}
+
+                                    </div>
+                                    <div class="col-2">
+                                        Secuencia: {{orden.secuencia}}
+
+                                    </div>
+                                    <div class="col-2">
+                                        Act Program: {{orden.act_programadas}}
+                                    </div>
+                                    <div class="col-2">
+                                        Tipo: {{orden.tipo_servicio}}
+                                    </div>
+                                    <div class="col-2">
+                                        Unidad: {{orden.unidad}}
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        Descripción: {{orden.descripcion}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="m-0">Observaciones:</label>
+                                        <p class="m-0">{{orden.observaciones}}</p>
+                                    </div>
+                                </div>
+
+                                <hr class="m-1">
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        Sede: {{evento.sede_lugar}}
+                                    </div>
+                                    <div class="col-4">
+                                        Dirección: {{evento.direccion}}
+                                    </div>
+                                    <div class="col-4">
+                                        HRS Asignadas: {{evento.horas_asignadas}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Contacto: {{evento.contacto}}
+                                    </div>
+                                    <div class="col-6">
+                                        Correo: {{evento.correo_contacto}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        Actividad: {{evento.actividad}}
+                                    </div>
+                                    <div class="col-6">
+                                        Tipo Informe: {{evento.tipo_informe}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="m-0">Observaciones del Servicio:</label>
+                                        <p class="m-0">{{evento.obs_servicio}}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>

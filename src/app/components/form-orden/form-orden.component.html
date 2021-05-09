@@ -1,0 +1,384 @@
+<form ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma" (ngSubmit)="enviarData()">
+
+    <!-- ** Row 1st  -->
+    <div class="form-row">
+
+        <div class="col-6 mb-3">
+
+            <div class="row">
+
+                <div class="col-12">
+                    <h5 *ngIf="tipo != 'GESTOR'">Orden Manual - {{tipo}}</h5>
+                    <h5 *ngIf="tipo == 'GESTOR'">Editar Orden</h5>
+                </div>
+
+            </div>
+
+            <div class="row" *ngIf="tipo == 'GESTOR'">
+                <div class="col-12 col-sm-12 col-md-4 col-lg-1 col-xl-1 mb-1">
+                    <label>Estado:</label>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-8 col-lg-4 col-xl-4 mb-1">
+                    <select class="custom-select" formControlName="selectEstados">
+                    <option value="" disabled>Seleccionar</option>
+                    <option [ngValue]="selectEstados" *ngFor="let selectEstados of listaSelectEstados">{{selectEstados}}</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-1 col-xl-1 mb-1">
+                    <label>Act:</label>
+                </div>
+                <div class="col-12 col-sm-12 col-md-8 col-lg-2 col-xl-2 mb-1">
+                    <input type="text" class="form-control" formControlName="activo">
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-1 col-xl-1 mb-1">
+                    <label>NIT:</label>
+                </div>
+                <div class="col-12 col-sm-12 col-md-8 col-lg-3 col-xl-3 mb-1">
+                    <input type="text" class="form-control" formControlName="nit">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-12 col-md-3 mb-3">
+            <label>Tarifa Unidad/Hora</label>
+            <input type="text" class="form-control" formControlName="tarifa" (blur)="transformAmount()" [class.is-invalid]="tarifaNoValido">
+            <small class="text-danger" *ngIf="tarifaNoValido">Ingrese Tarifa</small>
+        </div>
+        <div class="col-12 col-md-3 mb-3">
+            <label>Seleccionar Tarifa</label>
+            <select class="custom-select" formControlName="selectTarifa" (change)="seleccionTarifaCosto()">
+              <option value="" disabled>Seleccionar</option>
+            <option [ngValue]="selectTarifa" *ngFor="let selectTarifa of listaSelectTarifa">{{selectTarifa.codigo}} - {{selectTarifa.costo}}</option>
+            </select>
+            <small class="text-danger" *ngIf="selectTarifaNoValido">Seleccione Tarifa</small>
+            <small class="text-danger" *ngIf="flagSelectTarifa">Seleccione Tarifa</small>
+        </div>
+
+    </div>
+
+    <!-- ** Row 2nd  -->
+    <div class="form-row">
+
+        <div class="col-12 col-md-6">
+
+            <div class="form-row">
+
+                <div class="col-md-4 mb-3">
+                    <label>Cronograma</label>
+                    <input type="text" class="form-control" formControlName="cronograma" [class.is-invalid]="cronogramaNoValido">
+                    <small class="text-danger" *ngIf="cronogramaNoValido">Ingrese el Cronograma</small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>Secuencia</label>
+                    <input type="text" class="form-control" formControlName="secuencia" [class.is-invalid]="secuenciaNoValido">
+                    <small class="text-danger" *ngIf="secuenciaNoValido">Ingrese la Secuencia</small>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label>U/M</label>
+                    <select class="custom-select" formControlName="selectUnidad">
+                      <option value="" disabled>Seleccionar</option>
+                    <option [ngValue]="selectUnidad" *ngFor="let selectUnidad of listaSelectUnidad">{{selectUnidad}}</option>
+                    </select>
+                    <small class="text-danger" *ngIf="selectUnidadNoValido">Seleccione Unidad de Medida</small>
+                </div>
+
+            </div>
+            <div class="form-row" *ngIf="tipo == 'Particulares' || tipo == 'GESTOR'">
+
+                <div class="col-12 mb-3">
+                    <label *ngIf="tipo == 'GESTOR'">Razon</label>
+                    <label *ngIf="tipo != 'GESTOR'">Nombre Empresa</label>
+                    <input type="text" class="form-control" formControlName="empresa" [class.is-invalid]="empresaNoValido">
+                    <small class="text-danger" *ngIf="empresaNoValido">Ingrese Nombre de la Empresa</small>
+                </div>
+
+            </div>
+
+            <div class="form-row" *ngIf="tipo == 'ARL'">
+
+                <div class="col-12 mb-3">
+                    <label>Nombre Empresa</label>
+                    <select class="custom-select" formControlName="selectEmpresa" (click)="selectEmpresaNoValido">
+                      <option value="" disabled>Seleccionar</option>
+                      <option [ngValue]="selectEmpresa" *ngFor="let selectEmpresa of listaSelectEmpresa">{{selectEmpresa.razon}}</option>
+                    </select>
+                    <small class="text-danger" *ngIf="flagEmpresaNoValido">Ingrese Nombre de la Empresa</small>
+                </div>
+
+            </div>
+
+            <div class="form-row" *ngIf="tipo == 'Particulares'">
+
+                <div class="col-md-6 mb-3">
+                    <label>Ciudad</label>
+                    <input type="text" class="form-control" formControlName="ciudad" [class.is-invalid]="ciudadNoValido">
+                    <small class="text-danger" *ngIf="ciudadNoValido">Ingrese Ciudad</small>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Sede</label>
+                    <input type="text" class="form-control" formControlName="sede" [class.is-invalid]="sedeNoValido">
+                    <small class="text-danger" *ngIf="sedeNoValido">Ingrese la Sede</small>
+                </div>
+
+            </div>
+
+            <div class="form-row" *ngIf="tipo == 'Particulares' || tipo == 'GESTOR'">
+
+                <div class="col-12 mb-3">
+                    <label>Dirección</label>
+                    <input type="text" class="form-control" formControlName="direccion" [class.is-invalid]="direcconNoValido">
+                    <small class="text-danger" *ngIf="direcconNoValido">Ingrese Dirección</small>
+                </div>
+
+            </div>
+            <div class="form-row">
+
+                <div class="col-12 mb-3">
+                    <label *ngIf="tipo == 'GESTOR'">Actividad / Descripción</label>
+                    <label *ngIf="tipo != 'GESTOR'">Actividad</label>
+                    <input type="text" class="form-control" formControlName="actividad" [class.is-invalid]="actividadNoValido">
+                    <small class="text-danger" *ngIf="actividadNoValido">Ingrese Actividad</small>
+                </div>
+
+            </div>
+            <div class="form-row">
+
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 mb-3">
+                    <label>Vlr Transporte:</label>
+                    <input type="number" class="form-control" formControlName="valor_transporte" [class.is-invalid]="transporteNoValido">
+                    <small class="text-danger" *ngIf="transporteNoValido">Ingrese el Valor</small>
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 mb-3">
+                    <label>Vlr Alojamiento:</label>
+                    <input type="number" class="form-control" formControlName="valor_alojamiento" [class.is-invalid]="alojamientoNoValido">
+                    <small class="text-danger" *ngIf="alojamientoNoValido">Ingrese el Valor</small>
+                </div>
+                <div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-2 mb-3">
+                    <label>Vlr Alimentación:</label>
+                    <input type="number" class="form-control" formControlName="valor_alimentacion" [class.is-invalid]="alimentacionNoValido">
+                    <small class="text-danger" *ngIf="alimentacionNoValido">Ingrese el Valor</small>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 mb-3">
+                    <label>Vlr Tiempo Muerto:</label>
+                    <input type="number" class="form-control" formControlName="valor_tiempo_muerto" [class.is-invalid]="tiempoNoValido">
+                    <small class="text-danger" *ngIf="tiempoNoValido">Ingrese el Valor</small>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 mb-3">
+                    <label>Vlr Material Complementario:</label>
+                    <input type="number" class="form-control" formControlName="valor_material_complementario" [class.is-invalid]="materialNoValido">
+                    <small class="text-danger" *ngIf="materialNoValido">Ingrese el Valor</small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- *** Division Row 2nd *** -->
+
+        <div class="col-12 col-md-6">
+
+            <div class="form-row">
+
+                <div class="col-md-6 col-lg-6 col-xl-4 mb-3">
+                    <label>Tipo</label>
+                    <select class="custom-select" formControlName="selectTipo">
+                      <option value="" disabled>Seleccionar</option>
+                      <option [ngValue]="selectTipo" *ngFor="let selectTipo of listaSelectTipo">{{selectTipo.nombre}}</option>
+                      </select>
+                    <small class="text-danger" *ngIf="selectTipoNoValido">Seleccione Tipo</small>
+                </div>
+
+                <div class="col-md-6 col-lg-6 col-xl-4 mb-3">
+                    <label *ngIf="tipo == 'GESTOR'">Cant Total</label>
+                    <label *ngIf="tipo != 'GESTOR'">Unidades/Horas</label>
+                    <input type="number" class="form-control" value="0" min="0" max="100" step="1" formControlName="horas" [class.is-invalid]="horasNoValido" />
+                    <small class="text-danger" *ngIf="horasNoValido">Ingrese Horas</small>
+
+                </div>
+                <div class="col-md-12 col-lg-12 col-xl-4 mb-3">
+                    <label>Fecha Programada</label>
+                    <input type="date" class="form-control" formControlName="fecha" [class.is-invalid]="fechaNoValido">
+                    <small class="text-danger" *ngIf="fechaNoValido">Ingrese Fecha Programación</small>
+                </div>
+
+
+            </div>
+            <div class="form-row" *ngIf="tipo != 'GESTOR'">
+
+                <div class="col-md-12 mb-3">
+                    <label>Descripción Actividad:</label>
+                    <textarea class="form-control" formControlName="descripcion" rows="2" placeholder="Descripción del Servicio..."></textarea>
+                </div>
+
+            </div>
+
+            <div class="form-row mb-1" *ngIf="tipo == 'GESTOR'">
+
+                <div class="col-md-6 col-lg-6 col-xl-8 mb-3">
+                    <label>Asesor:</label>
+                    <input type="text" class="form-control" formControlName="nombre_asesor">
+                </div>
+                <div class="col-md-6 col-lg-6 col-xl-4 mb-3">
+                    <label>Num Poliza</label>
+                    <input type="text" class="form-control" formControlName="num_pol">
+                </div>
+
+            </div>
+
+            <div class="form-row">
+
+                <div class="col-md-12 mb-3">
+                    <label>Observaciones:</label>
+                    <textarea class="form-control" formControlName="observaciones" rows="4" placeholder="Observaciones..."></textarea>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+    <hr class="mt-3">
+
+    <!-- ** Row 3rd  -->
+    <!-- ** Campos del Gestor  -->
+
+    <div class="container mt-3" *ngIf="tipo == 'GESTOR'">
+
+        <div class="form-row text-center">
+            <div class="col"></div>
+
+            <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 mb-3">
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3">
+                        <label>Act Programadas:</label>
+                        <input type="number" class="form-control" formControlName="act_programadas" [class.is-invalid]="act_programadasNoValido">
+                        <small class="text-danger" *ngIf="act_programadasNoValido">Ingrese el Valor</small>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3">
+                        <label>Act Ejecutadas:</label>
+                        <input type="number" class="form-control" formControlName="act_ejecutadas" [class.is-invalid]="act_ejecutadasNoValido">
+                        <small class="text-danger" *ngIf="act_ejecutadasNoValido">Ingrese el Valor</small>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3">
+                        <label>Act Reprogramadas:</label>
+                        <input type="number" class="form-control" formControlName="act_reprogramadas" [class.is-invalid]="act_reprogramadasNoValido">
+                        <small class="text-danger" *ngIf="act_reprogramadasNoValido">Ingrese el Valor</small>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3">
+                        <label>Act Canceladas:</label>
+                        <input type="number" class="form-control" formControlName="act_canceladas" [class.is-invalid]="act_canceladasNoValido">
+                        <small class="text-danger" *ngIf="act_canceladasNoValido">Ingrese el Valor</small>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col"></div>
+
+        </div>
+
+        <hr class="bg-secondary">
+        <h6 class="text-center">Gestión: </h6>
+        <hr class="bg-secondary">
+
+
+        <div class="form-row mt-3 mx-5">
+            <div class="col"></div>
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Tiempo Administrativo:</label>
+                <input type="number" class="form-control" formControlName="tiempo_administrativo">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Tiempo Informe:</label>
+                <input type="number" class="form-control" formControlName="tiempo_informe">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Horas Actividad:</label>
+                <input type="number" class="form-control" formControlName="horas_actividad">
+
+            </div>
+
+            <div class="col"></div>
+
+        </div>
+
+        <div class="form-row mt-3 mx-5">
+            <div class="col"></div>
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Horas Programadas:</label>
+                <input type="number" class="form-control" formControlName="horas_programadas">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Horas Ejecutadas:</label>
+                <input type="number" class="form-control" formControlName="horas_ejecutadas">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3 text-center">
+                <label class="mr-1">Pre-Factura:</label>
+                <span class="badge badge-info" *ngIf="orden.valida">SI</span>
+                <span class="badge badge-warning" *ngIf="!orden.valida">NO</span>
+                <div class="form-group form-check ml-2">
+                    <input type="checkbox" class="form-check-input" formControlName="valida">
+                    <label class="form-check-label"> Validar</label>
+                </div>
+            </div>
+
+            <div class="col"></div>
+
+        </div>
+
+        <div class="form-row mt-3 mx-5">
+            <div class="col"></div>
+
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Valor Total:</label>
+                <input type="text" class="form-control" formControlName="valor_total">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Creada:</label>
+                <input type="text" class="form-control" formControlName="created_at">
+            </div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-2 mb-3">
+                <label>Actualizada:</label>
+                <input type="text" class="form-control" formControlName="updated_at">
+            </div>
+
+            <div class="col"></div>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+    <!-- *** Buttons *** -->
+
+    <button class="btn btn-warning float-right w-25 text-wrap text-white mt-3" type="submit" *ngIf="tipo == 'GESTOR'">
+      <span class=" fa fa-edit mr-2 "></span>Editar Orden
+    </button>
+
+    <button class="btn btn-success float-right w-25 text-wrap mt-3" type="submit" [ngClass]="{'btn-info': tipo == 'ARL'}" *ngIf="tipo != 'GESTOR'">
+      <span class=" fa fa-file mr-2 "></span>Crear Orden
+    </button>
+
+
+</form>
+
+<!-- codigo para ver la informacion de Formulario -->
+<!-- <pre>
+Estado del formulario: {{forma.valid}}
+Status: {{forma.status}}
+</pre>
+<pre>
+{{forma.value | json}}
+</pre>  -->

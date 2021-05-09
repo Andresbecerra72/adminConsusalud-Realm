@@ -1,0 +1,44 @@
+<button type="button" class="close" aria-label="Close" [routerLink]="['/' + regresar]">
+  <span aria-hidden="true">&times;</span>
+</button>
+
+<!-- *** Alerta si no existe el evento *** -->
+<div class="container" *ngIf="flagAlert">
+    <div class="alert alert-danger" role="alert">
+        Esta Orden NO Existe en el sistema
+    </div>
+</div>
+
+
+<!-- *** Fomato del ACTA *** -->
+<app-report-format [item]="report" *ngIf="!flagAlert"></app-report-format>
+
+<!-- *** Boton de descarga Archivo PDF *** -->
+<div class="container mt-3" *ngIf="!flagAlert">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-danger text-nowrap mr-5">*Verifique la información del acta antes de generar el archivo en formato PDF</h6>
+
+                        <button class="btn btn-outline-danger btn-block" (click)="getPDF()">
+                        <i class="fas fa-file-pdf fa-1x"></i>
+                          Descargar PDF
+                      </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+<br>

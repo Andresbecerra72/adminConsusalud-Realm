@@ -1,0 +1,1129 @@
+<!-- <table class="table m-b-0 table-striped" [ngClass]="{'table-responsive': nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'}"> -->
+<table class="table table-responsive-sm table-responsive-md table-striped m-b-0" [ngClass]="{'table-responsive-lg': nombre === 'Reprogramadas' || nombre === 'Canceladas' || nombre === 'Programadas'}">
+    <thead>
+        <tr class="text-center">
+            <th class="text-nowrap">
+                Nombre Empresa
+            </th>
+            <th class="text-nowrap">
+                Cronograma
+            </th>
+            <th class="text-nowrap">
+                Secuencia
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Programadas'">
+                Programadas
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Programadas'">
+                Municipio
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Reprogramadas'">
+                Fecha
+            </th>
+            <th class="text-nowrap" *ngIf="nombre !== 'EspecialistaNew' && nombre !== 'EspecialistaEnd' && nombre !== 'Pre - Factura'">
+                U/M
+            </th>
+            <th class="text-nowrap" *ngIf="nombre !== 'EspecialistaNew' && nombre !== 'EspecialistaEnd' && nombre !== 'Pre - Factura'">
+                Tipo
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Programadas' || nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                Fecha
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Programadas'">
+                Descripción
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Todas'">
+                Programadas
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Todas'">
+                Ejecutadas
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Todas'">
+                Canceladas
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Reprogramadas' || nombre === 'Todas'">
+                Reprogramadas
+            </th>
+            <!-- **Consulta Estados -->
+            <th class="text-nowrap" *ngIf="nombre === 'Pendiente Programar' || nombre === 'En Ejecución'">
+                Act Programadas
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Pendiente Programar'">
+                Cant Programada
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Pre - Factura'">
+                Hrs Ejecutada
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Pre - Factura'">
+                Valor Total
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Pre - Factura' || nombre === 'Facturada' || nombre === 'En Devolución'">
+                Radicado
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Facturada'">
+                Facturación
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'Pre - Factura'">
+                Validar
+            </th>
+            <!-- **Especialista** -->
+            <th class="text-nowrap" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                Sede
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                Dirección
+            </th>
+            <th class="text-nowrap" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                Horas Asignadas
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody *ngFor="let item of items; let i = index">
+
+        <tr class="animated fadeIn">
+
+            <td class="text-nowrap pointer" (click)="verDetalles(i)">
+                <span class="pe-7s-angle-right"></span>
+                <small>{{item.razon}}</small>
+            </td>
+            <td class="text-nowrap text-center">
+                {{item.cronograma}}
+            </td>
+            <td class="text-nowrap text-center">
+                {{item.secuencia}}
+            </td>
+            <td class="text-nowrap text-center" [ngClass]="color" *ngIf="nombre === 'Programadas'">
+                {{item.act_programadas}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Programadas'">
+                <small>{{item.ciudad}}</small>
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Reprogramadas'">
+                {{item.fecha_programada | date : 'd/MM/yyyy'}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                {{item.fecha | date : 'd/MM/yyyy'}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre !== 'EspecialistaNew' && nombre !== 'EspecialistaEnd' && nombre !== 'Pre - Factura'">
+                <small>{{item.unidad}}</small>
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre !== 'EspecialistaNew' && nombre !== 'EspecialistaEnd' && nombre !== 'Pre - Factura'">
+                {{item.tipo_servicio}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Programadas'">
+                {{item.fecha_programada | date : 'd/MM/yyyy'}}
+            </td>
+
+            <td class="text-nowrap" *ngIf="nombre === 'Programadas'">
+                <small>{{item.descripcion}}</small>
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Todas'">
+                {{item.act_programadas}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Todas'">
+                {{item.act_ejecutadas}}
+            </td>
+            <td class="text-nowrap text-center" [ngClass]="color" *ngIf="nombre === 'Canceladas' || nombre === 'Todas'">
+                {{item.act_canceladas}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Reprogramadas'">
+                {{item.act_canceladas}}
+            </td>
+            <td class="text-nowrap text-center" [ngClass]="color" *ngIf="nombre === 'Reprogramadas' || nombre === 'Todas'">
+                {{item.act_reprogramadas}}
+            </td>
+            <!-- ****Consulta Estados -->
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Pendiente Programar' || nombre === 'En Ejecución'">
+                {{item.act_programadas}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Pendiente Programar'">
+                {{item.horas_programadas}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Pre - Factura'">
+                {{item.horas_ejecutadas}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Pre - Factura'">
+                {{item.valor_total | currency}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Pre - Factura' || nombre === 'Facturada' || nombre === 'En Devolución'">
+                <span *ngIf="item.radicado">{{item.radicado.numero}}/{{item.radicado.fecha | date : 'd/MM/yyyy'}} </span>
+                <span *ngIf="!item.radicado"> NA </span>
+
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Facturada'">
+                <span *ngIf="item.radicado">{{item.facturacion.numero}}/{{item.facturacion.fecha | date : 'd/MM/yyyy'}}</span>
+                <span *ngIf="!item.radicado"> NA </span>
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'Pre - Factura'">
+                <span class="badge badge-info" *ngIf="item.valida">SI</span>
+                <span class="badge badge-warning" *ngIf="!item.valida">NO</span>
+            </td>
+            <!-- ***Especialista*** -->
+            <td class="text-nowrap text-center" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                {{item.sede_lugar}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                {{item.direccion}}
+            </td>
+            <td class="text-nowrap text-center" *ngIf="nombre === 'EspecialistaNew' || nombre === 'EspecialistaEnd'">
+                {{item.horas_asignadas}}
+            </td>
+
+        </tr>
+        <!-- DESPLEGABLE DETALLES -->
+
+        <tr id="{{i}}" class="details bg-light hide">
+            <td class="details-cell animated fadeIn" colspan="10">
+                <button class="btn btn-light btn-sm float-right close-btn ml-3" (click)="ocultarDetalles(i)">
+                       <span class="fas fa-close text-dark"></span>
+                </button>
+                <div class="details-inner w-100">
+
+                    <!----------------------------------------------- FILTRO ORDENES DETALLES ------------------------------------------------------- -->
+
+                    <!-- ORDENES PROGRAMADAS / NUEVAS  DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Programadas'">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">NIT:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Contrato:</div>
+                                <div class="details-value">{{item.nit}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Código:</div>
+                                <div class="details-value">{{item.actividad_programa}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value">{{item.nombre_asesor}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+                        <div class="col-10 col-sm-10 col-md-4 col-lg-4 col-xl-4 mt-2">
+                            <div class="details-row">
+                                <div class="details-name">Vlr Transporte:</div>
+                                <div class="details-value">{{item.valor_transporte}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Alojamiento:</div>
+                                <div class="details-value">{{item.valor_alojamiento}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Alimentación:</div>
+                                <div class="details-value">{{item.valor_alimentacion}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Tiempo Muerto:</div>
+                                <div class="details-value">{{item.valor_tiempo_muerto}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Material Complementario:</div>
+                                <div class="details-value">{{item.valor_material_complementario}}</div>
+                            </div>
+                            <hr class="m-2">
+
+                            <div class="details-row" *ngIf="item.valor_total">
+                                <div class="details-name">Total: {{item.valor_total | currency}}</div>
+                            </div>
+                            <div class="details-row" *ngIf="!item.valor_total">
+                                <div class="details-name">Total: {{tarifaValor[i] | currency }}</div>
+                                <button id="btn-cal-{{i}}" class="btn details-btn btn-dark btn-sm" (click)="calcularTarifa(item.actividad_programa, item.act_programadas, i, item)">
+                                           Calcular Tarifa
+                                </button>
+
+                            </div>
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2" *ngIf="item.valor_total">
+                            <button class="btn btn-success btn-sm" (click)="validarOrden(item)">
+                                      <span class="fas fa-download mr-2"></span>Validar Orden
+                                     </button>
+                        </div>
+                        <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2" *ngIf="!item.valor_total">
+                            <button id="btn-val-{{i}}" class="btn btn-success btn-sm" disabled (click)="validarOrden(item)">
+                                      <span class="fas fa-download mr-2"></span>Validar Orden
+                                     </button>
+                        </div>
+                    </div>
+
+                    <!-- ORDENES -- EJECUTADAS || CANCELADAS || REPROGRAMADAS  -- DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Ejecutadas'">
+                        <div class="col-10">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+                            <hr>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-1" *ngIf="nombre === 'Canceladas' || nombre === 'Reprogramadas' || nombre === 'Ejecutadas'">
+
+                        <div class="col-12 col-lg-10 col-xl-10">
+                            <div class="row" *ngIf="item.anotaciones.length > 0">
+                                <div class="col-12">
+                                    <div class="card bg-transparent">
+                                        <div class="card-body bg-transparent">
+                                            <strong>Observaciones Internas:</strong>
+                                            <hr>
+                                            <div class="list-group bg-transparent" *ngFor="let item of crearArray(item.anotaciones)">
+                                                <a class="list-group-item bg-transparent border-0">
+
+                                                    <h6 class="mb-1">
+                                                        <p>{{item.fecha | date : 'd/MM/yyyy'}}, <small>{{item.usuario}}</small></p>
+                                                    </h6>
+
+
+                                                    <p class="bg-transparent p-1 mb-1">{{item.reporte}}</p>
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-2 col-xl-10">
+                            <button class="btn btn-success btn-sm m-1 mt-2" [routerLink]="['/orden', item._id, nombre.toLowerCase()]">
+                          Ver Orden
+                           </button>
+                        </div>
+
+                    </div>
+
+
+                    <!------------------------------------------ ESTADOS DETALLES ------------------------------------------------------->
+                    <!-- ESTADO - PENDIENTE PROGRAMAR DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Pendiente Programar'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+                            <!-- ** Alerta cambio de horas programadas en la actividad SURA -->
+                            <small class="text-danger" *ngIf="item.fuente == 'ARL Sura' && item.act_canceladas !== '0'">*Esta Orden cambio el valor Hrs Programadas ({{this.sumarHorasActividad(item.act_programadas, item.act_canceladas)}})</small>
+                            <div class="details-row" *ngIf="item.fuente == 'ARL Sura' && item.act_canceladas !== '0'">
+                                <div class="details-name text-danger">Alerta HRS Canceladas:</div>
+                                <div class="details-value text-danger">{{item.act_canceladas}}</div>
+                            </div>
+                            <small class="text-danger" *ngIf="item.fuente == 'ARL Sura' && item.act_reprogramadas !== '0'">*Esta Orden cambio el valor Hrs Programadas ({{this.sumarHorasActividad(item.act_programadas, item.act_reprogramadas)}})</small>
+                            <div class="details-row" *ngIf="item.fuente == 'ARL Sura' && item.act_reprogramadas!== '0'">
+                                <div class="details-name text-danger">Alerta HRS Reprogramadas:</div>
+                                <div class="details-value text-danger">{{item.act_reprogramadas}}</div>
+                            </div>
+
+                            <div class="details-row">
+                                <div class="details-name">Código:</div>
+                                <div class="details-value" *ngIf="item.actividad_programa">{{item.actividad_programa}}</div>
+                            </div>
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name text-nowrap">Ubicación Actividad:</div>
+                                <div class="details-value"><small>{{item.ubicacion_actividad}}</small></div>
+                            </div>
+
+                        </div>
+                        <div class="col-10 col-sm-10 col-md-4 col-lg-3 col-xl-3 mt-2">
+                            <div class="details-row">
+                                <div class="details-name">Vlr Transporte:</div>
+                                <div class="details-value">{{item.valor_transporte}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Alojamiento:</div>
+                                <div class="details-value">{{item.valor_alojamiento}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Alimentación:</div>
+                                <div class="details-value">{{item.valor_alimentacion}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Tiempo Muerto:</div>
+                                <div class="details-value">{{item.valor_tiempo_muerto}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Material Complementario:</div>
+                                <div class="details-value">{{item.valor_material_complementario}}</div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mt-2">
+
+                            <button class="btn btn-success btn-sm m-1" (click)="ObservacionesOrden(item)">
+                           Observaciones Programación
+                           </button>
+                            <button class="btn btn-warning btn-sm m-1" [routerLink]="['/profesionales', item._id, 'estados']" *ngIf="ROLE == 'ADMIN_ROLE' || ROLE == 'USER_ROLE'">
+                           Buscar Perfil
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESTADO - EN EJECUCION DETALLES -->
+
+                    <div class="row mt-1" *ngIf="nombre === 'En Ejecución' || nombre === 'Pendiente Programar'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4" *ngIf="nombre === 'En Ejecución'">
+
+                            <!-- ** Alerta cambio de horas programadas en la actividad SURA -->
+                            <small class="text-danger" *ngIf="item.fuente == 'ARL Sura' && item.act_canceladas !== '0'">*Esta Orden cambio el valor Hrs Programadas ({{this.sumarHorasActividad(item.act_programadas, item.act_canceladas)}})</small>
+                            <div class="details-row" *ngIf="item.fuente == 'ARL Sura' && item.act_canceladas !== '0'">
+                                <div class="details-name text-danger">Alerta HRS Canceladas:</div>
+                                <div class="details-value text-danger">{{item.act_canceladas}}</div>
+                            </div>
+                            <small class="text-danger" *ngIf="item.fuente == 'ARL Sura' && item.act_reprogramadas !== '0'">*Esta Orden cambio el valor Hrs Programadas ({{this.sumarHorasActividad(item.act_programadas, item.act_reprogramadas)}})</small>
+                            <div class="details-row" *ngIf="item.fuente == 'ARL Sura' && item.act_reprogramadas!== '0'">
+                                <div class="details-name text-danger">Alerta HRS Reprogramadas:</div>
+                                <div class="details-value text-danger">{{item.act_reprogramadas}}</div>
+                            </div>
+
+                            <div class="details-row">
+                                <div class="details-name">Fecha:</div>
+                                <div class="details-value"><small>{{item.fecha_programada | date : 'd/MM/yyyy'}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8" *ngIf="crearArray(item.soportes).length > 0" [ngClass]="{'col-lg-12 col-xl-12 mt-2': nombre === 'Pendiente Programar'}">
+
+                            <h6>Actividades:</h6>
+
+                            <table class="table table-sm table-responsive-sm table-responsive-md bg-light">
+                                <tbody *ngFor="let soporte of item.soportes">
+                                    <tr class="bg-dark text-white">
+                                        <td class="text-nowrap">{{soporte.especialista_nombre}}</td>
+                                        <td class="text-nowrap">{{soporte.fecha | date : 'd/MM/yyyy'}}</td>
+                                        <td class="text-nowrap">{{soporte.ciudad}}</td>
+                                        <td class="text-nowrap">HRS: {{soporte.horas_asignadas}}</td>
+                                        <td class="text-nowrap">Ejecutadas: {{soporte.horas_usadas}}</td>
+                                        <td class="text-nowrap" *ngIf="item.tipo_servicio == 'CT' || item.tipo_servicio == 'T' || item.tipo_servicio == 'E'">Informe: {{soporte.tiempo_informe}}</td>
+                                        <td class="text-nowrap">Sede: {{soporte.sede_nombre}}</td>
+                                        <td>
+                                            <i class="fas fa-check" *ngIf="!soporte.fallida"></i>
+                                            <i class="fas fa-times" *ngIf="soporte.fallida"></i>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8" *ngIf="crearArray(item.soportes).length === 0" [ngClass]="{'col-lg-12 col-xl-12 mt-2': nombre === 'Pendiente Programar'}">
+
+                            <h6>Profesionales Programados:</h6>
+
+                            <table class="table table-sm table-responsive-sm table-responsive-md bg-light">
+                                <tbody *ngFor="let evento of item.eventos">
+                                    <tr class="bg-secondary text-white">
+                                        <td class="text-nowrap">{{evento.nombre}}</td>
+                                        <td class="text-nowrap">{{evento.fecha | date : 'd/MM/yyyy'}}</td>
+                                        <td class="text-nowrap">{{evento.ciudad}}</td>
+                                        <td class="text-nowrap">HRS: {{evento.horas_asignadas}}</td>
+                                        <td class="text-nowrap">Sede: {{evento.sede_lugar}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row" *ngIf="nombre === 'En Ejecución'">
+                        <div class="col-12">
+                            <hr>
+
+                            <div class="d-flex float-right">
+                                <button class="btn btn-success btn-sm mt-1 mr-2 float-right" (click)="verOrden(item)">
+                                     Ver Orden
+                                </button>
+                                <button class="btn btn-warning btn-sm mt-1" [routerLink]="['/profesionales', item._id, 'estados']">
+                                     Buscar Perfil
+                               </button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ESTADO - FINALIZADA DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Finalizada'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
+
+                            <!-- ** Alerta cambio de horas programadas en la actividad SURA -->
+                            <small class="text-danger" *ngIf="item.fuente == 'ARL Sura' && item.act_canceladas !== '0'">*Esta Orden cambio el valor Hrs Programadas ({{this.sumarHorasActividad(item.act_programadas, item.act_canceladas)}})</small>
+                            <div class="details-row" *ngIf="item.fuente == 'ARL Sura' && item.act_canceladas !== '0'">
+                                <div class="details-name text-danger">Alerta HRS Canceladas:</div>
+                                <div class="details-value text-danger">{{item.act_canceladas}}</div>
+                            </div>
+                            <small class="text-danger" *ngIf="item.fuente == 'ARL Sura' && item.act_reprogramadas !== '0'">*Esta Orden cambio el valor Hrs Programadas ({{this.sumarHorasActividad(item.act_programadas, item.act_reprogramadas)}})</small>
+                            <div class="details-row" *ngIf="item.fuente == 'ARL Sura' && item.act_reprogramadas!== '0'">
+                                <div class="details-name text-danger">Alerta HRS Reprogramadas:</div>
+                                <div class="details-value text-danger">{{item.act_reprogramadas}}</div>
+                            </div>
+
+                            <div class="details-row">
+                                <div class="details-name">Fecha:</div>
+                                <div class="details-value"><small>{{item.fecha_programada | date : 'd/MM/yyyy'}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Poliza:</div>
+                                <div class="details-value"><small>{{item.num_pol}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mt-2 text-center">
+
+                            <input #radicado type="text" class="form-control" placeholder="No Radicado">
+                            <button class="btn btn-info btn-sm mt-1" (click)="enviarRadicado(item, radicado.value)">
+                            Actualizar
+                             </button>
+
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 mt-2">
+
+                            <table class="table table-sm">
+                                <tbody *ngFor="let soporte of item.soportes">
+                                    <tr class="bg-dark text-white">
+                                        <td>{{soporte.especialista_nombre}}</td>
+                                        <td>{{soporte.fecha | date : 'd/MM/yyyy'}}</td>
+                                        <td>HRS: {{soporte.horas_asignadas}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ESTADO - PRE-FACTURA DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Pre - Factura'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value">{{item.nombre_asesor}}</div>
+                            </div>
+                            <div class="details-row bg-secondary text-white">
+                                <div class="details-name text-nowrap p-1">Act Programadas:</div>
+                                <div class="details-value p-1">{{item.act_programadas}}</div>
+                                <div class="details-name text-nowrap p-1">Cant Ejecutadas:</div>
+                                <div class="details-value p-1">{{item.horas_ejecutadas}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Radicado:</div>
+                                <div class="details-value" *ngIf="item.radicado">{{item.radicado.numero}}</div>
+                                <span *ngIf="!item.radicado"> NA </span>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Valor Total:</div>
+                                <div class="details-value">
+                                    {{item.valor_total | currency}}
+                                    <button class="btn btn-outline-dark btn-sm border-0 text-warning" (click)="reCalcularValor(item)" *ngIf="item.horas_ejecutadas != item.act_programadas"> <span class="font-weight-bold">Re-Calcular</span></button>
+
+                                </div>
+
+                            </div>
+                            <div class="details-row" *ngIf="item.facturacion">
+                                <div class="details-name">Factura:</div>
+                                <div class="details-value text-danger">{{item.facturacion.numero}}</div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-10 col-sm-10 col-md-4 col-lg-3 col-xl-3 mt-2">
+                            <div class="details-row">
+                                <div class="details-name">Vlr Transporte:</div>
+                                <div class="details-value">{{item.valor_transporte}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Alojamiento:</div>
+                                <div class="details-value">{{item.valor_alojamiento}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Alimentación:</div>
+                                <div class="details-value">{{item.valor_alimentacion}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Tiempo Muerto:</div>
+                                <div class="details-value">{{item.valor_tiempo_muerto}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Vlr Material Complementario:</div>
+                                <div class="details-value">{{item.valor_material_complementario}}</div>
+                            </div>
+                            <hr class="m-2">
+
+                            <div class="details-row" *ngIf="item.valor_total">
+                                <div class="details-name">Total Viaticos: {{getTotalViaticos(item.valor_transporte, item.valor_alojamiento, item.valor_alimentacion, item.valor_tiempo_muerto, item.valor_material_complementario ) | currency}}</div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3">
+                            <form ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma" (ngSubmit)="enviarFacturacion(item)">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="No Factura" formControlName="facturacion">
+                                </div>
+                                <div class="form-group">
+                                    <select class="custom-select" formControlName="selectEstado">
+                                      <option value="" disabled>Seleccionar Estado</option>
+                                  <option [ngValue]="selectEstado" *ngFor="let selectEstado of listaEstados1">{{selectEstado}}</option>
+                                </select>
+                                </div>
+                                <div class="form-group form-check" *ngIf="!item.valida">
+                                    <input type="checkbox" class="form-check-input" formControlName="validar">
+                                    <label class="form-check-label">Validar</label>
+                                </div>
+                                <button type="submit" class="btn btn-info btn-sm">Actualizar</button>
+                            </form>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESTADO - FACTURADA DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Facturada'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 mt-2">
+
+                            <div class="d-flex">
+                                <div class="d-lg-flex flex-column mr-3" *ngIf="item.radicado">
+                                    <p class="mr-3">
+                                        Fecha: {{item.radicado.fecha | date : 'd/MM/yyyy'}} / {{item.radicado.usuario}}
+                                    </p>
+                                    <p class="mr-3">
+                                        Radicado: <strong *ngIf="item.radicado">{{item.radicado.numero}}</strong>
+                                        <span *ngIf="!item.radicado"> NA </span>
+                                    </p>
+
+                                </div>
+                                <div class="d-lg-flex flex-column" *ngIf="item.facturacion">
+                                    <p class="mr-3">
+                                        Fecha: {{item.facturacion.fecha | date : 'd/MM/yyyy'}} / {{item.facturacion.usuario}}
+                                    </p>
+                                    <p class="mr-3">
+                                        Facturacion: <strong>{{item.facturacion.numero}}</strong>
+                                    </p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mt-2">
+                            <button class="btn btn-success btn-sm m-1" [routerLink]="['/orden', item._id, 'estados']">
+                          Ver Orden
+                           </button>
+                        </div>
+
+                    </div>
+
+                    <!-- ESTADO - PENDIENTE CANCELAR DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Pendiente Cancelar'">
+                        <div class="col-12">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ESTADO - CANCELADA / PROGRAMADA DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Cancelada - Programada'">
+                        <div class="col-12">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                            <hr>
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Observaciones Internas</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESTADO - REPROGRAMAR DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Reprogramar'">
+                        <div class="col-12">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ESTADO - EN DEVOLUCION DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'En Devolución'">
+                        <div class="col-12">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- ESTADO - PENDIENTE INFORME DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Pendiente Informe'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 mt-2">
+
+                            <table class="table table-sm table-responsive-sm table-responsive-md">
+                                <tbody *ngFor="let soporte of item.soportes">
+                                    <tr class="bg-dark text-white">
+                                        <td>{{soporte.especialista_nombre}}</td>
+                                        <td>{{soporte.fecha | date : 'd/MM/yyyy'}}</td>
+                                        <td>HRS: {{soporte.horas_asignadas}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                            <button class="btn btn-success btn-block btn-sm mt-1 float-right" [routerLink]="['/orden', item._id, 'estados']">
+                        Ver Orden
+                       </button>
+                        </div>
+
+                    </div>
+
+                    <!-- ESTADO - INFORME REVISADO DETALLES -->
+
+                    <div class="row mt-2" *ngIf="nombre === 'Informe Revisado'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-3 mt-2" *ngIf="ROLE !== 'TECN_ROLE'">
+
+                            <div class="alert alert-dark" role="alert">
+
+
+                                <form ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma" (ngSubmit)="cambiarEstado(item)">
+                                    <div class="form-group">
+                                        <select class="custom-select" formControlName="selectEstado" (change)="enableBtn(i)">
+                                          <option value="" disabled>Seleccionar Estado</option>
+                                          <option [ngValue]="selectEstado" *ngFor="let selectEstado of listaEstados2">{{selectEstado}}</option>
+                                        </select>
+                                    </div>
+                                    <button id="btn-act-{{i}}" type="submit" class="btn btn-info btn-sm" disabled>Actualizar</button>
+                                </form>
+
+
+
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                    <!-- ESTADO - FACTURADA PENDIENTE PROGRAMAR DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Facturada Pendiente Programar'">
+                        <div class="col-12">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- ESTADO - ARCHIVO -->
+
+                    <div class="row" *ngIf="nombre === 'Archivo'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10">
+
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                        </div>
+
+                        <div class="col">
+                            <button class="btn btn-success btn-sm m-1 mt-2" [routerLink]="['/orden', item._id, 'estados']">
+                        Ver Orden
+                         </button>
+                        </div>
+
+                    </div>
+                    <!-- ESTADO - TODAS DETALLES -->
+
+                    <div class="row" *ngIf="nombre === 'Todas'">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10">
+
+                            <div class="details-row">
+                                <div class="details-name">Fecha:</div>
+                                <div class="details-value">{{item.fecha_programada | date : 'd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Asesor:</div>
+                                <div class="details-value"><small>{{item.nombre_asesor}}</small></div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Bolivar'">Descripción:</div>
+                                <div class="details-name" *ngIf="item.fuente == 'ARL Sura'">Tarea:</div>
+                                <div class="details-value"><small>{{item.descripcion}}</small></div>
+                            </div>
+                            <hr>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value"><small>{{item.observaciones}}</small></div>
+                            </div>
+
+                            <hr>
+                            <div class="details-row" *ngIf="item.anotaciones.length > 0">
+                                <div class="card bg-transparent">
+                                    <div class="card-body bg-transparent">
+                                        <strong>Observaciones Internas:</strong>
+                                        <hr>
+                                        <div class="list-group bg-transparent" *ngFor="let item of crearArray(item.anotaciones)">
+                                            <a class="list-group-item bg-transparent border-0">
+
+                                                <h6 class="mb-1">
+                                                    <p>{{item.fecha | date : 'd/MM/yyyy'}}, <small>{{item.usuario}}</small></p>
+                                                </h6>
+
+
+                                                <p class="bg-transparent p-1 mb-1">{{item.reporte}}</p>
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2">
+                            <button class="btn btn-success btn-sm m-1" [routerLink]="['/orden', item._id, 'estados']">
+                            Ver Orden
+                             </button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- ***** ESTADOS:  INGRESO DE ANOTACIONES EN LA ORDEN ************ -->
+
+
+                    <div class="row mt-2" *ngIf="nombre === 'Finalizada' || nombre === 'Pre - Factura' || nombre === 'Pendiente Cancelar' || nombre === 'En Devolución' || nombre === 'Reprogramar' || nombre === 'Informe Revisado' || nombre === 'Facturada Pendiente Programar'">
+
+                        <div class="col-12">
+                            <div class="card bg-transparent">
+                                <div class="card-body bg-transparent">
+                                    <h6>Observaciones Internas:</h6>
+                                    <hr>
+                                    <div class="list-group bg-transparent" *ngFor="let item of crearArray(item.anotaciones)">
+                                        <a class="list-group-item bg-transparent border-0">
+
+                                            <h6 class="mb-1">
+                                                <p>{{item.fecha | date : 'd/MM/yyyy'}}, <small>{{item.usuario}}</small></p>
+                                            </h6>
+
+
+                                            <p class="bg-transparent p-1 mb-1">{{item.reporte}}</p>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row mt-2" *ngIf="nombre === 'Finalizada' || nombre === 'Pre - Factura' || nombre === 'Pendiente Cancelar' || nombre === 'En Devolución' || nombre === 'Reprogramar' || nombre === 'Informe Revisado' || nombre === 'Facturada Pendiente Programar'">
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-10 text-center">
+                            <div class="form-group">
+
+                                <textarea #textarea class="form-control" rows="2" placeholder="Observaciones..."></textarea>
+                            </div>
+                            <button class="btn btn-outline-dark border-0 btn-sm" (click)="guardarAnotacion(item, textarea.value)">
+                            <span class="fas fa-pen-alt fa-1x mr-2"></span>Guardar Observaciones
+                           </button>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mt-2">
+                            <button class="btn btn-success btn-block btn-sm mt-1 float-right" [routerLink]="['/orden', item._id, 'estados']">
+                          Ver Orden
+                         </button>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!----------------------------------------------------- ESPECIALISTA GESTION ORDEN  ------------------------------------------>
+                    <!-- --------------- NEW ORDENES DETAILS ------------------ -->
+
+                    <div class="row" *ngIf="nombre === 'EspecialistaNew'">
+                        <div class="col-10">
+
+                            <div class="details-row">
+                                <div class="details-name">Actividad:</div>
+                                <div class="details-value">{{item.actividad}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Fecha:</div>
+                                <div class="details-value">{{item.fecha | date : 'd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Hora Inicio:</div>
+                                <div class="details-value">{{item.hora_inicio}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Hora Termino:</div>
+                                <div class="details-value">{{item.hora_termino}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Tipo Informe:</div>
+                                <div class="details-value">{{item.tipo_informe}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value">{{item.obs_servicio}}</div>
+                            </div>
+
+                            <hr>
+                            <button class="btn btn-warning btn-sm m-1" [routerLink]="['/orden', item._id, 'EspecialistaNew']" *ngIf="item.fecha == fechaActual || item.estado == 'Re-Gestion'">
+                              Gestionar Orden
+                               </button>
+
+
+                        </div>
+                        <div class="col-2">
+                            <p>Crear Archivo PDF</p>
+                            <button class="btn btn-success btn-sm m-1" [routerLink]="['/acta', item._id, 'newordenes']">
+                              <i class="fas fa-file-pdf fa-1x mr-2"></i>
+                                Acta Bolívar
+                           </button>
+                        </div>
+
+                    </div>
+                    <!-- --------------- END ORDENES DETAILS ------------------ -->
+
+                    <div class="row" *ngIf="nombre === 'EspecialistaEnd'">
+                        <div class="col-12">
+
+                            <div class="details-row">
+                                <div class="details-name">Actividad:</div>
+                                <div class="details-value">{{item.actividad}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Fecha:</div>
+                                <div class="details-value">{{item.fecha | date : 'd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Hora Inicio:</div>
+                                <div class="details-value">{{item.hora_inicio}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Hora Termino:</div>
+                                <div class="details-value">{{item.hora_termino}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Tipo Informe:</div>
+                                <div class="details-value">{{item.tipo_informe}}</div>
+                            </div>
+                            <div class="details-row">
+                                <div class="details-name">Observaciones:</div>
+                                <div class="details-value">{{item.obs_servicio}}</div>
+                            </div>
+
+                            <hr>
+                            <button class="btn btn-success btn-sm m-1" [routerLink]="['/orden', item._id, 'EspecialistaEnd']">
+                              Ver Orden
+                               </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+
+</table>

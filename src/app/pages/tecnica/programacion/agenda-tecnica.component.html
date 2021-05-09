@@ -1,0 +1,23 @@
+<app-calendar-utils-header [(view)]="view " [(viewDate)]="viewDate"></app-calendar-utils-header>
+
+<div [ngSwitch]="view ">
+    <mwl-calendar-month-view *ngSwitchCase=" 'month' " [viewDate]="viewDate " [events]="events " (dayClicked)="dayClicked($event.day) " [activeDayIsOpen]="activeDayIsOpen " [refresh]="refresh">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase=" 'week' " [viewDate]="viewDate " [events]="events " (dayHeaderClicked)="changeDay($event.day.date)" [refresh]="refresh " [snapDraggedEvents]="false">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase=" 'day' " [viewDate]="viewDate " [events]="events " [refresh]="refresh " [snapDraggedEvents]="false">
+    </mwl-calendar-day-view>
+</div>
+
+<br>
+<!-- ***Bucador de Eventos  -->
+<div class="card">
+    <div class="card-body bg-white">
+
+        <input #input type="text" class="form-control" placeholder="Buscar por Especialista" (keyup)="buscarEventos(input.value)" (focus)="clearInput()">
+
+    </div>
+</div>
+<br>
+<br>
+<br>

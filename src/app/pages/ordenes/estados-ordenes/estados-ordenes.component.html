@@ -1,0 +1,140 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <div class="row">
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-2">
+                        <!-- <input #input (keyup)="buscarOrdenEstado(input.value, estado)" (focus)="cambiarFlags('Input')" type="text" class="form-control" placeholder="Buscar Orden"> -->
+                        <input #input (keyup)="buscarOrdenEstado(input.value, estado)" type="text" class="form-control" placeholder="Buscar Orden">
+
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 mb-2">
+
+                        <select class="custom-select" name="estado" [(ngModel)]="estado" (click)="cambiarFlags('Select')">
+                        <option [value]="item" *ngFor="let item of listaEstados">{{item}}</option>
+                      </select>
+
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-2">
+
+                        <button type="button" (click)="buscarOrdenEstado(input.value, estado)" class="btn btn-secondary btn-sm btn-block">Buscar</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *** Busqueda Ordenes pendiente Programar NUEVAS *** -->
+
+
+<div class="row mt-3" *ngIf="estado == 'Pendiente Programar' && flagBtnFilter">
+
+    <div class="col"></div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 mb-2">
+        <button type="button" (click)="ordenesPendientes('Por Fecha')" class="btn btn-light btn-sm btn-block">Ordenes Nuevas {{fechaNow | date : 'd/MM/yyyy'}}</button>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 mb-2">
+        <button type="button" (click)="ordenesPendientes('Por Programar')" class="btn btn-light btn-sm btn-block">Ordenes Sin Programación</button>
+    </div>
+
+    <div class="col"></div>
+
+</div>
+
+
+
+
+<!-- ** Alerta de No hay Registros -->
+<div class="row mt-5 animated fadeIn" *ngIf="flagAlert">
+    <div class="col">
+
+        <div class="alert alert-warning text-center" role="alert">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+</div>
+
+<div class="alert alert-info mt-5" *ngIf="flagLoading">
+    <h6 class="mb-0">Cargando Ordenes... <span class="fa fa-spinner fa-spin"></span></h6>
+</div>
+
+<!-- *** Tabla de Datos -->
+
+<div class="row mt-3 animated fadeIn" *ngIf="!flagAlert && ordenes.length > 0">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+                <h4 class="card-title">Listado de Ordenes - <span class="text-danger">{{estado}}</span> (<small>{{totalRegistros}}</small>)</h4>
+
+                <!-- ** TABLE ORDEN -->
+                <app-table-ordenes [items]="ordenes" [nombre]="nombre" (DatosArray)="verDataOrden($event)"></app-table-ordenes>
+
+                <button class="btn btn-secondary btn-sm m-1" *ngIf="flagBtn" (click)="cambiarPagina(-10)">
+                  <i class="pe-7s-angle-left"></i>
+                  Anterior
+                </button>
+                <button class="btn btn-secondary btn-sm m-1" *ngIf="flagBtn" (click)="cambiarPagina(10)">
+                  Siguiente
+                  <i class="pe-7s-angle-right"></i>
+
+              </button>
+
+            </div>
+            <div class="card-footer bg-secondary text-white mt-1" *ngIf="nombre == 'Pre - Factura' && totalPreFactura > 0">
+                <h6>Total Pre-Factura {{fechaNow |date: 'MMM/yyyy'}}: {{totalPreFactura | currency}} </h6>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3 animated fadeIn" *ngIf="CardOrdenFlag">
+
+    <div class="col-12">
+
+        <button type="button" class="close" aria-label="Close" (click)="CardOrdenFlag=!CardOrdenFlag">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+        <!-- ** CARD ORDEN -->
+        <app-card-orden [orden]="orden" [flagObs]="flagObs" [flagAnot]="!CardOrdenFlag" (Observaciones)="actualizarOrdenObs($event)" (cambioEstado)="cambiarEstado($event, 'Card-Orden')" (cambioEstadoGeneral)="cambiarEstado($event,'Card-Orden')"></app-card-orden>
+        <br>
+    </div>
+</div>
+
+<!-- ** Referencia ScrollView -->
+<div id="view"></div>
+
+
+
+<div class="row mt-3 animated fadeIn" *ngIf="OrdenFlag">
+
+    <div class="col-12">
+
+        <button type="button" class="close" aria-label="Close" (click)="OrdenFlag=!OrdenFlag">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+
+        <!-- ** ORDEN component -->
+        <app-orden [orden]="orden" [nombre]="estado" [flagFrom]="true" (cambioEstado)="cambiarEstado($event, 'Orden-Component')"></app-orden>
+        <br>
+    </div>
+</div>
+
+<br>
+<br>
+<br>

@@ -1,0 +1,219 @@
+<div class="row mt-3">
+    <div class="col-12 col-12 col-md-12 col-lg-12">
+        <div class="card bg-transparent">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-6 col-xl-3 mb-2">
+                        <h6>Registrar Especialista</h6>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3 mb-2" *ngIf="!formHide">
+                        <button class="btn btn-warning mb-1" type="button" (click)="formHide=!formHide">Registrar Especialista</button>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-6 mb-2" *ngIf="!formHide">
+                        <input type="file" (change)="onFileChange($event)" />
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-9 mb-2" *ngIf="formHide">
+                        <button class="btn btn-light btn-sm float-right close-btn" (click)="formHide=!formHide">
+                    <span class="fas fa-close text-dark"></span>
+                  </button>
+                    </div>
+
+
+                </div>
+                <hr>
+                <div class="alert alert-primary" [ngClass]="info" role="alert">
+                    {{messageAlert}}
+                    <button type="button" class="btn btn-danger btn-sm ml-5" (click)="cargarData()">Subir Registros</button>
+                </div>
+                <div class="alert alert-danger" [ngClass]="alert" role="alert">
+                    {{messageAlert}}
+                </div>
+
+                <!-- *** Formuario para registrar datos -->
+
+                <app-form [nombre]="'Especialista'" (DataForma)="registrarEspecialista($event)" *ngIf="formHide"></app-form>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- *** BUSCADOR de especilistas -->
+
+
+<div class="row animated fadeIn mt-5" *ngIf="flagBuscador">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <input #input type="text" class="form-control" placeholder="Buscar Especialista..." (keyup)="buscarEspecialista(input.value)" (focus)=clearInput()>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *** CARD-GROUPS de los especialistas - NO LLAMA EL COMPONENTE -->
+<div class="row mt-2" *ngIf="flag">
+
+    <div class="col-12">
+
+        <div class="card-columns">
+            <div class="card" *ngFor="let item of especialistas">
+
+                <div class="row m-2">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-4" *ngIf="item.usuario_asignado">
+                        <img width="100" [src]="item.usuario_asignado.img | imagen " [alt]="item.nombre" class="rounded-circle mb-1 pointer" (click)="mostrarModalImg(item._id)">
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-4" *ngIf="!item.usuario_asignado">
+                        <img width="100" [src]="item.img | imagen: 'especialista'" [alt]="item.nombre" class="rounded-circle mb-1 pointer" (click)="mostrarModalImg(item._id)">
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-8">
+                        <h5 class="card-title">{{item.nombre}}</h5>
+                        <h6 class="card-subtitle" *ngIf="item.licencia">{{item.licencia}}/{{item.vigencia}}</h6>
+                        <h6 class="card-subtitle text-primary pointer" (click)="asignarUsuario(item)">{{item.correo}} <i class="fa fa-user fa-1x text-primary pointer" *ngIf="item.usuario_asignado"></i></h6>
+                        <h6 class="card-subtitle">{{item.telefono}}</h6>
+                        <h6 class="card-subtitle">{{item.ciudad}}</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light text-white" *ngFor="let data of crearArray(item.profesiones, item.especialidad); let i = index;" [ngStyle]="{'background-color': colorArray[i] }">{{data}}</li>
+                        </ul>
+
+                        <!-- ***Profesiones** -->
+                        <!-- <ul class="list-group">
+                            <li class="list-group-item list-group-item-light text-white" *ngFor="let data of crearArray(item.profesiones); let i = index;" [ngStyle]="{'background-color': colorArray[i] }">{{data}}</li>
+                        </ul> -->
+
+                    </div>
+                </div>
+
+                <!-- [ngStyle]="{'background-color': item.profesiones[i].color.primary }" -->
+
+
+                <div class="card-body">
+                    <!-- <p class="card-text text-justify" *ngIf="item.anotaciones">{{item.anotaciones}}</p> -->
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-outline-light btn-sm" (click)="eliminarEspecialista(item)">
+                          <i class="fa fa-trash fa-1x"></i>
+                        </button>
+                        </div>
+                        <div class="col-10">
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-block" (click)="editarEspecialista(item)">
+                          Editar
+                        </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- ** Alerta de No hay Registros -->
+<div class="row mt-5  animated fadeIn" *ngIf="!flag">
+    <div class="col">
+
+        <div class="alert alert-info text-center" role="alert" *ngIf="message == 'Cargando Base de Datos'">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span class="mt-2">Espere por favor</span>
+        </div>
+
+        <div class="alert alert-warning text-center" role="alert" *ngIf="message !== 'Cargando Base de Datos'">
+            <strong>{{message}}</strong>
+            <br>
+            <i class="fa fa-warning fa-2x"></i>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ** codigo para el MODAL Actualizar Especialista -->
+
+<div class="modal-costum animated fadeIn" [ngClass]="hide" *ngIf="flag && especialista && flagUsuario">
+
+    <div class="modal" style="display: block;" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-orden modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Actualizar Especialista <small>{{especialista.nombre}}</small></h5>
+                    <button type="button" class="close" aria-label="Close" (click)="cerraModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <!-- *** Formuario para registrar datos -->
+                    <app-form #f [nombre]="'Especialista'" [especialista]="especialista" (DataForma)="actualizarEspecialista($event)"></app-form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="cerraModal()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="actualizarEspecialista(f.forma)">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ** codigo para el MODAL Asignar Usuario -->
+
+<div class="modal-costum animated fadeIn" [ngClass]="hide" *ngIf="flag && especialista && !flagUsuario">
+
+    <div class="modal" style="display: block;" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-orden modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Asignar Usuario - <small>{{especialista.nombre}}</small></h5>
+                    <button type="button" class="close" aria-label="Close" (click)="cerraModal()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center" *ngIf="especialista.usuario_asignado">
+                    <!-- ***Imagen del Usuario Asignado -->
+                    <img [src]="especialista.usuario_asignado.img | imagen: 'usuario'" class="img-thumbnail w160 mb-1 mr-3">
+                    <p>{{especialista.usuario_asignado.correo}}</p>
+                    <button class="btn btn-warning btn-sm mb-2" (click)="removerUsuario(especialista.usuario_asignado)">
+                      <i class="fa fa-user-slash fa-1x"></i>
+                      Remover Usuario
+                    </button>
+                </div>
+
+                <div class="modal-body text-center" *ngIf="!especialista.usuario_asignado">
+
+                    <img [src]="[imagenUrl]" class="img-thumbnail w160 mb-2" *ngIf="imagenUrl">
+
+                    <!-- *** Select Asignar Usuario -->
+
+                    <div class="form-group">
+                        <select class="custom-select" name="selectUsuario" [(ngModel)]="selectUsuario" (change)="setImagen()">
+                      <option value="" disabled>Seleccionar Usuario</option>
+                        <option [ngValue]="selectUsuario" *ngFor="let selectUsuario of listaSelectUsuario">
+                          {{selectUsuario.nombre}} {{selectUsuario.apellido}} - {{selectUsuario.correo}}
+                        </option>
+                      </select>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer" *ngIf="!especialista.usuario_asignado">
+                    <button type="button" class="btn btn-secondary" (click)="cerraModal()">Cerrar</button>
+                    <button type="button" class="btn btn-primary" (click)="actualizarEspecialista(null)">Asignar Usuario</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

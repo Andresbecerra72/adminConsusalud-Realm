@@ -1,0 +1,266 @@
+<div class="row mt-3 animated fadeIn" *ngIf="orden">
+    <div class="col-12">
+        <button class="btn btn-light btn-sm float-right close-btn" [routerLink]="['/' + regresar]">
+      <span class="fas fa-close text-dark"></span>
+     </button>
+        <app-card-orden [orden]="orden" (cambioEstado)="cambiarEstado($event)" (Anotaciones)="actualizarOrdenAnots($event)"></app-card-orden>
+    </div>
+</div>
+
+
+<!-- **Alerta no hay eventos -->
+<div class="alert alert-info mt-3" role="alert" *ngIf="!flagEventos">
+
+    <strong>No tiene información en el sistema</strong>.
+
+</div>
+
+<!-- ***Alerta de cantidad Horas Ejecutadas Mayor al valor de Horas de la Orden -->
+
+<div class="row mt-3" *ngIf="flagAlert && ROLE !== 'ESPEC_ROLE'">
+    <div class="col">
+        <div class="alert alert-danger" role="alert">
+            <strong>¡Alerta! </strong>
+            <br> Hrs Ejecutadas MAYOR a la Act Programadas, corriga esta novedad para actualizar la Base de Datos
+            <br>
+            <small>-Verificar Horas reportadas en cada Actividad-</small>
+        </div>
+    </div>
+</div>
+
+<!-- **Ver detalles de los SOPORTES DE CADA ESPECIALISTA -->
+
+<div class="row mt-3" *ngIf="flagEventos">
+    <h6 class="ml-2">Informes de los Profesionales:</h6>
+    <div class="col-12" *ngFor="let item of orden.eventos; let i = index">
+
+        <div class="card mb-2">
+            <div class="card-header bg-happy-fisher">
+                {{item.nombre}}
+            </div>
+            <div class="row bg-happy-fisher m-0">
+                <div class="col-12 col-lg-4 mb-1">
+                    <div class="card-body">
+                        <p>{{item.correo}}</p>
+                        <p>{{item.telefono}}</p>
+                        <p>{{item.ciudad}}</p>
+                        <blockquote class="blockquote mb-0">
+                            <footer class="blockquote-footer">Especialidad - <cite title="Source Title">{{item.especialidad}}</cite></footer>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-2 mb-1">
+                    <div class="card-body">
+                        <strong>Horas Asignadas: {{item.horas_asignadas}}</strong>
+                        <p class="m-0">Fecha: {{item.fecha | date : 'd/MM/yyyy'}}</p>
+                        <p class="m-0">Sede: {{item.sede_lugar}}</p>
+
+                        <button class="btn btn-outline-dark mt-3" (click)="verDetallesSoportes(item, i)">
+                          <i class="fas fa-folder"></i>
+                          Soportes
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-3 mb-1" *ngIf="item.soporte">
+                    <div class="card-body" *ngIf="soporte">
+
+                        <div class="alert alert-primary" role="alert" [ngClass]="{'alert-warning': soporte.fallida}" *ngIf="soporte.nombre.toString() == item._id.toString()">
+                            <h6>Actividad Reportada <strong *ngIf="soporte.fallida">Fallida</strong></h6>
+                            <hr>
+                            <p class="text-secondary m-0">Horas Act: {{soporte.horas_usadas}}</p>
+                            <p class="text-secondary m-0">Tiempo Informe: {{soporte.tiempo_informe}}</p>
+                            <p class="text-secondary m-0">Asistentes: {{soporte.asistentes}}</p>
+                            <p class="text-secondary m-0">Transporte: {{soporte.valor_transporte}}</p>
+                            <p class="text-secondary m-0">Insumos: {{soporte.valor_insumos}}</p>
+                            <p class="text-secondary text-justify">Observación: {{soporte.observacion}}</p>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-2 mb-1" *ngIf="item.soporte && orden.estado == 'Pendiente Informe' && ROLE == 'TECN_ROLE'">
+
+                    <div class="card-body" *ngIf="soporte && !soporte.fallida">
+                        <form ngNativeValidate class="animated fadeIn" [formGroup]="forma" (ngSubmit)="ajustarTiempos()" *ngIf="soporte.nombre.toString() == item._id.toString()">
+                            <div class="form-row">
+
+                                <div class="col-12">
+                                    <label class="m-0">Ajustar Hrs Act Reportada</label>
+                                    <input type="number" class="form-control" value="0" min="0" max="50" step="1" formControlName="horas_usadas">
+                                    <label class="m-0">Tiempo Informe</label>
+                                    <input type="number" class="form-control" value="0" min="0" max="80" step="1" formControlName="tiempo_informe">
+                                    <!-- <label class="m-0">Tiempo Administrativo</label>
+                                    <input type="number" class="form-control" value="0" min="0" max="80" step="1" formControlName="tiempo_administrativo"> -->
+                                    <button type="submit" class="btn btn-info btn-sm mt-1">
+                                      <span class="fa fa-clock mr-2"></span>Ajustar Tiempos
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <!-- ***Ver detalles de los soportes -->
+            <div id="soporte-{{i}}" class="details hide">
+
+
+                <div class="details-cell" *ngIf="soporte && !flagSoportes">
+                    <div class="details-inner animated fadeInLeft" *ngIf="item._id == soporte.nombre">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>No hay Archivos,</strong> Este soporte no tiene archivos registrados.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="ocultarDetalles(i, true)">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="details-cell bg-light animated fadeInLeft" *ngIf="soporte && flagSoportes">
+
+                    <button class="btn btn-light btn-sm float-right close-btn ml-3" (click)="ocultarDetalles(i, true)" *ngIf="item._id == soporte.nombre">
+                  <span class="fas fa-close text-dark"></span>
+                </button>
+                    <div class="details-inner w-100" *ngIf="item._id == soporte.nombre">
+
+                        <div class="row ml-1 mt-2">
+
+                            <div class="card-columns" *ngIf="imgArray">
+                                <div class="card" *ngFor="let item of imgArray">
+                                    <div class="card-body text-center">
+                                        <img [src]="item._id | imagen : 'archivo'" class="img-fluid w160" [alt]="item.file_name">
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted"><a [href]="item._id | imagen : 'archivo'" target="_blank">{{item.file_name}}</a></small>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row mt-2">
+                            <div class="col-12 col-lg-8 mb-1" *ngIf="docArray">
+                                <h6>Archivos</h6>
+                                <table class="table table-sm table-responsive-sm table-responsive-md">
+                                    <thead>
+                                        <tr *ngFor="let item of docArray">
+                                            <th class="d-block d-mb-inline d-lg-inline d-xl-inline" scope="row">
+                                                <i class="fas fa-file-pdf fa-1x" *ngIf="item.file_ext == 'pdf'"></i>
+                                                <i class="fas fa-file-excel fa-1x" *ngIf="item.file_ext == 'xlsx'"></i>
+                                                <i class="fas fa-file-word fa-1x" *ngIf="item.file_ext == 'docx'"></i>
+                                                <i class="fas fa-file-powerpoint fa-1x" *ngIf="item.file_ext == 'pptx'"></i>
+                                            </th>
+                                            <th class="d-block d-mb-inline d-lg-inline d-xl-inline text-nowrap"><a [href]="item.path" download>{{item.file_name}}</a></th>
+                                            <th class="d-block d-mb-inline d-lg-inline d-xl-inline text-nowrap">{{item.file_date | date: 'd/MM/yyyy'}} {{item.file_time}}</th>
+
+                                        </tr>
+
+                                    </thead>
+                                </table>
+
+                                <br>
+                                <!-- *** ANOTACIONES DEL SOPORTE ** -->
+
+
+                                <div class="card bg-sunny-morning mt-5 w-75" *ngIf="soporte.estado == 'Incompleto'">
+                                    <div class="card-body bg-transparent">
+                                        <h6> <span class="fas fa-comments fa-1x mr-2"></span> Novedades en los Soportes:</h6>
+                                        <hr>
+                                        <div class="list-group bg-transparent " *ngFor="let item of crearArray(soporte.anotaciones) ">
+                                            <a class="list-group-item bg-transparent border-0 " [ngClass]="{'text-right': item.activo == '1'}">
+
+                                                <p class="m-0">
+                                                    {{item.usuario}}
+                                                </p>
+                                                <p class="m-0">
+                                                    {{item.fecha | date : 'd/MM/yyyy'}} {{item.fecha | date : 'h:mm a'}}
+                                                </p>
+                                                <p>
+                                                    {{item.reporte}}
+                                                </p>
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                    <footer class="m-2">
+                                        <div class="form-group w-100 text-center mt-3 ">
+                                            <textarea #inputAnots class="form-control " rows="2" placeholder="Novedades... "></textarea>
+                                            <button class="btn btn-success border-0 btn-sm mt-2 float-right" (click)="enviarText(inputAnots.value) ">
+                                                      Enviar Novedad
+                                            </button>
+                                        </div>
+                                    </footer>
+
+                                </div>
+                            </div>
+
+                            <!-- ** Estado del soporte ** -->
+
+                            <div class="col-12 col-lg-2 mb-2" *ngIf="orden.estado == 'Pendiente Informe'">
+                                <br>
+                                <h6>Subir Soportes</h6>
+                                <div class="form-group mt-3">
+                                    <input type="file" (change)="seleccionArchivo($event)" [(ngModel)]="input">
+                                </div>
+                                <button class="btn btn-dark btn-sm" [disabled]="!archivoSubir" (click)="subirArchivo()">
+                                Enviar Soporte
+                                  </button>
+                            </div>
+                            <div class="col-12 col-lg-2 mb-1 mt-2">
+
+                                <div class="alert alert-success pointer" role="alert" *ngIf="soporte.estado == 'Completo'" (click)="flagInforme=!flagInforme">
+                                    Informe Completo <i class="fas fa-check"></i>
+                                </div>
+                                <div class="alert alert-danger pointer" role="alert" *ngIf="soporte.estado == 'Incompleto'" (click)="flagInforme=!flagInforme">
+                                    <strong>Informe Incompleto </strong><i class="fas fa-times"></i>
+                                </div>
+                                <div class="alert alert-warning pointer" role="alert" *ngIf="soporte.estado == 'NA'" (click)="flagInforme=!flagInforme">
+                                    Informe Pendiente Revisión
+                                </div>
+
+                                <div class="d-flex mt-3" *ngIf="flagInforme && orden.estado == 'Pendiente Informe'">
+                                    <select class="custom-select mr-2" name="estadoInforme" [(ngModel)]="estadoInforme">
+                                    <option value="" disabled>Opciones</option>
+                                  <option [value]="item" *ngFor="let item of listaEstadoInforme">{{item}}</option>
+                                 </select>
+                                    <button type="button" class="btn btn-warning btn-sm" (click)="setEstadoInforme()">Estado Informe</button>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+<br>
+<br>
+<br>

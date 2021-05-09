@@ -1,0 +1,79 @@
+<!-- *** Buscador de Ordenes *** -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <form ngNativeValidate [formGroup]="forma" (ngSubmit)="getOrden()">
+
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
+
+                                <select class="custom-select" formControlName="selectOrden" [class.is-invalid]="ordenNoValido" (change)="getEvento()">
+                              <option value="" disabled>Seleccionar Orden</option>
+                              <option [ngValue]="selectOrden" *ngFor="let selectOrden of listaSelectOrden">{{selectOrden.cronograma}} - {{selectOrden.secuencia}} - {{selectOrden.razon}}</option>
+                            </select>
+                                <small class="text-danger" *ngIf="ordenNoValido">Seleccione la Orden</small>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4" *ngIf="flag">
+
+                                <select class="custom-select" formControlName="selectEvento" [class.is-invalid]="eventoNoValido">
+                              <option value="" disabled>Seleccionar Programación</option>
+                              <option [ngValue]="selectEvento" *ngFor="let selectEvento of listaSelectEvento">{{selectEvento.fecha | date: 'd/MM/yyyy'}} - {{selectEvento.nombre}}</option>
+                            </select>
+                                <small class="text-danger" *ngIf="eventoNoValido">Seleccione la Programación</small>
+                            </div>
+
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4" *ngIf="flag">
+                                <button class="btn btn-success btn-sm text-white" type="submit">
+                                  <i class="fas fa-info-circle"></i>   Obtener Información Orden
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+<!-- *** Fomato del ACTA *** -->
+<app-report-format [item]="report"></app-report-format>
+
+
+<!-- *** Boton de descarga Archivo PDF *** -->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-danger text-nowrap mr-5">*Verifique la información del acta antes de generar el archivo en formato PDF</h6>
+
+                        <button class="btn btn-outline-danger btn-block" (click)="getPDF()">
+                      <i class="fas fa-file-pdf fa-1x"></i>
+                        Descargar PDF
+                    </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br>
+<br>
+<br>
+<br>

@@ -1,0 +1,115 @@
+<form ngNativeValidate class="animated fadeIn mt-3" [formGroup]="forma" (ngSubmit)="enviarData()">
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <label>Nombre {{nombre}}</label>
+            <input type="text" class="form-control" formControlName="name" [class.is-invalid]="nameNoValido">
+            <small class="text-danger" *ngIf="nameNoValido">Ingrese el Nombre</small>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Correo</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="ejemplo@ejemplo.com" formControlName="email">
+            </div>
+            <small class="text-danger" *ngIf="emailNoValido">Correo no valido</small>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label>Telefono</label>
+            <input type="text" class="form-control" formControlName="cell">
+            <small class="text-danger" *ngIf="cellNoValido">Ingrese el Numero de telefono</small>
+        </div>
+
+    </div>
+    <div class="form-row">
+
+        <div class="col-md-4 mb-3" *ngIf="nombre == 'Sede' || nombre == 'Empresa'">
+            <label>Contacto</label>
+            <input type="text" class="form-control" formControlName="contacto">
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label>Ciudad</label>
+            <input type="text" name="city" class="form-control" formControlName="city" [class.is-invalid]="cityNoValido">
+            <small class="text-danger" *ngIf="cityNoValido">Ingrese la Ciudad</small>
+
+        </div>
+        <div class="col-md-4 mb-4" *ngIf="nombre == 'Empresa'">
+            <label>No NIT</label>
+            <input type="text" class="form-control" formControlName="nit">
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="nombre == 'ARL' || nombre == 'Sede' || nombre == 'Especialista'">
+            <label>Dirección</label>
+            <input type="text" class="form-control" formControlName="adress">
+
+        </div>
+        <div class="col-md-4 mb-3" *ngIf="nombre == 'ARL'">
+            <label>No Contrato</label>
+            <input type="text" class="form-control" formControlName="contract">
+        </div>
+
+        <div class="col-md-4 mb-3" *ngIf="nombre == 'Especialista'">
+
+            <label>Seleccionar Profesión</label>
+            <select class="custom-select" formControlName="selectProfesion">
+         <option [ngValue]="selectProfesion" *ngFor="let selectProfesion of listaSelectProfesion">{{selectProfesion.nombre}}</option>
+         </select>
+
+        </div>
+        <div class="col-md-6 mb-3" *ngIf="nombre == 'Asesor'">
+
+            <label>Seleccionar ARL</label>
+            <select class="custom-select" formControlName="selectArl">
+          <option [ngValue]="selectArl" *ngFor="let selectArl of listaSelectArl">{{selectArl.nombre}}</option>
+          </select>
+
+        </div>
+
+    </div>
+    <div class="form-row">
+
+        <div class="col-md-6 mb-3" *ngIf="nombre == 'Empresa'">
+
+            <label>Seleccionar ARL</label>
+            <select class="custom-select" formControlName="selectArl">
+            <option [ngValue]="selectArl" *ngFor="let selectArl of listaSelectArl">{{selectArl.nombre}}</option>
+            </select>
+
+        </div>
+        <div class="col-md-6 mb-3" *ngIf="nombre == 'Sede'">
+
+            <label>Seleccionar Empresa</label>
+            <select class="custom-select" formControlName="selectEmpresa">
+            <option [ngValue]="selectEmpresa" *ngFor="let selectEmpresa of listaSelectEmpresa">{{selectEmpresa.razon}}</option>
+            </select>
+
+        </div>
+    </div>
+    <div class="form-row" *ngIf="nombre == 'Especialista'">
+
+        <div class="col-md-2 mb-3">
+            <label>Licencia No</label>
+            <input type="text" class="form-control" formControlName="licencia">
+        </div>
+        <div class="col-md-2 mt-2 mb-3" *ngIf="especialista">
+            <p class="text-left mt-4">/ {{especialista.vigencia}}</p>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label>Vigencia</label>
+            <input type="date" class="form-control" formControlName="vigencia">
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit" *ngIf="flag">Registrar {{nombre}}</button>
+</form>
+
+<!-- codigo para ver la informacion de Formulario -->
+<!-- <pre>
+  Estado del formulario: {{forma.valid}}
+  Status: {{forma.status}}
+</pre>
+<pre>
+  {{forma.value | json}}
+</pre> -->

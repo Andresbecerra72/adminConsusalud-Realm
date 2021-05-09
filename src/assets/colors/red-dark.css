@@ -1,0 +1,51 @@
+/*******************
+/*Top bar
+*******************/
+
+.app-header__logo .logo-src {
+    background: url(../images/logo.png);
+}
+
+.topbar {
+    background: #ad2422;
+}
+
+.app-theme-white.fixed-header .app-header__logo {
+    background: rgb(245, 245, 245)
+}
+
+.app-header .app-header__content .header-menu .nav-link {
+    color: #e0f3ff;
+}
+
+.app-header .app-header__content .header-menu .nav-link:hover {
+    color: #7d8185;
+}
+
+.app-theme-white .app-header {
+    background: #ad2422;
+}
+
+
+/*******************
+/*SideBar
+*******************/
+
+.app-sidebar .scrollbar-sidebar {
+    background: #ad2422;
+}
+
+.app-sidebar__inner {
+    background: #ad2422;
+}
+
+.vertical-nav-menu li a {
+    color: #e0f3ff;
+}
+
+.vertical-nav-menu li a:hover {
+    color: #000e1b;
+}
+
+
+/***********/

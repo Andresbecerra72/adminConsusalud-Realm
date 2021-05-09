@@ -1,0 +1,112 @@
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-12" *ngIf="graficos.indicador && dataIndicador.length > 0">
+            <div class="card">
+                <div class="card-body bg-white">
+                    <h5 class="card-subtitle">{{graficos.indicador.leyenda}}</h5>
+
+
+                    <app-graphic-bar [ChartLabels]="graficos.indicador.labels" [ChartData]="graficos.indicador.data" [ChartType]="graficos.indicador.type" [color]="graficos.indicador.color" [options]="chartOptions"></app-graphic-bar>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-12" *ngIf="graficos.indicador1 && dataIndicador1.length > 0">
+            <div class="card">
+                <div class="card-body bg-white">
+                    <h5 class="card-subtitle">{{graficos.indicador1.leyenda}}</h5>
+
+
+                    <app-graphic-bar [ChartLabels]="graficos.indicador1.labels" [ChartData]="graficos.indicador1.data" [ChartType]="graficos.indicador1.type" [color]="graficos.indicador1.color" [options]="chartOptions"></app-graphic-bar>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+
+    <div class="row mt-5">
+        <div class="col-12" *ngIf="graficos.grafico1 && dataGrafico1.length > 0">
+            <div class="card">
+                <div class="card-body bg-white">
+                    <h5 class="card-subtitle">{{graficos.grafico1.leyenda}}</h5>
+
+                    <app-graphic-bar [ChartLabels]="graficos.grafico1.labels" [ChartData]="graficos.grafico1.data" [ChartType]="graficos.grafico1.type" [color]="graficos.grafico1.color"></app-graphic-bar>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row mt-5">
+
+        <div class="col-6" *ngIf="graficos.grafico1 && dataGrafico2.length > 0">
+
+            <div class="card-body bg-white">
+                <h5 class="card-subtitle">{{graficos.grafico2.leyenda}}</h5>
+                <app-graphic-doughnut [ChartLabels]="graficos.grafico2.labels" [ChartData]="graficos.grafico2.data" [ChartType]="graficos.grafico2.type"></app-graphic-doughnut>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="col-6" *ngIf="graficos.grafico2 && dataGrafico3.length > 0">
+
+            <div class="card-body bg-white">
+                <h5 class="card-subtitle">{{graficos.grafico3.leyenda}}</h5>
+                <app-graphic-doughnut [ChartLabels]="graficos.grafico3.labels" [ChartData]="graficos.grafico3.data" [ChartType]="graficos.grafico3.type" [color]="graficos.grafico3.color"></app-graphic-doughnut>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <div class="row mt-3">
+
+    <div class="col-6">
+
+        <div class="card-body bg-white">
+            <h5 class="card-subtitle">{{graficos.grafico3.leyenda}}</h5>
+            <app-graphic-doughnut [ChartLabels]="graficos.grafico3.labels" [ChartData]="graficos.grafico3.data" [ChartType]="graficos.grafico3.type"></app-graphic-doughnut>
+
+
+        </div>
+
+    </div>
+
+    <div class="col-6">
+
+        <div class="card-body bg-white">
+            <h5 class="card-subtitle">{{graficos.grafico4.leyenda}}</h5>
+            <app-graphic-doughnut [ChartLabels]="graficos.grafico4.labels" [ChartData]="graficos.grafico4.data" [ChartType]="graficos.grafico4.type"></app-graphic-doughnut>
+
+        </div>
+
+    </div>
+
+</div> -->
+
+    <br>
+    <br>
+    <br>
+    <br>
+</div>

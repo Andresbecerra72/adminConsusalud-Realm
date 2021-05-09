@@ -1,0 +1,219 @@
+<div class="row">
+    <div class="col-md-3 mb-3">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12" *ngIf="!flag">
+                        <button class="btn btn-outline-dark btn-sm mb-2" (click)="flag=!flag">Crear Bloqueo</button>
+                    </div>
+                    <div class="col-12 bg-light" *ngIf="flag">
+                        <button type="button" class="close" aria-label="Close" (click)="cerraProgramacion()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+
+                        <!-- *** Fomulario para Add Event -->
+
+                        <form ngNativeValidate class="m-2" [formGroup]="forma" (ngSubmit)="addEvent()">
+
+                            <label>Bloqueo</label>
+
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <input type="date" class="form-control" formControlName="fecha" [class.is-invalid]="fechaNoValido" />
+                                <small class="text-danger" *ngIf="fechaNoValido">Ingrese Fecha/Hora Inicio</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Hora Inicio</label>
+                                <input type="time" class="form-control" formControlName="inicio" (change)="setSameValue()" [class.is-invalid]="inicioNoValido" />
+                                <small class="text-danger" *ngIf="inicioNoValido">Ingrese Fecha/Hora Inicio</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Hora Termino</label>
+                                <input type="time" class="form-control" formControlName="termino" [class.is-invalid]="terminoNoValido" />
+                                <small class="text-danger" *ngIf="terminoNoValido">Ingrese Fecha/Hora Inicio</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Motivo del Bloqueo</label>
+                                <input type="text" class="form-control" formControlName="motivo" [class.is-invalid]="motivoNoValido" />
+                                <small class="text-danger " *ngIf="motivoNoValido ">Ingrese el Motivo del Bloqueo</small>
+                            </div>
+
+                            <button class="btn btn-dark btn-block btn-sm mt-3 mb-3 text-white " type="submit ">Crear</button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <hr>
+                <p *ngIf="eventosByMonth.length===0 "><em>Buscando...</em></p>
+                <ul class="mt-3 ">
+                    <li *ngFor="let event of eventosByMonth ">
+                        <a [style.color]="event.color.primary ">
+                        {{ event.start | date : 'd/MM/yyyy' }} {{event.horaInicio}}/{{event.horaTermino}} - {{event.empresa}}
+                      </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-9 mb-3 ">
+
+        <app-calendar-utils-header [(view)]="view " [(viewDate)]="viewDate " (mwlClick)="viewDataHeader(viewDate) "></app-calendar-utils-header>
+
+        <div [ngSwitch]="view ">
+            <mwl-calendar-month-view *ngSwitchCase=" 'month' " [viewDate]="viewDate " [events]="events " (dayClicked)="dayClicked($event.day) " [activeDayIsOpen]="activeDayIsOpen " [refresh]="refresh " (eventClicked)="handleEvent($event.event) ">
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view *ngSwitchCase=" 'week' " [viewDate]="viewDate " [events]="events " (dayHeaderClicked)="changeDay($event.day.date) " [refresh]="refresh " [snapDraggedEvents]="false ">
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view *ngSwitchCase=" 'day' " [viewDate]="viewDate " [events]="events " [refresh]="refresh " [snapDraggedEvents]="false ">
+            </mwl-calendar-day-view>
+        </div>
+
+        <br>
+        <br>
+    </div>
+</div>
+<br>
+<!-- ** Botones para ver solo programacion activa ** -->
+<div class="container" *ngIf="eventoArray.length > 0">
+
+    <button type="button" class="btn btn-outline-info float-right" (click)="eventoByEspecialista()">Cargar Mi Programación</button>
+
+</div>
+<br>
+<br>
+<br>
+
+<!-- *********************************************** CODIGO NO USADO ********************************************** -->
+<!-- ******* codigo para el MODAL ******** -->
+<!-- ------------------------------------------------------------------------------------- -->
+<!--
+<div class="modal-costum animated fadeIn " [ngClass]="hide " *ngIf="evento ">
+
+    <div class="modal " style="display: block; " data-backdrop="static " data-keyboard="false " tabindex="-1 " role="dialog ">
+        <div class="modal-dialog modal-orden modal-lg ">
+            <div class="modal-content ">
+
+                <div class="modal-body p-2 rounded ">
+
+                    <div class="row ">
+                        <div class="col-8 ">
+                            <h5 class="modal-title " *ngIf="evento.estado !=='Bloqueo' ">Detalles Programación</h5>
+                            <h5 class="modal-title " *ngIf="evento.estado=='Bloqueo' ">Detalles Bloqueo <strong>{{evento.fecha | date : 'd/MM/yyyy'}}</strong></h5>
+                        </div>
+
+                        <div class="col-4 ">
+                            <button type="button " class="close " aria-label="Close " (click)="cerraModal() ">
+                          <span aria-hidden="true ">&times;</span>
+                        </button>
+                        </div>
+                    </div>
+                    <hr class="m-1 ">
+
+
+
+                    <div class="row " *ngIf="evento.estado=='Bloqueo' ">
+                        <div class="col-8 ">
+                            <div class="d-flex mt-3 ">
+                                <h6 class="mr-3 ">Desde: {{evento.hora_inicio}}</h6>
+                                <h6>Hasta: {{evento.hora_termino}}</h6>
+                            </div>
+
+                        </div>
+                        <div class="col-4 ">
+                            <img width="100 " [src]="usuario.img | imagen " [alt]="evento.nombre " class="img-fluid rounded-circle " *ngIf="usuario ">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="modal-body p-1 " *ngIf="evento.estado !=='Bloqueo' ">
+
+                    <div class="row text-center m-1 ">
+                        <div class="col-12 bg-secondary ">
+                            <p class="text-white ">{{evento.razon}} - {{evento.fecha | date : 'd/MM/yyyy'}} </p>
+                        </div>
+                    </div>
+                    <div class="row m-1 ">
+
+                        <div class="col-6 rounded mr-3 " *ngIf="evento.cronograma ">
+
+                            <div class="row ">
+
+                                <div class="col-12 ">
+                                    <div class="d-flex ">
+                                        <p class="text-secondary mr-5 "> Cronograma: {{evento.cronograma}}</p>
+                                        <p class="text-secondary "> Secuencia: {{evento.secuencia}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-12 ">
+                                    <div class="d-flex ">
+                                        <p class="text-secondary mr-3 "> HRS Actividad: {{evento.orden.act_programadas}}</p>
+                                        <p class="text-secondary mr-3 "> HRS Asignadas: {{evento.horas_asignadas}}</p>
+                                        <p class="text-secondary ">Tipo: {{evento.orden.tipo_servicio}}</p>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12 ">
+                                    <p class="text-secondary ">Descripción:</p>
+                                    <p class="text-secondary ">{{evento.orden.descripcion}}</p>
+                                    <p class="text-secondary ">Informe: {{evento.tipo_informe}}</p>
+                                    <p class="text-secondary ">Actividad: {{evento.actividad}}</p>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-5 rounded " *ngIf="evento.sede_lugar ">
+
+                            <div class="row ">
+                                <div class="col-12 ">
+
+                                    <p class="text-secondary ">Sede: {{evento.sede_lugar}}</p>
+                                </div>
+                                <div class="col-12 ">
+
+                                    <p class="text-secondary ">Direccion: {{evento.direccion}}</p>
+                                </div>
+                                <div class="col-12 ">
+
+                                    <p class="text-secondary ">Hora Inicio: {{evento.hora_inicio}}</p>
+                                </div>
+                                <div class="col-12 ">
+
+                                    <p class="text-secondary ">Hora Termino: {{evento.hora_termino}}</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row m-1 " *ngIf="evento.obs_servicio ">
+                        <div class="col-12 ">
+                            <p class="m-0 ">Observaciones:</p>
+                            <p class="text-secondary ">{{evento.obs_servicio}}</p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+-->

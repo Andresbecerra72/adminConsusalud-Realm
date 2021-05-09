@@ -1,0 +1,512 @@
+<div class="container-fluid">
+
+
+
+
+    <div class="d-flex" *ngIf="ROLE !== 'ESPEC_ROLE' && ROLE !== 'TECN_ROLE' ">
+        <button class="btn btn-outline-light btn-sm mr-2" (click)="editarOrden()">
+      <i class="fa fa-edit fa-1x"></i>
+      </button>
+        <button class="btn btn-outline-light btn-sm  mr-5" (click)="eliminarOrden()" *ngIf="ROLE === 'ADMIN_ROLE'">
+      <i class="fa fa-trash fa-1x"></i>
+      </button>
+        <button class="btn btn-outline-secondary btn-sm" (click)="ArchivarOrden()" *ngIf="ROLE !== 'ESPEC_ROLE'">
+      <i class="fa fa-folder-open fa-1x"></i> Archivar
+      </button>
+
+    </div>
+
+    <button type="button" class="close" aria-label="Close" [routerLink]="['/' + regresar]" *ngIf="nombre !== 'En Ejecución'">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+    <!-- *** Card Orden - Encabezado de la Orden *** -->
+
+    <div class="row p-0 w-100 mt-3" *ngIf="orden">
+        <div class="col-12 p-0">
+            <app-card-orden [orden]="orden" [flagObs]="flagObs" (Anotaciones)="actualizarOrdenAnots($event)" (Observaciones)="actualizarOrdenObsProgramacion($event)" (cambioEstado)="cambiarEstado($event)" (cambioEstadoGeneral)="cambiarEstadoGeneral($event)" (tiempoAdmin)="ajustarTiempos($event)">
+            </app-card-orden>
+        </div>
+
+    </div>
+
+
+    <h6 class="mt-5" *ngIf="!orden">Cargando Información de la Orden... <span class="fa fa-spinner fa-spin"></span></h6>
+
+
+
+    <!-- **Alerta no hay eventos -->
+    <div class="alert alert-info mt-3" role="alert" *ngIf="ROLE !== 'ESPEC_ROLE' && !flagEventos && orden">
+
+        <strong>No tiene información en el sistema</strong>.
+
+    </div>
+
+    <!-- ***Alerta de cantidad Horas Ejecutadas Mayor al valor de Horas de la Orden -->
+
+    <div class="row mt-3" *ngIf="flagAlert && ROLE !== 'ESPEC_ROLE'">
+        <div class="col">
+            <div class="alert alert-danger" role="alert">
+                <strong>¡Alerta! </strong>
+                <br> Hrs Ejecutadas MAYOR a la Act Programadas, corriga esta novedad para actualizar la Base de Datos
+                <br>
+                <small>-Verificar Horas reportadas en cada Actividad-</small>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- **Ver detalles de los SOPORTES DE CADA ESPECIALISTA -->
+
+    <div class="row p-0 w-100 mt-3" *ngIf="ROLE !== 'ESPEC_ROLE' && flagEventos">
+        <h6 class="ml-2" *ngIf="!orden.eventos">Cargando Gestión... <span class="fa fa-spinner fa-spin"></span></h6>
+        <h6 class="ml-2" *ngIf="orden.eventos">Profesionales:</h6>
+        <div class="col-12" *ngFor="let item of orden.eventos; let i = index">
+
+            <div class="card mb-2">
+                <div class="card-header">
+                    {{item.nombre}}
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                        <div class="card-body">
+                            <p>{{item.correo}}</p>
+                            <p>{{item.telefono}}</p>
+                            <p>{{item.ciudad}}</p>
+                            <blockquote class="blockquote mb-0">
+                                <footer class="blockquote-footer">Especialidad - <cite title="Source Title">{{item.especialidad}}</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <!-- ** Imagen Selfie - Datos del la gestion "Soporte" -->
+                    <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4" *ngIf="!item.soporte && getSoporteFail(item)">
+
+                        <div class="card-body">
+                            <button class="btn btn-outline-warning" (click)="setSoporteFine(item)">
+                              <i class="fas fa-warning"></i>
+                              Cargar Gestión
+                            </button>
+                        </div>
+
+                    </div> -->
+                    <!-- *** Muestra imagen sin selfie *** -->
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4" *ngIf="!item.soporte">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center p-1">
+
+                                    <a [href]="item.soporte | imagen : 'soporte'" target="_blank">
+                                        <img [src]="'xxxx' | imagen : 'soporte'" class="img-thumbnail w160" [alt]="'Image'">
+                                    </a>
+                                </div>
+                                <!-- ** Imagen Selfie - Datos del la gestion "Soporte" -->
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-2" *ngIf="!item.soporte && getSoporteFail(item)">
+
+                                    <div class="card-body">
+                                        <button class="btn btn-outline-warning" (click)="setSoporteFine(item)">
+                                      <i class="fas fa-warning"></i>
+                                      Cargar Gestión
+                                    </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- *** Muestra imagen con selfie y datos del soporte *** -->
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 p-0" *ngIf="item.soporte">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 text-center p-1">
+                                    <a [href]="item.soporte | imagen : 'soporte'" target="_blank">
+                                        <img [src]="item.soporte | imagen : 'soporte'" class="img-thumbnail w160" [alt]="item.soporte.nombre">
+                                    </a>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 mt-2" *ngIf="soporte">
+                                    <div class="alert alert-primary" role="alert" [ngClass]="{'alert-warning': soporte.fallida}" *ngIf="soporte.nombre.toString() == item._id.toString()">
+                                        <h6>Actividad <strong *ngIf="soporte.fallida">Fallida</strong></h6>
+                                        <hr>
+                                        <p class="text-secondary m-0">Horas Actividad: {{soporte.horas_usadas}}</p>
+                                        <p class="text-secondary m-0" *ngIf="orden.tipo_servicio == 'CT' || orden.tipo_servicio == 'T' || orden.tipo_servicio == 'E'">Tiempo Informe: {{soporte.tiempo_informe}}</p>
+                                        <p class="text-secondary m-0">Asistentes: {{soporte.asistentes}}</p>
+                                        <p class="text-secondary m-0">Transporte: {{soporte.valor_transporte}}</p>
+                                        <p class="text-secondary m-0">Insumos: {{soporte.valor_insumos}}</p>
+                                        <p class="text-secondary text-justify">Observación: {{soporte.observacion}}</p>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4">
+                        <div class="d-lg-flex d-xl-flex">
+                            <div class="card-body mb-1">
+                                <strong>Horas Asignadas: {{item.horas_asignadas}}</strong>
+                                <p>Fecha: {{item.fecha | date : 'd/MM/yyyy'}}</p>
+                                <p>Sede: {{item.sede_lugar}}</p>
+                                <p>Hora Inicio: {{item.hora_inicio}}</p>
+                                <p>Hora Termino: {{item.hora_termino}}</p>
+
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <button class="btn btn-info mb-3" *ngIf="item.activo == '1' && item.fecha !== fechaActual && item.estado == 'NA'" (click)="activarGestion(item)">
+                                  <i class="fas fa-calendar-check"></i>
+                                   Activar Gestión
+                                </button>
+
+                                    <h6 class="text-info mb-3" *ngIf="item.activo == '1' && item.fecha !== fechaActual && item.estado == 'Re-Gestion'">Gestión Activa</h6>
+
+                                </div>
+
+                                <button class="btn btn-outline-dark" (click)="verDetallesSoportes(item, i)">
+                                  <i class="fas fa-folder"></i>
+                                   Ver Soportes
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- ***Ver detalles de los soportes -->
+                <div id="soporte-{{i}}" class="details hide">
+
+
+                    <div class="details-cell" *ngIf="soporte && !flagSoportes">
+                        <div class="details-inner animated fadeInLeft" *ngIf="item._id == soporte.nombre">
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>No hay Archivos,</strong> Este soporte no tiene archivos registrados.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="ocultarDetalles(i, true)">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="details-cell bg-light animated fadeInLeft" *ngIf="soporte && flagSoportes">
+
+                        <button class="btn btn-light btn-sm float-right close-btn ml-3" (click)="ocultarDetalles(i, true)" *ngIf="item._id == soporte.nombre">
+                    <span class="fas fa-close text-dark"></span>
+                  </button>
+                        <div class="details-inner w-100" *ngIf="item._id == soporte.nombre">
+                            <div class="row ml-1 mt-3">
+
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6" *ngIf="imgArray">
+                                    <div class="card-columns">
+                                        <div class="card" *ngFor="let item of imgArray">
+                                            <div class="card-body text-center">
+                                                <img [src]="item.path | imagen : 'archivo'" class="img-fluid" [alt]="item.file_name">
+
+                                            </div>
+                                            <div class="card-footer">
+                                                <small class="text-muted"><a [href]="item._id | imagen : 'archivo'" target="_blank">{{item.file_name}}</a></small>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6" *ngIf="docArray">
+                                    <h6>Archivos</h6>
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr *ngFor="let item of docArray">
+                                                <th class="d-block d-mb-inline d-lg-inline d-xl-inline" scope="row">
+                                                    <i class="fas fa-file-pdf fa-1x" *ngIf="item.file_ext == 'pdf'"></i>
+                                                    <i class="fas fa-file-excel fa-1x" *ngIf="item.file_ext == 'xlsx'"></i>
+                                                    <i class="fas fa-file-word fa-1x" *ngIf="item.file_ext == 'docx'"></i>
+                                                    <i class="fas fa-file-powerpoint fa-1x" *ngIf="item.file_ext == 'pptx'"></i>
+                                                </th>
+                                                <th class="d-block d-mb-inline d-lg-inline d-xl-inline text-nowrap"> <a [href]="item.path" download>{{item.file_name}}</a></th>
+                                                <th class="d-block d-mb-inline d-lg-inline d-xl-inline text-nowrap">{{item.file_date | date: 'd/MM/yyyy'}} {{item.file_date | date: 'shortTime'}}</th>
+
+                                            </tr>
+
+                                        </thead>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <br>
+    <br>
+
+
+
+    <!-- ******************------------------------------------------------------------------------------------------------------------------------***************** -->
+    <!-- ***********Informacion Para el ESPECIALISTA************************ -->
+
+    <div class="container" *ngIf="ROLE == 'ESPEC_ROLE' && flagEspec">
+        <div class="alert alert-danger" role="alert">
+            Esta Orden NO Existe en el sistema
+        </div>
+    </div>
+
+
+    <div class="row animated fadeIn" *ngIf="ROLE == 'ESPEC_ROLE' && evento && orden">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body bg-light">
+
+                    <div class="row">
+
+                        <div class="col-12 col-lg-4">
+                            <div class="row">
+                                <div class="col-12 col-lg-6 mb-2" *ngIf="evento">
+                                    <h6>Información General</h6>
+                                    <p class="text-secondary">Sede: {{evento.sede_lugar}}</p>
+                                    <p class="text-secondary">Direccion: {{evento.direccion}}</p>
+                                    <p class="text-secondary">Fecha: {{evento.fecha | date : 'd/MM/yyyy'}}</p>
+                                    <p class="text-secondary">Hora Inicio: {{evento.hora_inicio}}</p>
+                                    <p class="text-secondary">Hora Termino: {{evento.hora_termino}}</p>
+
+                                </div>
+                                <div class="col-12 col-lg-6 mb-2" *ngIf="evento && evento.orden">
+                                    <h6>Información del Servicio</h6>
+                                    <p class="text-secondary">Horas Asignadas: {{evento.horas_asignadas}}</p>
+                                    <p class="text-secondary" *ngIf="evento.orden.tipo_servicio == 'A'">ASESORÍA</p>
+                                    <p class="text-secondary" *ngIf="evento.orden.tipo_servicio == 'C'">CAPACITACIÓN</p>
+                                    <p class="text-secondary" *ngIf="evento.orden.tipo_servicio == 'E'">SERVICIO ESPECIALIZADO</p>
+                                    <p class="text-secondary" *ngIf="evento.orden.tipo_servicio == 'T'">ASISTENCIA TÉCNICA</p>
+                                    <p class="text-secondary" *ngIf="evento.orden.tipo_servicio == 'CT'">CAPACITACIÓN TÉCNICA</p>
+                                    <p class="text-secondary">Actividad: {{evento.actividad}}</p>
+                                    <p class="text-secondary">Tipo Informe: {{evento.tipo_informe}}</p>
+                                    <hr>
+                                    <label>Observaciones:</label>
+                                    <p class="text-secondary">{{evento.obs_servicio}}</p>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-lg-8">
+
+                            <div class="row">
+                                <div class="col-12 col-lg-3 text-center mb-2" *ngIf="soporte">
+                                    <!-- *****AJUSTAR PATH (soporte.path) para GOOGLE CLOUDS  Y _ID (soporte._id) para servidor con directorios  -->
+                                    <img [src]="soporte.path | imagen : 'soporte'" class="img-thumbnail w160" [alt]="soporte.nombre">
+
+                                </div>
+                                <div class="col-12 col-lg-4 mb-2" *ngIf="soporte && flagArchivos">
+                                    <h6>Información Reportada</h6>
+                                    <hr>
+                                    <p class="text-secondary">Horas: {{soporte.horas_usadas}}</p>
+                                    <p class="text-secondary" *ngIf="soporte.tipo_servicio == 'CT' || soporte.tipo_servicio == 'T' || soporte.tipo_servicio == 'E'">Tiempo Informe: {{soporte.tiempo_informe}}</p>
+                                    <p class="text-secondary">Asistentes: {{soporte.asistentes}}</p>
+                                    <p class="text-secondary">Transporte: {{soporte.valor_transporte}}</p>
+                                    <p class="text-secondary">Insumos: {{soporte.valor_insumos}}</p>
+                                    <p class="text-secondary text-justify">Observación: {{soporte.observacion}}</p>
+
+                                </div>
+
+                                <div class="col-12 col-lg-5 mb-2" *ngIf="!flagArchivos">
+                                    <h6>Imagen de LLegada</h6>
+                                    <div class="form-group mt-3">
+                                        <input type="file" (change)="seleccionArchivo($event)" [(ngModel)]="inputSelfie">
+                                    </div>
+                                    <button class="btn btn-warning btn-sm" [disabled]="!archivoSubir" (click)="subirSelfie()">
+                                   Enviar Selfie
+                                </button>
+                                </div>
+
+                                <div class="col-12 col-lg-4 mb-2" *ngIf="flagFallida">
+                                    <div class="alert alert-warning" role="alert">
+                                        <strong>Visita Fallida</strong>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-5 mb-2" *ngIf="flagArchivos && !flagFallida && orden">
+
+                                    <form ngNativeValidate class="animated fadeIn" [formGroup]="forma" (ngSubmit)="enviarDatosActividad()" *ngIf="orden.estado == 'Pendiente Programar' || orden.estado == 'En Ejecución' || orden.estado == 'Finalizada'">
+                                        <div class="form-row">
+
+                                            <div class="col mb-1" [ngClass]="{'col-md-6': orden.tipo_servicio == 'C' || orden.tipo_servicio == 'A'}">
+                                                <label class="text-nowrap">Cant Hrs Ejecutadas</label>
+                                                <input type="number" class="form-control" value="0" min="0" max="10" step="1" formControlName="horas_usadas" required>
+                                            </div>
+
+                                            <div class="col mb-1" *ngIf="orden.tipo_servicio == 'CT' || orden.tipo_servicio == 'T' || orden.tipo_servicio == 'E'">
+                                                <label class="text-nowrap">Tiempo Informe</label>
+                                                <input type="number" class="form-control" value="0" min="0" max="10" step="1" formControlName="tiempo_informe">
+                                            </div>
+                                            <div class="col mb-1" [ngClass]="{'col-md-6': orden.tipo_servicio == 'C' || orden.tipo_servicio == 'A'}">
+                                                <label class="text-nowrap">Cant Asistentes</label>
+                                                <input type="number" class="form-control" value="0" min="0" max="250" step="1" formControlName="asistentes">
+                                            </div>
+
+
+                                        </div>
+                                        <div class="form-row">
+
+                                            <div class="col-md-6 mb-1">
+                                                <label>Transporte</label>
+                                                <input type="text" class="form-control" formControlName="valor_transporte" placeholder="$00.00" (blur)="transformTransporte()" />
+
+                                            </div>
+
+                                            <div class="col-md-6 mb-1">
+                                                <label>Insumos</label>
+                                                <input type="text" class="form-control" formControlName="valor_insumos" placeholder="$00.00" (blur)="transformInsumos()" />
+
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="form-row">
+
+                                            <div class="col-md-12 mb-1">
+                                                <label>Observaciones:</label>
+                                                <textarea class="form-control" formControlName="observacion" rows="2" placeholder="Observaciones..." [class.is-invalid]="flagObservacion" (focus)="flagObservacion=false"></textarea>
+                                                <small class="text-danger" *ngIf="flagObservacion">Ingrese una Observaciones...</small>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group form-check">
+                                            <input type="checkbox" class="form-check-input" formControlName="fallida" (change)="disableInput()">
+                                            <label class="form-check-label">Visita Fallida</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-info btn-sm">
+                                      <span class="fa fa-file mr-2"></span>Enviar Reporte
+                                    </button>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+                    <div class="row ml-1 mt-3" *ngIf="imgArray && flagArchivos && !flagFallida">
+                        <h6 class="mr-3">Imagenes</h6>
+
+                        <div class="card-deck">
+                            <div class="card" *ngFor="let item of imgArray">
+                                <div class="card-body text-center">
+                                    <img [src]="item.path | imagen : 'archivo'" class="img-fluid w160" [alt]="item.file_name">
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted"> <a [href]="item.path" download>{{item.file_name}}</a></small>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row mt-3" *ngIf="docArray && flagArchivos && !flagFallida">
+
+                        <div class="col-12 col-lg-7 mb-2">
+                            <h6>Archivos</h6>
+
+                            <table class="table table-sm">
+                                <tbody>
+                                    <tr *ngFor="let item of docArray">
+                                        <th class="d-block d-mb-inline d-lg-inline d-xl-inline" scope="row">
+                                            <i class="fas fa-file-pdf fa-1x" *ngIf="item.file_ext == 'pdf'"></i>
+                                            <i class="fas fa-file-excel fa-1x" *ngIf="item.file_ext == 'xlsx'"></i>
+                                            <i class="fas fa-file-word fa-1x" *ngIf="item.file_ext == 'docx'"></i>
+                                            <i class="fas fa-file-powerpoint fa-1x" *ngIf="item.file_ext == 'pptx'"></i>
+                                        </th>
+                                        <td class="d-block d-mb-inline d-lg-inline d-xl-inline text-nowrap"> <a [href]="item.path" download>{{item.file_name}}</a></td>
+                                        <th class="d-block d-mb-inline d-lg-inline d-xl-inline text-nowrap">{{item.file_date | date: 'd/MM/yyyy'}} {{item.file_date | date: 'shortTime'}}</th>
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+
+                            <br>
+
+                            <!-- *** ANOTACIONES DEL SOPORTE ** -->
+
+                            <div *ngIf="soporte">
+
+                                <div class="card bg-sunny-morning mt-5" *ngIf="soporte.estado == 'Incompleto'">
+                                    <div class="card-body bg-transparent ">
+                                        <h6> <span class="fas fa-comments fa-1x mr-2"></span> Novedades en los Soportes:</h6>
+                                        <hr>
+                                        <div class="list-group bg-transparent " *ngFor="let item of crearArrayAnotacion(soporte.anotaciones) ">
+                                            <a class="list-group-item bg-transparent border-0" [ngClass]="{'text-right': item.activo == '2'}">
+                                                <p class="m-0">
+                                                    {{item.usuario}}
+                                                </p>
+                                                <p class="m-0">
+                                                    {{item.fecha | date : 'd/MM/yyyy'}} {{item.fecha | date : 'h:mm a'}}
+                                                </p>
+                                                <p>
+                                                    {{item.reporte}}
+                                                </p>
+                                            </a>
+
+                                        </div>
+
+                                    </div>
+                                    <footer class="m-2">
+                                        <div class="form-group w-100 text-center mt-3 ">
+                                            <textarea #inputAnots class="form-control " rows="2" placeholder="Novedades... "></textarea>
+                                            <button class="btn btn-success border-0 btn-sm mt-2 float-right" (click)="enviarText(inputAnots.value) ">
+                                                  Enviar Mensaje
+                                        </button>
+                                        </div>
+                                    </footer>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="col-12 col-lg-5 mb-2">
+                            <h6>Subir Soportes</h6>
+                            <div class="form-group mt-3">
+                                <input type="file" (change)="seleccionArchivo($event)" [(ngModel)]="input">
+                            </div>
+                            <button class="btn btn-dark btn-sm" [disabled]="!archivoSubir" (click)="subirArchivo()">
+                             Enviar Soporte
+                          </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+
+</div>

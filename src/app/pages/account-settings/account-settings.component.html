@@ -1,0 +1,246 @@
+<div class="row">
+
+    <div class="col-12">
+
+        <div class="card-body bg-white">
+            <h5 class="card-subtitle">Ajustes del Tema</h5>
+            <span data-icon="&#xe000;" data-js-prompt="&amp;#xe000;"></span>
+
+            <div class="bg-light">
+                <ul id="themecolors" class="mt-3">
+                    <li><b>Tema claro</b></li>
+                    <li><a #link1 (click)="cambiarColor('default', link1)" data-theme="default" class="selector default-theme">1</a></li>
+                    <li><a #link2 (click)="cambiarColor('green', link2)" data-theme="green" class="selector green-theme">2</a></li>
+                    <li><a #link3 (click)="cambiarColor('red', link3)" data-theme="red" class="selector red-theme">3</a></li>
+                    <li><a #link4 (click)="cambiarColor('blue', link4)" data-theme="blue" class="selector blue-theme">4</a></li>
+                    <li><a #link5 (click)="cambiarColor('purple', link5)" data-theme="purple" class="selector purple-theme">5</a></li>
+                    <li><a #link6 (click)="cambiarColor('megna', link6)" data-theme="megna" class="selector megna-theme">6</a></li>
+
+                    <li class="d-block mt-5"><b>Tema oscuro</b></li>
+                    <li><a #link7 (click)="cambiarColor('default-dark', link7)" data-theme="default-dark" class="selector default-dark-theme">7</a></li>
+                    <li><a #link8 (click)="cambiarColor('green-dark', link8)" data-theme="green-dark" class="selector green-dark-theme">8</a></li>
+                    <li><a #link9 (click)="cambiarColor('red-dark', link9)" data-theme="red-dark" class="selector red-dark-theme">9</a></li>
+                    <li><a #link10 (click)="cambiarColor('blue-dark', link10)" data-theme="blue-dark" class="selector blue-dark-theme">10</a></li>
+                    <li><a #link11 (click)="cambiarColor('purple-dark', link11)" data-theme="purple-dark" class="selector purple-dark-theme">11</a></li>
+                    <li><a #link12 (click)="cambiarColor('megna-dark', link12)" data-theme="megna-dark" class="selector megna-dark-theme">12</a></li>
+                </ul>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<!-- ***Seleccionando Header -->
+
+<div class="row mt-2 animated fadeIn" *ngIf="flag">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <h5 class="d-flex">
+                    <div>
+                        Opciones de Cabecera
+                    </div>
+                    <button type="button" class="btn btn-primary btn-sm ml-3" (click)="setDefault('header')">
+                      Restaurar
+                    </button>
+                </h5>
+
+                <div class="p-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+
+                            <div class="theme-settings-swatches">
+
+                                <div #linkswh1 (click)="setHeaderColor('bg-primary header-text-light', linkswh1)" class="color-sw-h swatch-holder bg-primary" data-class="bg-primary header-text-light">
+                                </div>
+                                <div #linkswh2 (click)="setHeaderColor('bg-secondary header-text-light', linkswh2)" class="color-sw-h swatch-holder bg-secondary" data-class="bg-secondary header-text-light">
+                                </div>
+                                <div #linkswh3 (click)="setHeaderColor('bg-success header-text-dark', linkswh3)" class="color-sw-h swatch-holder bg-success" data-class="bg-success header-text-dark">
+                                </div>
+                                <div #linkswh4 (click)="setHeaderColor('bg-info header-text-dark', linkswh4)" class="color-sw-h swatch-holder bg-info" data-class="bg-info header-text-dark">
+                                </div>
+                                <div #linkswh5 (click)="setHeaderColor('bg-warning header-text-dark', linkswh5)" class="color-sw-h swatch-holder bg-warning" data-class="bg-warning header-text-dark">
+                                </div>
+                                <div #linkswh6 (click)="setHeaderColor('bg-danger header-text-light', linkswh6)" class="color-sw-h swatch-holder bg-danger" data-class="bg-danger header-text-light">
+                                </div>
+                                <div #linkswh7 (click)="setHeaderColor('bg-light header-text-dark', linkswh7)" class="color-sw-h swatch-holder bg-light" data-class="bg-light header-text-dark">
+                                </div>
+                                <div #linkswh8 (click)="setHeaderColor('bg-dark header-text-light', linkswh8)" class="color-sw-h swatch-holder bg-dark" data-class="bg-dark header-text-light">
+                                </div>
+                                <div #linkswh9 (click)="setHeaderColor('bg-focus header-text-light', linkswh9)" class="color-sw-h swatch-holder bg-focus" data-class="bg-focus header-text-light">
+                                </div>
+                                <div #linkswh10 (click)="setHeaderColor('bg-alternate header-text-light', linkswh10)" class="color-sw-h swatch-holder bg-alternate" data-class="bg-alternate header-text-light">
+                                </div>
+                                <hr>
+                                <div #linkswh11 (click)="setHeaderColor('bg-vicious-stance header-text-light', linkswh11)" class="color-sw-h swatch-holder bg-vicious-stance" data-class="bg-vicious-stance header-text-light">
+                                </div>
+                                <div #linkswh12 (click)="setHeaderColor('bg-midnight-bloom header-text-light', linkswh12)" class="color-sw-h swatch-holder bg-midnight-bloom" data-class="bg-midnight-bloom header-text-light">
+                                </div>
+                                <div #linkswh13 (click)="setHeaderColor('bg-night-sky header-text-light', linkswh13)" class="color-sw-h swatch-holder bg-night-sky" data-class="bg-night-sky header-text-light">
+                                </div>
+                                <div #linkswh14 (click)="setHeaderColor('bg-slick-carbon header-text-light', linkswh14)" class="color-sw-h swatch-holder bg-slick-carbon" data-class="bg-slick-carbon header-text-light">
+                                </div>
+                                <div #linkswh15 (click)="setHeaderColor('bg-asteroid header-text-light', linkswh15)" class="color-sw-h swatch-holder bg-asteroid" data-class="bg-asteroid header-text-light">
+                                </div>
+                                <div #linkswh16 (click)="setHeaderColor('bg-royal header-text-light', linkswh16)" class="color-sw-h swatch-holder bg-royal" data-class="bg-royal header-text-light">
+                                </div>
+                                <div #linkswh17 (click)="setHeaderColor('bg-warm-flame header-text-dark', linkswh17)" class="color-sw-h swatch-holder bg-warm-flame" data-class="bg-warm-flame header-text-dark">
+                                </div>
+                                <div #linkswh18 (click)="setHeaderColor('bg-night-fade header-text-dark', linkswh18)" class="color-sw-h swatch-holder bg-night-fade" data-class="bg-night-fade header-text-dark">
+                                </div>
+                                <div #linkswh19 (click)="setHeaderColor('bg-sunny-morning header-text-dark', linkswh19)" class="color-sw-h swatch-holder bg-sunny-morning" data-class="bg-sunny-morning header-text-dark">
+                                </div>
+                                <div #linkswh20 (click)="setHeaderColor('bg-tempting-azure header-text-dark', linkswh20)" class="color-sw-h swatch-holder bg-tempting-azure" data-class="bg-tempting-azure header-text-dark">
+                                </div>
+                                <div #linkswh21 (click)="setHeaderColor('bg-amy-crisp header-text-dark', linkswh21)" class="color-sw-h swatch-holder bg-amy-crisp" data-class="bg-amy-crisp header-text-dark">
+                                </div>
+                                <div #linkswh22 (click)="setHeaderColor('bg-heavy-rain header-text-dark', linkswh22)" class="color-sw-h swatch-holder bg-heavy-rain" data-class="bg-heavy-rain header-text-dark">
+                                </div>
+                                <div #linkswh23 (click)="setHeaderColor('bg-mean-fruit header-text-dark', linkswh23)" class="color-sw-h swatch-holder bg-mean-fruit" data-class="bg-mean-fruit header-text-dark">
+                                </div>
+                                <div #linkswh24 (click)="setHeaderColor('bg-malibu-beach header-text-light', linkswh24)" class="color-sw-h swatch-holder bg-malibu-beach" data-class="bg-malibu-beach header-text-light">
+                                </div>
+                                <div #linkswh25 (click)="setHeaderColor('bg-deep-blue header-text-dark', linkswh25)" class="color-sw-h swatch-holder bg-deep-blue" data-class="bg-deep-blue header-text-dark">
+                                </div>
+                                <div #linkswh25 (click)="setHeaderColor('bg-ripe-malin header-text-light', linkswh25)" class="color-sw-h swatch-holder bg-ripe-malin" data-class="bg-ripe-malin header-text-light">
+                                </div>
+                                <div #linkswh26 (click)="setHeaderColor('bg-arielle-smile header-text-light', linkswh26)" class="color-sw-h swatch-holder bg-arielle-smile" data-class="bg-arielle-smile header-text-light">
+                                </div>
+                                <div #linkswh27 (click)="setHeaderColor('bg-plum-plate header-text-light', linkswh27)" class="color-sw-h swatch-holder bg-plum-plate" data-class="bg-plum-plate header-text-light">
+                                </div>
+                                <div #linkswh28 (click)="setHeaderColor('bg-happy-fisher header-text-dark', linkswh28)" class="color-sw-h swatch-holder bg-happy-fisher" data-class="bg-happy-fisher header-text-dark">
+                                </div>
+                                <div #linkswh29 (click)="setHeaderColor('bg-happy-itmeo header-text-light', linkswh29)" class="color-sw-h swatch-holder bg-happy-itmeo" data-class="bg-happy-itmeo header-text-light">
+                                </div>
+                                <div #linkswh30 (click)="setHeaderColor('bg-mixed-hopes header-text-light', linkswh30)" class="color-sw-h swatch-holder bg-mixed-hopes" data-class="bg-mixed-hopes header-text-light">
+                                </div>
+                                <div #linkswh31 (click)="setHeaderColor('bg-strong-bliss header-text-light', linkswh31)" class="color-sw-h swatch-holder bg-strong-bliss" data-class="bg-strong-bliss header-text-light">
+                                </div>
+                                <div #linkswh32 (click)="setHeaderColor('bg-grow-early header-text-light', linkswh32)" class="color-sw-h swatch-holder bg-grow-early" data-class="bg-grow-early header-text-light">
+                                </div>
+                                <div #linkswh33 (click)="setHeaderColor('bg-love-kiss header-text-light', linkswh33)" class="color-sw-h swatch-holder bg-love-kiss" data-class="bg-love-kiss header-text-light">
+                                </div>
+                                <div #linkswh34 (click)="setHeaderColor('bg-premium-dark header-text-light', linkswh34)" class="color-sw-h swatch-holder bg-premium-dark" data-class="bg-premium-dark header-text-light">
+                                </div>
+                                <div #linkswh35 (click)="setHeaderColor('bg-happy-green header-text-light', linkswh35)" class="color-sw-h swatch-holder bg-happy-green" data-class="bg-happy-green header-text-light">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ***Seleccionando Sidebar -->
+
+<div class="row mt-2 animated fadeIn" *ngIf="flag">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <h5 class="d-flex">
+                    <div>
+                        Opciones de Barra Lateral
+                    </div>
+                    <button type="button" class="btn btn-info btn-sm ml-3" (click)="setDefault('sidebar')">
+                  Restaurar
+                </button>
+                </h5>
+
+                <div class="p-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+
+                            <div class="theme-settings-swatches">
+                                <div #linksws1 (click)="setSidebarColor('bg-primary sidebar-text-light', linksws1)" class="color-sw-s swatch-holder bg-primary" data-class="bg-primary sidebar-text-light">
+                                </div>
+                                <div #linksws2 (click)="setSidebarColor('bg-secondary sidebar-text-light', linksws2)" class="color-sw-s swatch-holder bg-secondary" data-class="bg-secondary sidebar-text-light">
+                                </div>
+                                <div #linksws3 (click)="setSidebarColor('bg-success sidebar-text-dark', linksws3)" class="color-sw-s swatch-holder bg-success" data-class="bg-success sidebar-text-dark">
+                                </div>
+                                <div #linksws4 (click)="setSidebarColor('bg-info sidebar-text-dark', linksws4)" class="color-sw-s swatch-holder bg-info" data-class="bg-info sidebar-text-dark">
+                                </div>
+                                <div #linksws5 (click)="setSidebarColor('bg-warning sidebar-text-dark', linksws5)" class="color-sw-s swatch-holder bg-warning" data-class="bg-warning sidebar-text-dark">
+                                </div>
+                                <div #linksws6 (click)="setSidebarColor('bg-danger sidebar-text-light', linksws6)" class="color-sw-s swatch-holder bg-danger" data-class="bg-danger sidebar-text-light">
+                                </div>
+                                <div #linksws7 (click)="setSidebarColor('bg-light sidebar-text-dark', linksws7)" class="color-sw-s swatch-holder bg-light" data-class="bg-light sidebar-text-dark">
+                                </div>
+                                <div #linksws8 (click)="setSidebarColor('bg-dark sidebar-text-light', linksws8)" class="color-sw-s swatch-holder bg-dark" data-class="bg-dark sidebar-text-light">
+                                </div>
+                                <div #linksws9 (click)="setSidebarColor('bg-focus sidebar-text-light', linksws9)" class="color-sw-s swatch-holder bg-focus" data-class="bg-focus sidebar-text-light">
+                                </div>
+                                <div #linksws10 (click)="setSidebarColor('bg-alternate sidebar-text-light', linksws10)" class="color-sw-s swatch-holder bg-alternate" data-class="bg-alternate sidebar-text-light">
+                                </div>
+                                <hr>
+                                <div #linkswh11 (click)="setSidebarColor('bg-vicious-stance sidebar-text-light', linkswh11)" class="color-sw-s swatch-holder bg-vicious-stance" data-class="bg-vicious-stance sidebar-text-light">
+                                </div>
+                                <div #linkswh12 (click)="setSidebarColor('bg-midnight-bloom sidebar-text-light', linkswh12)" class="color-sw-s swatch-holder bg-midnight-bloom" data-class="bg-midnight-bloom sidebar-text-light">
+                                </div>
+                                <div #linkswh13 (click)="setSidebarColor('bg-night-sky sidebar-text-light', linkswh13)" class="color-sw-s swatch-holder bg-night-sky" data-class="bg-night-sky sidebar-text-light">
+                                </div>
+                                <div #linkswh14 (click)="setSidebarColor('bg-slick-carbon sidebar-text-light', linkswh14)" class="color-sw-s swatch-holder bg-slick-carbon" data-class="bg-slick-carbon sidebar-text-light">
+                                </div>
+                                <div #linkswh15 (click)="setSidebarColor('bg-asteroid sidebar-text-light', linkswh15)" class="color-sw-s swatch-holder bg-asteroid" data-class="bg-asteroid sidebar-text-light">
+                                </div>
+                                <div #linkswh16 (click)="setSidebarColor('bg-royal sidebar-text-light', linkswh16)" class="color-sw-s swatch-holder bg-royal" data-class="bg-royal sidebar-text-light">
+                                </div>
+                                <div #linkswh17 (click)="setSidebarColor('bg-warm-flame sidebar-text-dark', linkswh17)" class="color-sw-s swatch-holder bg-warm-flame" data-class="bg-warm-flame sidebar-text-dark">
+                                </div>
+                                <div #linkswh18 (click)="setSidebarColor('bg-night-fade sidebar-text-dark', linkswh18)" class="color-sw-s swatch-holder bg-night-fade" data-class="bg-night-fade sidebar-text-dark">
+                                </div>
+                                <div #linkswh19 (click)="setSidebarColor('bg-sunny-morning sidebar-text-dark', linkswh19)" class="color-sw-s swatch-holder bg-sunny-morning" data-class="bg-sunny-morning sidebar-text-dark">
+                                </div>
+                                <div #linkswh20 (click)="setSidebarColor('bg-tempting-azure sidebar-text-dark', linkswh20)" class="color-sw-s swatch-holder bg-tempting-azure" data-class="bg-tempting-azure sidebar-text-dark">
+                                </div>
+                                <div #linkswh21 (click)="setSidebarColor('bg-amy-crisp sidebar-text-dark', linkswh21)" class="color-sw-s swatch-holder bg-amy-crisp" data-class="bg-amy-crisp sidebar-text-dark">
+                                </div>
+                                <div #linkswh22 (click)="setSidebarColor('bg-heavy-rain sidebar-text-dark', linkswh22)" class="color-sw-s swatch-holder bg-heavy-rain" data-class="bg-heavy-rain sidebar-text-dark">
+                                </div>
+                                <div #linkswh23 (click)="setSidebarColor('bg-mean-fruit sidebar-text-dark', linkswh23)" class="color-sw-s swatch-holder bg-mean-fruit" data-class="bg-mean-fruit sidebar-text-dark">
+                                </div>
+                                <div #linkswh24 (click)="setSidebarColor('bg-malibu-beach sidebar-text-light', linkswh24)" class="color-sw-s swatch-holder bg-malibu-beach" data-class="bg-malibu-beach sidebar-text-light">
+                                </div>
+                                <div #linkswh25 (click)="setSidebarColor('bg-deep-blue sidebar-text-dark', linkswh25)" class="color-sw-s swatch-holder bg-deep-blue" data-class="bg-deep-blue sidebar-text-dark">
+                                </div>
+                                <div #linkswh25 (click)="setSidebarColor('bg-ripe-malin sidebar-text-light', linkswh25)" class="color-sw-s swatch-holder bg-ripe-malin" data-class="bg-ripe-malin sidebar-text-light">
+                                </div>
+                                <div #linkswh26 (click)="setSidebarColor('bg-arielle-smile sidebar-text-light', linkswh26)" class="color-sw-s swatch-holder bg-arielle-smile" data-class="bg-arielle-smile sidebar-text-light">
+                                </div>
+                                <div #linkswh27 (click)="setSidebarColor('bg-plum-plate sidebar-text-light', linkswh27)" class="color-sw-s swatch-holder bg-plum-plate" data-class="bg-plum-plate sidebar-text-light">
+                                </div>
+                                <div #linkswh28 (click)="setSidebarColor('bg-happy-fisher sidebar-text-dark', linkswh28)" class="color-sw-s swatch-holder bg-happy-fisher" data-class="bg-happy-fisher sidebar-text-dark">
+                                </div>
+                                <div #linkswh29 (click)="setSidebarColor('bg-happy-itmeo sidebar-text-light', linkswh29)" class="color-sw-s swatch-holder bg-happy-itmeo" data-class="bg-happy-itmeo sidebar-text-light">
+                                </div>
+                                <div #linkswh30 (click)="setSidebarColor('bg-mixed-hopes sidebar-text-light', linkswh30)" class="color-sw-s swatch-holder bg-mixed-hopes" data-class="bg-mixed-hopes sidebar-text-light">
+                                </div>
+                                <div #linkswh31 (click)="setSidebarColor('bg-strong-bliss sidebar-text-light', linkswh31)" class="color-sw-s swatch-holder bg-strong-bliss" data-class="bg-strong-bliss sidebar-text-light">
+                                </div>
+                                <div #linkswh32 (click)="setSidebarColor('bg-grow-early sidebar-text-light', linkswh32)" class="color-sw-s swatch-holder bg-grow-early" data-class="bg-grow-early sidebar-text-light">
+                                </div>
+                                <div #linkswh33 (click)="setSidebarColor('bg-love-kiss sidebar-text-light', linkswh33)" class="color-sw-s swatch-holder bg-love-kiss" data-class="bg-love-kiss sidebar-text-light">
+                                </div>
+                                <div #linkswh34 (click)="setSidebarColor('bg-premium-dark sidebar-text-light', linkswh34)" class="color-sw-s swatch-holder bg-premium-dark" data-class="bg-premium-dark sidebar-text-light">
+                                </div>
+                                <div #linkswh35 (click)="setSidebarColor('bg-happy-green sidebar-text-light', linkswh35)" class="color-sw-s swatch-holder bg-happy-green" data-class="bg-happy-green sidebar-text-light">
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

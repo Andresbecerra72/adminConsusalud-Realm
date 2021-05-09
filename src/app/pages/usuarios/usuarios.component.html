@@ -1,0 +1,106 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <input #input (keyup)="buscarUsuario(input.value)" type="text" class="form-control" placeholder="Buscar Usuario">
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ** Alerta de Cargando Data -->
+<div class="row mt-5  animated fadeIn" *ngIf="cargando">
+    <div class="col">
+
+        <div class="alert alert-info text-center" role="alert">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span class="mt-2">Espere por favor</span>
+        </div>
+
+    </div>
+</div>
+
+<!-- **Tabla de Usuarios Registrados -->
+
+<div class="row  animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body bg-white">
+
+                <h3 class="card-title">Usuarios Registrados (<small>{{totalRegistros}}</small>)</h3>
+
+                <div class="table-responsive">
+                    <table class="table editable-table table-bordered table-striped m-b-0">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Role</th>
+                                <th>Auth</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let usuario of usuarios">
+                                <td class="w70">
+                                    <img width="50" class="rounded-circle pointer" [src]="usuario.img | imagen" alt="usuario.nombre" (click)="mostrarModal( usuario._id)">
+                                </td>
+                                <td>
+                                    {{usuario.nombre}}
+                                </td>
+                                <td>
+                                    {{usuario.correo}}
+                                </td>
+                                <td>
+                                    <select [(ngModel)]="usuario.role" name="role" class="form-control">
+                                     <option value="ADMIN_ROLE">ADMIN_ROLE</option>
+                                     <option value="USER_ROLE">USER_ROLE</option>
+                                     <option value="TECN_ROLE">TECN_ROLE</option>
+                                     <option value="ESPEC_ROLE">ESPEC_ROLE</option>
+                                     <option value="VISIT_ROLE">VISIT_ROLE</option>
+                                   </select>
+
+                                </td>
+                                <td>
+                                    <span *ngIf="!usuario.google" class="badge badge-info">Normal</span>
+                                    <span *ngIf="usuario.google" class="badge badge-danger">Google</span>
+
+                                </td>
+                                <td>
+                                    <select [(ngModel)]="usuario.activo" name="activo" class="form-control">
+                                      <option value="1">Activo</option>
+                                      <option value="recover">Pendiente</option>
+                                    </select>
+
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-primary m-1" (click)="guardarUsuario( usuario )"><i class="fa fa-save"></i></button>
+                                    <button class="btn btn-danger m-1" (click)="borrarUsuario( usuario )"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                    <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(-5)" *ngIf="flagBtn">
+                        <i class="pe-7s-angle-left"></i>
+                        Anterior
+                    </button>
+                    <button class="btn btn-secondary btn-sm m-1" (click)="cambiarPagina(5)" *ngIf="flagBtn">
+                        Siguiente
+                        <i class="pe-7s-angle-right"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
